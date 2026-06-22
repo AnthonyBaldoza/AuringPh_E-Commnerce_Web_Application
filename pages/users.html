@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Users - AuringPh Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="admin-layout">
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-brand">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            onerror="this.style.display = 'none'"
+          />
+          <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+        </div>
+
+        <nav class="admin-nav">
+          <a href="dashboard.html" class="admin-nav-link"
+            ><span class="nav-ico">📊</span> Dashboard</a
+          >
+          <a href="products.html" class="admin-nav-link"
+            ><span class="nav-ico">👕</span> Manage Products</a
+          >
+          <a href="admin-orders.html" class="admin-nav-link"
+            ><span class="nav-ico">📦</span> Manage Orders</a
+          >
+          <a href="users.html" class="admin-nav-link"
+            ><span class="nav-ico">👥</span> Manage Users</a
+          >
+          <a href="admin-messages.html" class="admin-nav-link"
+            ><span class="nav-ico">💬</span> Messages</a
+          >
+        </nav>
+
+        <div class="admin-sidebar-footer">
+          <button class="admin-logout-btn" data-admin-logout>🚪 Logout</button>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN CONTENT ============ -->
+      <main class="admin-main">
+        <div class="admin-topbar">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+            <div>
+              <h1>Manage Users</h1>
+              <div class="admin-sub">
+                <span id="userCountLabel">0 users</span>
+              </div>
+            </div>
+          </div>
+          <div class="admin-whoami">
+            <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+            <span id="adminWhoamiName">Admin</span>
+          </div>
+        </div>
+
+        <!-- ============ TOOLBAR ============ -->
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <span aria-hidden="true">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by name or email..."
+            />
+          </div>
+          <div class="admin-filter-chips" id="statusChips">
+            <div class="admin-chip active" data-status="all">All</div>
+            <div class="admin-chip" data-status="active">Active</div>
+            <div class="admin-chip" data-status="blocked">Blocked</div>
+          </div>
+        </div>
+
+        <!-- ============ TABLE ============ -->
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Joined</th>
+                <th>Orders</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="admin-pagination" id="usersPagination"></div>
+      </main>
+    </div>
+
+    <!-- ============ BLOCK/UNBLOCK CONFIRM MODAL ============ -->
+    <div class="admin-modal-overlay" id="blockModal">
+      <div class="admin-modal-box modal-sm">
+        <div class="modal-warning-icon" id="blockModalIcon">🚫</div>
+        <h3 style="text-align: center" id="blockModalTitle">
+          Block this user?
+        </h3>
+        <p class="modal-text" id="blockModalText"></p>
+        <div class="admin-modal-actions">
+          <button type="button" class="modal-btn-cancel" id="blockModalCancel">
+            Cancel
+          </button>
+          <button type="button" class="modal-btn-danger" id="blockModalConfirm">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ DELETE CONFIRM MODAL ============ -->
+    <div class="admin-modal-overlay" id="deleteUserModal">
+      <div class="admin-modal-box modal-sm">
+        <div class="modal-warning-icon">🗑️</div>
+        <h3 style="text-align: center">Delete this account?</h3>
+        <p class="modal-text">
+          This will permanently delete <strong id="deleteUserName"></strong>'s
+          account. This action cannot be undone.
+        </p>
+        <div class="admin-modal-actions">
+          <button type="button" class="modal-btn-cancel" id="deleteUserCancel">
+            Cancel
+          </button>
+          <button type="button" class="modal-btn-danger" id="deleteUserConfirm">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-toast" id="adminToast"></div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+      requireAdminAuth();
+      seedAdminData();
+
+      let users = JSON.parse(localStorage.getItem(ADMIN_USERS_KEY)) || [];
+      let activeStatus = "all";
+      let searchQuery = "";
+      let currentPage = 1;
+      const ITEMS_PER_PAGE = 7;
+      let blockTargetId = null;
+      let deleteTargetId = null;
+
+      function saveUsers() {
+        localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(users));
+      }
+
+      function getFiltered() {
+        let list = [...users];
+        if (activeStatus !== "all") {
+          list = list.filter((u) => u.status === activeStatus);
+        }
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          list = list.filter(
+            (u) =>
+              u.name.toLowerCase().includes(q) ||
+              u.email.toLowerCase().includes(q),
+          );
+        }
+        return list;
+      }
+
+      function renderTable() {
+        const filtered = getFiltered();
+        const totalPages = Math.max(
+          1,
+          Math.ceil(filtered.length / ITEMS_PER_PAGE),
+        );
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
+
+        document.getElementById("userCountLabel").textContent =
+          filtered.length + " user" + (filtered.length !== 1 ? "s" : "");
+
+        const tbody = document.getElementById("usersTableBody");
+
+        if (pageItems.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="6"><div class="empty-row-msg"><div class="empty-icon">👥</div>No users found.</div></td></tr>';
+        } else {
+          tbody.innerHTML = pageItems
+            .map(
+              (u) =>
+                "<tr>" +
+                "<td>" +
+                '<div class="cell-product">' +
+                '<div class="avatar-circle" style="background:var(--peach); color:var(--brown-dark); width:38px; height:38px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:700; font-size:13px;">' +
+                getInitialsFromName(u.name) +
+                "</div>" +
+                "<div>" +
+                '<div class="p-name">' +
+                u.name +
+                "</div>" +
+                '<div class="p-sub">' +
+                u.email +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "</td>" +
+                "<td>" +
+                u.phone +
+                "</td>" +
+                "<td>" +
+                u.joined +
+                "</td>" +
+                "<td>" +
+                u.orders +
+                "</td>" +
+                '<td><span class="status-pill ' +
+                (u.status === "active" ? "active-pill" : "blocked-pill") +
+                '">' +
+                u.status +
+                "</span></td>" +
+                "<td>" +
+                '<div class="row-actions">' +
+                (u.status === "active"
+                  ? '<button class="btn-admin-sm danger" onclick="openBlockModal(\'' +
+                    u.id +
+                    "')\">Block</button>"
+                  : '<button class="btn-admin-sm edit" onclick="openBlockModal(\'' +
+                    u.id +
+                    "')\">Unblock</button>") +
+                '<button class="btn-admin-sm danger" onclick="openDeleteModal(\'' +
+                u.id +
+                "')\">Delete</button>" +
+                "</div>" +
+                "</td>" +
+                "</tr>",
+            )
+            .join("");
+        }
+
+        renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        const el = document.getElementById("usersPagination");
+        if (totalPages <= 1) {
+          el.innerHTML = "";
+          return;
+        }
+        let html =
+          "<button " +
+          (currentPage === 1 ? "disabled" : "") +
+          ' onclick="goToPage(' +
+          (currentPage - 1) +
+          ')">←</button>';
+        for (let i = 1; i <= totalPages; i++) {
+          html +=
+            '<button class="' +
+            (i === currentPage ? "active" : "") +
+            '" onclick="goToPage(' +
+            i +
+            ')">' +
+            i +
+            "</button>";
+        }
+        html +=
+          "<button " +
+          (currentPage === totalPages ? "disabled" : "") +
+          ' onclick="goToPage(' +
+          (currentPage + 1) +
+          ')">→</button>';
+        el.innerHTML = html;
+      }
+
+      window.goToPage = function (page) {
+        currentPage = page;
+        renderTable();
+      };
+
+      document.querySelectorAll("#statusChips .admin-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document
+            .querySelectorAll("#statusChips .admin-chip")
+            .forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          activeStatus = chip.dataset.status;
+          currentPage = 1;
+          renderTable();
+        });
+      });
+
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          searchQuery = this.value.trim();
+          currentPage = 1;
+          renderTable();
+        });
+
+      const blockModal = document.getElementById("blockModal");
+
+      window.openBlockModal = function (id) {
+        const u = users.find((x) => x.id === id);
+        if (!u) return;
+        blockTargetId = id;
+        const willBlock = u.status === "active";
+        document.getElementById("blockModalIcon").textContent = willBlock
+          ? "🚫"
+          : "✅";
+        document.getElementById("blockModalTitle").textContent = willBlock
+          ? "Block this user?"
+          : "Unblock this user?";
+        document.getElementById("blockModalText").innerHTML = willBlock
+          ? "<strong>" +
+            u.name +
+            "</strong> will no longer be able to log in or place orders."
+          : "<strong>" +
+            u.name +
+            "</strong> will regain access to their account.";
+        blockModal.classList.add("open");
+      };
+
+      document
+        .getElementById("blockModalCancel")
+        .addEventListener("click", () => blockModal.classList.remove("open"));
+
+      document
+        .getElementById("blockModalConfirm")
+        .addEventListener("click", () => {
+          const u = users.find((x) => x.id === blockTargetId);
+          if (!u) return;
+          u.status = u.status === "active" ? "blocked" : "active";
+          saveUsers();
+          blockModal.classList.remove("open");
+          showAdminToast(
+            u.name +
+              " has been " +
+              (u.status === "blocked" ? "blocked" : "unblocked") +
+              ".",
+          );
+          renderTable();
+        });
+
+      const deleteUserModal = document.getElementById("deleteUserModal");
+
+      window.openDeleteModal = function (id) {
+        const u = users.find((x) => x.id === id);
+        if (!u) return;
+        deleteTargetId = id;
+        document.getElementById("deleteUserName").textContent = u.name;
+        deleteUserModal.classList.add("open");
+      };
+
+      document
+        .getElementById("deleteUserCancel")
+        .addEventListener("click", () =>
+          deleteUserModal.classList.remove("open"),
+        );
+
+      document
+        .getElementById("deleteUserConfirm")
+        .addEventListener("click", () => {
+          users = users.filter((x) => x.id !== deleteTargetId);
+          saveUsers();
+          deleteUserModal.classList.remove("open");
+          showAdminToast("Account deleted.");
+          renderTable();
+        });
+
+      renderTable();
+    </script>
+  </body>
+</html>

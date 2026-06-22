@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favorites - AuringPh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/category.css">
+<link rel="stylesheet" href="../css/favorites.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ============ TOP NAVBAR ============ -->
+<header class="navbar">
+  <div class="container">
+    <a href="home.html" class="nav-logo">
+      <img src="../images/logo.png" alt="AuringPh Logo" class="nav-logo-img">
+    </a>
+
+    <nav class="nav-links">
+      <a href="home.html" class="nav-link">Home</a>
+      <a href="shirts.html" class="nav-link">Shirts</a>
+      <a href="shoes.html" class="nav-link">Shoes</a>
+      <a href="pants.html" class="nav-link">Pants</a>
+      <a href="others.html" class="nav-link">Others</a>
+    </nav>
+
+    <div class="nav-search">
+      <span aria-hidden="true">🔍</span>
+      <input type="text" placeholder="Search favorites..." id="favSearch" aria-label="Search favorites" oninput="searchFavorites(this.value)">
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-icon-btn" onclick="window.location.href='cart.html'" aria-label="Shopping cart">
+        🛒<span class="badge-count">2</span>
+      </button>
+      <button class="nav-icon-btn active-nav-icon" aria-label="Favorites (current page)">
+        ♡<span class="badge-count" id="favCount">6</span>
+      </button>
+      <button class="nav-icon-btn" onclick="window.location.href='messages.html'" aria-label="Messages">
+        💬<span class="badge-count" id="msgCount">0</span>
+      </button>
+      <button class="nav-icon-btn" onclick="window.location.href='notifications.html'" aria-label="Notifications">
+        🔔<span class="badge-count">3</span>
+      </button>
+      <div class="nav-avatar" onclick="window.location.href='profile.html'" aria-label="My Profile">AB</div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container page-section">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="home.html">Home</a> / <span class="current">My Favorites</span>
+    </div>
+
+    <!-- Page header -->
+    <div class="fav-page-header">
+      <div>
+        <h1 class="fav-title">My Favorites <span class="fav-heart-icon">♡</span></h1>
+        <div class="item-count" id="itemCountLabel">6 saved items</div>
+      </div>
+      <button class="clear-all-btn" onclick="confirmClearAll()">🗑️ Clear All</button>
+    </div>
+
+    <!-- Category filter tabs -->
+    <div class="fav-tabs">
+      <button class="fav-tab active" onclick="filterByCategory('all', this)">All <span class="fav-tab-count">6</span></button>
+      <button class="fav-tab" onclick="filterByCategory('shirts', this)">Shirts <span class="fav-tab-count">2</span></button>
+      <button class="fav-tab" onclick="filterByCategory('shoes', this)">Shoes <span class="fav-tab-count">2</span></button>
+      <button class="fav-tab" onclick="filterByCategory('pants', this)">Pants <span class="fav-tab-count">1</span></button>
+      <button class="fav-tab" onclick="filterByCategory('others', this)">Others <span class="fav-tab-count">1</span></button>
+    </div>
+
+    <!-- Favorites grid -->
+    <div class="product-grid" id="favGrid">
+
+      <!-- Item 1 — Shirt -->
+      <div class="product-card fav-item" data-category="shirts" data-name="classic tee white" onclick="showToast('Product detail coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/shirts/classic-tee.jpg" alt="Classic Tee White">
+          <span class="product-badge">BESTSELLER</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Classic Tee White</div>
+          <div class="product-sub">Shirts</div>
+          <div class="product-bottom">
+            <span class="product-price">₱499</span>
+            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
+              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Item 2 — Shoes -->
+      <div class="product-card fav-item" data-category="shoes" data-name="nike air force 1 white" onclick="showToast('Product detail coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/shoes/nike-air-force-1.jpg" alt="Nike Air Force 1">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Nike Air Force 1 '07 White</div>
+          <div class="product-sub">Shoes</div>
+          <div class="product-bottom">
+            <span class="product-price">₱4,995</span>
+            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
+              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Item 3 — Pants -->
+      <div class="product-card fav-item" data-category="pants" data-name="straight jeans indigo" onclick="showToast('Product detail coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/pants/straight-jeans.jpg" alt="Straight Jeans Indigo">
+          <span class="product-badge sale-badge">SALE</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Straight Cut Jeans Indigo</div>
+          <div class="product-sub">Pants</div>
+          <div class="product-bottom">
+            <div class="price-group">
+              <span class="product-price">₱1,299</span>
+              <span class="product-price-original">₱1,799</span>
+            </div>
+            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
+              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Item 4 — Shirt -->
+      <div class="product-card fav-item" data-category="shirts" data-name="oversized polo brown" onclick="showToast('Product detail coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/shirts/oversized-polo.jpg" alt="Oversized Polo Brown">
+          <span class="product-badge">NEW</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Oversized Polo Brown</div>
+          <div class="product-sub">Shirts</div>
+          <div class="product-bottom">
+            <span class="product-price">₱699</span>
+            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
+              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Item 5 — Shoes -->
+      <div class="product-card fav-item" data-category="shoes" data-name="vans old skool black white" onclick="showToast('Product detail coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/shoes/vans-old-skool.jpg" alt="Vans Old Skool">
+          <span class="product-badge sale-badge">SALE</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Vans Old Skool Black/White</div>
+          <div class="product-sub">Shoes</div>
+          <div class="product-bottom">
+            <div class="price-group">
+              <span class="product-price">₱2,499</span>
+              <span class="product-price-original">₱3,200</span>
+            </div>
+            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
+              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Item 6 — Others -->
+      <div class="product-card fav-item" data-category="others" data-name="nike heritage backpack black" onclick="showToast('Product detail coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/others/nike-heritage-bag.jpg" alt="Nike Heritage Backpack">
+        </div>
+        <div class="product-info">
+          <div class="product-name">Nike Heritage Eugene Backpack</div>
+          <div class="product-sub">Others · Bags</div>
+          <div class="product-bottom">
+            <span class="product-price">₱2,495</span>
+            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
+              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
+          Add to Cart
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Empty state — hidden by default, shown when no items -->
+    <div class="fav-empty" id="favEmpty" style="display:none">
+      <div class="fav-empty-icon">♡</div>
+      <div class="fav-empty-title">No favorites yet</div>
+      <div class="fav-empty-text">Items you heart will appear here. Start browsing!</div>
+      <a href="home.html" class="btn-primary" style="display:inline-block; margin-top:20px; text-decoration:none; padding: 12px 28px;">
+        Browse Products
+      </a>
+    </div>
+
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="../images/logo.png" alt="AuringPh Logo" class="footer-logo-img">
+        AuringPh
+      </div>
+      <p>Your go-to online boutique for trendy shirts, shoes, pants, and accessories — proudly Filipino, made for every budget. Follow our Facebook page for the latest drops, restocks, and deals!</p>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-heading">Shop</div>
+      <nav class="footer-links" aria-label="Shop categories">
+        <a href="home.html">Home</a>
+        <a href="shirts.html">Shirts</a>
+        <a href="shoes.html">Shoes</a>
+        <a href="pants.html">Pants</a>
+        <a href="others.html">Others</a>
+      </nav>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-heading">My Account</div>
+      <nav class="footer-links" aria-label="My account">
+        <a href="profile.html">My Profile</a>
+        <a href="orders.html">My Orders</a>
+        <a href="favorites.html">My Favorites</a>
+        <a href="cart.html">My Cart</a>
+      </nav>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-heading">Connect with Us</div>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/auringph" target="_blank" rel="noopener noreferrer" aria-label="AuringPh on Facebook (opens in a new tab)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></svg>
+        </a>
+      </div>
+      <div class="footer-contact">
+        📍 Paranaque, Philippines<br>
+        ✉️ hello@auringph.com
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 AuringPh. All rights reserved. | A student project prototype.
+  </div>
+</footer>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bottom-nav">
+  <button class="bottom-nav-item" onclick="window.location.href='home.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z" stroke="currentColor" stroke-width="2"/></svg>
+    Home
+  </button>
+  <button class="bottom-nav-item active">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
+    Favorites
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='orders.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/></svg>
+    Orders
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='notifications.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2"/></svg>
+    Notif
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='profile.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+    Profile
+  </button>
+</nav>
+
+<!-- Clear All Confirmation Modal -->
+<div class="modal-overlay" id="clearModal">
+  <div class="modal-box">
+    <div class="modal-icon">🗑️</div>
+    <div class="modal-title">Clear All Favorites?</div>
+    <div class="modal-text">This will remove all <strong id="clearCount">6</strong> saved items. This cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeClearModal()">Cancel</button>
+      <button class="btn-primary" onclick="clearAllFavorites()">Yes, Clear All</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/script.js"></script>
+<script>
+  // ── Remove single favorite ──
+  function removeFavorite(btn) {
+    const card = btn.closest('.product-card');
+    card.style.transition = 'opacity 0.3s, transform 0.3s';
+    card.style.opacity = '0';
+    card.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+      card.remove();
+      updateCount();
+      checkEmpty();
+    }, 300);
+    showToast('Removed from favorites');
+  }
+
+  // ── Add to cart ──
+  function addToCart(btn) {
+    const name = btn.closest('.product-card').querySelector('.product-name').textContent;
+    showToast(name + ' added to cart! 🛒');
+    btn.textContent = '✅ Added';
+    btn.style.background = 'var(--green)';
+    btn.style.color = 'var(--white)';
+    setTimeout(() => {
+      btn.textContent = 'Add to Cart';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  }
+
+  // ── Filter by category tab ──
+  function filterByCategory(cat, btn) {
+    document.querySelectorAll('.fav-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.fav-item').forEach(card => {
+      if (cat === 'all' || card.dataset.category === cat) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    checkEmpty();
+  }
+
+  // ── Search inside favorites ──
+  function searchFavorites(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.fav-item').forEach(card => {
+      const name = card.dataset.name || '';
+      card.style.display = name.includes(q) ? '' : 'none';
+    });
+    checkEmpty();
+  }
+
+  // ── Update count badge and label ──
+  function updateCount() {
+    const visible = document.querySelectorAll('.fav-item').length;
+    document.getElementById('favCount').textContent = visible;
+    document.getElementById('itemCountLabel').textContent = visible + ' saved item' + (visible !== 1 ? 's' : '');
+  }
+
+  // ── Show empty state if no items left ──
+  function checkEmpty() {
+    const visibleCards = [...document.querySelectorAll('.fav-item')].filter(c => c.style.display !== 'none');
+    const grid = document.getElementById('favGrid');
+    const empty = document.getElementById('favEmpty');
+    if (visibleCards.length === 0) {
+      grid.style.display = 'none';
+      empty.style.display = 'flex';
+    } else {
+      grid.style.display = '';
+      empty.style.display = 'none';
+    }
+  }
+
+  // ── Clear all modal ──
+  function confirmClearAll() {
+    const count = document.querySelectorAll('.fav-item').length;
+    document.getElementById('clearCount').textContent = count;
+    document.getElementById('clearModal').classList.add('open');
+  }
+
+  function closeClearModal() {
+    document.getElementById('clearModal').classList.remove('open');
+  }
+
+  function clearAllFavorites() {
+    document.querySelectorAll('.fav-item').forEach(card => card.remove());
+    document.getElementById('favCount').textContent = '0';
+    document.getElementById('itemCountLabel').textContent = '0 saved items';
+    closeClearModal();
+    checkEmpty();
+    showToast('All favorites cleared');
+  }
+</script>
+<script>
+  syncNavBadges();
+</script>
+</body>
+</html>

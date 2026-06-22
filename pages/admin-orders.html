@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Orders - AuringPh Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="admin-layout">
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-brand">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            onerror="this.style.display = 'none'"
+          />
+          <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+        </div>
+        <nav class="admin-nav">
+          <a href="dashboard.html" class="admin-nav-link"
+            ><span class="nav-ico">📊</span> Dashboard</a
+          >
+          <a href="products.html" class="admin-nav-link"
+            ><span class="nav-ico">👕</span> Manage Products</a
+          >
+          <a href="admin-orders.html" class="admin-nav-link"
+            ><span class="nav-ico">📦</span> Manage Orders</a
+          >
+          <a href="users.html" class="admin-nav-link"
+            ><span class="nav-ico">👥</span> Manage Users</a
+          >
+          <a href="admin-messages.html" class="admin-nav-link"
+            ><span class="nav-ico">💬</span> Messages</a
+          >
+        </nav>
+        <div class="admin-sidebar-footer">
+          <button class="admin-logout-btn" data-admin-logout>🚪 Logout</button>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN CONTENT ============ -->
+      <main class="admin-main">
+        <div class="admin-topbar">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+            <div>
+              <h1>Manage Orders</h1>
+              <div class="admin-sub">
+                <span id="orderCountLabel">0 orders</span>
+              </div>
+            </div>
+          </div>
+          <div class="admin-whoami">
+            <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+            <span id="adminWhoamiName">Admin</span>
+          </div>
+        </div>
+
+        <!-- ============ TOOLBAR ============ -->
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <span aria-hidden="true">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by order ID or customer..."
+            />
+          </div>
+          <div class="admin-filter-chips" id="statusChips">
+            <div class="admin-chip active" data-status="all">All</div>
+            <div class="admin-chip" data-status="pending">Pending</div>
+            <div class="admin-chip" data-status="processing">Processing</div>
+            <div class="admin-chip" data-status="completed">Completed</div>
+            <div class="admin-chip" data-status="cancelled">Cancelled</div>
+          </div>
+        </div>
+
+        <!-- ============ TABLE ============ -->
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="admin-pagination" id="ordersPagination"></div>
+      </main>
+    </div>
+
+    <!-- ============ ORDER DETAILS MODAL ============ -->
+    <div class="admin-modal-overlay" id="orderModal">
+      <div class="admin-modal-box" style="max-width: 520px">
+        <h3 id="orderModalTitle">Order Details</h3>
+        <div id="orderModalContent"></div>
+        <div class="admin-modal-actions" style="margin-top: 18px">
+          <button type="button" class="modal-btn-cancel" id="orderModalClose">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CANCEL CONFIRM MODAL ============ -->
+    <div class="admin-modal-overlay" id="cancelModal">
+      <div class="admin-modal-box modal-sm">
+        <div class="modal-warning-icon">⚠️</div>
+        <h3 style="text-align: center">Cancel this order?</h3>
+        <p class="modal-text">
+          Order <strong id="cancelOrderId"></strong> will be marked as
+          cancelled. This cannot be undone.
+        </p>
+        <div class="admin-modal-actions">
+          <button type="button" class="modal-btn-cancel" id="cancelModalNo">
+            Go Back
+          </button>
+          <button type="button" class="modal-btn-danger" id="cancelModalYes">
+            Cancel Order
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-toast" id="adminToast"></div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+      requireAdminAuth();
+      seedAdminData();
+
+      // ---- STATE ----
+      let orders = JSON.parse(localStorage.getItem(ADMIN_ORDERS_KEY)) || [];
+      let activeStatus = "all";
+      let searchQuery = "";
+      let currentPage = 1;
+      const ITEMS_PER_PAGE = 8;
+      let cancelTargetId = null;
+
+      function saveOrders() {
+        localStorage.setItem(ADMIN_ORDERS_KEY, JSON.stringify(orders));
+      }
+
+      function getFiltered() {
+        let list = [...orders];
+        if (activeStatus !== "all")
+          list = list.filter((o) => o.status === activeStatus);
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          list = list.filter(
+            (o) =>
+              o.id.toLowerCase().includes(q) ||
+              o.customer.name.toLowerCase().includes(q),
+          );
+        }
+        return list;
+      }
+
+      function renderTable() {
+        const filtered = getFiltered();
+        const totalPages = Math.max(
+          1,
+          Math.ceil(filtered.length / ITEMS_PER_PAGE),
+        );
+        if (currentPage > totalPages) currentPage = totalPages;
+        const pageItems = filtered.slice(
+          (currentPage - 1) * ITEMS_PER_PAGE,
+          currentPage * ITEMS_PER_PAGE,
+        );
+
+        document.getElementById("orderCountLabel").textContent =
+          filtered.length + " order" + (filtered.length !== 1 ? "s" : "");
+
+        const tbody = document.getElementById("ordersTableBody");
+
+        if (pageItems.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="7"><div class="empty-row-msg"><div class="empty-icon">📦</div>No orders found.</div></td></tr>';
+        } else {
+          tbody.innerHTML = pageItems
+            .map((o) => {
+              const itemSummary = o.items
+                .map((i) => i.name + " x" + i.qty)
+                .join(", ");
+              return (
+                "<tr>" +
+                "<td><strong>" +
+                o.id +
+                "</strong></td>" +
+                "<td>" +
+                '<div class="p-name">' +
+                o.customer.name +
+                "</div>" +
+                '<div class="p-sub">' +
+                o.customer.email +
+                "</div>" +
+                "</td>" +
+                '<td style="max-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="' +
+                itemSummary +
+                '">' +
+                itemSummary +
+                "</td>" +
+                "<td><strong>" +
+                pesos(o.total) +
+                "</strong></td>" +
+                "<td>" +
+                o.date +
+                "</td>" +
+                "<td>" +
+                '<select class="status-select" onchange="updateStatus(\'' +
+                o.id +
+                "', this.value)\">" +
+                ["pending", "processing", "completed", "cancelled"]
+                  .map(
+                    (s) =>
+                      '<option value="' +
+                      s +
+                      '"' +
+                      (o.status === s ? " selected" : "") +
+                      ">" +
+                      s.charAt(0).toUpperCase() +
+                      s.slice(1) +
+                      "</option>",
+                  )
+                  .join("") +
+                "</select>" +
+                "</td>" +
+                "<td>" +
+                '<div class="row-actions">' +
+                '<button class="btn-admin-sm edit" onclick="viewOrder(\'' +
+                o.id +
+                "')\">View</button>" +
+                (o.status !== "cancelled"
+                  ? '<button class="btn-admin-sm danger" onclick="openCancelModal(\'' +
+                    o.id +
+                    "')\">Cancel</button>"
+                  : "") +
+                "</div>" +
+                "</td>" +
+                "</tr>"
+              );
+            })
+            .join("");
+        }
+
+        renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        const el = document.getElementById("ordersPagination");
+        if (totalPages <= 1) {
+          el.innerHTML = "";
+          return;
+        }
+        let html =
+          "<button " +
+          (currentPage === 1 ? "disabled" : "") +
+          ' onclick="goToPage(' +
+          (currentPage - 1) +
+          ')">←</button>';
+        for (let i = 1; i <= totalPages; i++)
+          html +=
+            '<button class="' +
+            (i === currentPage ? "active" : "") +
+            '" onclick="goToPage(' +
+            i +
+            ')">' +
+            i +
+            "</button>";
+        html +=
+          "<button " +
+          (currentPage === totalPages ? "disabled" : "") +
+          ' onclick="goToPage(' +
+          (currentPage + 1) +
+          ')">→</button>';
+        el.innerHTML = html;
+      }
+
+      window.goToPage = function (page) {
+        currentPage = page;
+        renderTable();
+      };
+
+      // ---- STATUS CHIPS ----
+      document.querySelectorAll("#statusChips .admin-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document
+            .querySelectorAll("#statusChips .admin-chip")
+            .forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          activeStatus = chip.dataset.status;
+          currentPage = 1;
+          renderTable();
+        });
+      });
+
+      // ---- SEARCH ----
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          searchQuery = this.value.trim();
+          currentPage = 1;
+          renderTable();
+        });
+
+      // ---- UPDATE STATUS (inline dropdown) ----
+      window.updateStatus = function (id, newStatus) {
+        const o = orders.find((x) => x.id === id);
+        if (!o) return;
+        o.status = newStatus;
+        saveOrders();
+        showAdminToast("Order " + id + " marked as " + newStatus + ".");
+        renderTable();
+      };
+
+      // ---- VIEW ORDER MODAL ----
+      const orderModal = document.getElementById("orderModal");
+
+      window.viewOrder = function (id) {
+        const o = orders.find((x) => x.id === id);
+        if (!o) return;
+        document.getElementById("orderModalTitle").textContent =
+          "Order " + o.id;
+        document.getElementById("orderModalContent").innerHTML =
+          '<div style="margin-bottom:14px;">' +
+          '<div style="font-size:13px; color:var(--text-light); margin-bottom:4px;">Customer</div>' +
+          '<div style="font-weight:600;">' +
+          o.customer.name +
+          "</div>" +
+          '<div style="font-size:13px; color:var(--text-light);">' +
+          o.customer.email +
+          "</div>" +
+          "</div>" +
+          '<div style="margin-bottom:14px;">' +
+          '<div style="font-size:13px; color:var(--text-light); margin-bottom:8px;">Items</div>' +
+          o.items
+            .map(
+              (i) =>
+                '<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f5ebe4; font-size:13.5px;">' +
+                "<span>" +
+                i.name +
+                ' <span style="color:var(--text-light);">x' +
+                i.qty +
+                "</span></span>" +
+                '<span style="font-weight:600;">' +
+                pesos(i.price * i.qty) +
+                "</span>" +
+                "</div>",
+            )
+            .join("") +
+          "</div>" +
+          '<div style="display:flex; justify-content:space-between; margin-top:12px; font-size:15px;">' +
+          '<span style="font-weight:700;">Total</span>' +
+          '<span style="font-weight:700; color:var(--brown);">' +
+          pesos(o.total) +
+          "</span>" +
+          "</div>" +
+          '<div style="margin-top:14px; display:flex; gap:16px; font-size:13px; color:var(--text-light);">' +
+          "<span>📅 " +
+          o.date +
+          "</span>" +
+          '<span class="status-pill ' +
+          o.status +
+          '">' +
+          o.status +
+          "</span>" +
+          "</div>";
+        orderModal.classList.add("open");
+      };
+
+      document
+        .getElementById("orderModalClose")
+        .addEventListener("click", () => orderModal.classList.remove("open"));
+
+      // ---- CANCEL MODAL ----
+      const cancelModal = document.getElementById("cancelModal");
+
+      window.openCancelModal = function (id) {
+        cancelTargetId = id;
+        document.getElementById("cancelOrderId").textContent = id;
+        cancelModal.classList.add("open");
+      };
+
+      document
+        .getElementById("cancelModalNo")
+        .addEventListener("click", () => cancelModal.classList.remove("open"));
+
+      document
+        .getElementById("cancelModalYes")
+        .addEventListener("click", () => {
+          const o = orders.find((x) => x.id === cancelTargetId);
+          if (!o) return;
+          o.status = "cancelled";
+          saveOrders();
+          cancelModal.classList.remove("open");
+          showAdminToast("Order " + cancelTargetId + " has been cancelled.");
+          renderTable();
+        });
+
+      // ---- INIT ----
+      renderTable();
+      
+    </script>
+
+  </body>
+</html>

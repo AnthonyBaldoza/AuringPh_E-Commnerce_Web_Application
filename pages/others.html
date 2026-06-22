@@ -1,0 +1,1148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Others - AuringPh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/category.css" />
+    <style>
+      .page-section {
+        padding-top: 32px;
+        padding-bottom: 40px;
+      }
+      .product-img {
+        position: relative;
+      }
+      .product-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .product-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: var(--brown);
+        color: var(--white);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        padding: 4px 10px;
+        border-radius: var(--radius-full);
+        z-index: 2;
+        pointer-events: none;
+      }
+      .sale-badge {
+        background: var(--red);
+      }
+      .price-group {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+      .product-price-original {
+        font-size: 12px;
+        color: var(--text-light);
+        text-decoration: line-through;
+      }
+      .page-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      /* Subcategory tabs */
+      .subcategory-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .subcategory-tab {
+        padding: 7px 18px;
+        border-radius: var(--radius-full);
+        border: 1.5px solid var(--border);
+        background: var(--white);
+        color: var(--text-mid);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: var(--font-body);
+        transition: all 0.2s;
+      }
+      .subcategory-tab.active,
+      .subcategory-tab:hover {
+        background: var(--brown);
+        color: var(--white);
+        border-color: var(--brown);
+      }
+
+      /* Empty state */
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        grid-column: 1 / -1;
+      }
+      .empty-state p {
+        font-size: 15px;
+        color: var(--text-light);
+        margin-top: 12px;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--text-dark);
+        color: var(--white);
+        padding: 12px 22px;
+        border-radius: var(--radius-full);
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="navbar">
+      <div class="container">
+        <a href="home.html" class="nav-logo">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            class="nav-logo-img"
+          />
+        </a>
+        <nav class="nav-links">
+          <a href="home.html" class="nav-link">Home</a>
+          <a href="shirts.html" class="nav-link">Shirts</a>
+          <a href="shoes.html" class="nav-link">Shoes</a>
+          <a href="pants.html" class="nav-link">Pants</a>
+          <a href="others.html" class="nav-link active">Others</a>
+        </nav>
+        <div class="nav-search">
+          <span aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search accessories..."
+            aria-label="Search accessories"
+          />
+        </div>
+        <div class="nav-actions">
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'cart.html'"
+            aria-label="Shopping cart"
+          >
+            🛒<span class="badge-count" id="cartCount">2</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'favorites.html'"
+            aria-label="Favorites"
+          >
+            ♡<span class="badge-count">6</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'messages.html'"
+            aria-label="Messages"
+          >
+            💬<span class="badge-count" id="msgCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'notifications.html'"
+            aria-label="Notifications"
+          >
+            🔔<span class="badge-count">3</span>
+          </button>
+          <div
+            class="nav-avatar"
+            onclick="window.location.href = 'profile.html'"
+            aria-label="My Profile"
+          >
+            AB
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="container page-section">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a href="home.html">Home</a> / <span class="current">Others</span>
+        </div>
+
+        <!-- Page title + sort -->
+        <div class="category-header">
+          <div>
+            <h1>Others</h1>
+            <div class="item-count" id="itemCount">24 items</div>
+          </div>
+          <select class="sort-select" id="sortSelect">
+            <option value="featured">Sort by: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+
+        <!-- Mobile-only filter toggle -->
+        <button
+          class="mobile-filter-toggle"
+          onclick="
+            document.querySelector('.filter-sidebar').classList.toggle('open')
+          "
+        >
+          ⚙️ Filters
+        </button>
+
+        <div class="category-layout">
+          <!-- ===== SIDEBAR FILTERS ===== -->
+          <aside class="filter-sidebar">
+            <div class="filter-group">
+              <div class="filter-group-title">Category</div>
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  id="cat-all"
+                  checked
+                  onchange="onCatAllChange(this)"
+                />
+                All</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="cat-cb"
+                  value="Bags"
+                  onchange="onCatChange()"
+                />
+                Bags</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="cat-cb"
+                  value="Caps"
+                  onchange="onCatChange()"
+                />
+                Caps & Hats</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="cat-cb"
+                  value="Jackets"
+                  onchange="onCatChange()"
+                />
+                Jackets</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="cat-cb"
+                  value="Accessories"
+                  onchange="onCatChange()"
+                />
+                Accessories</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="cat-cb"
+                  value="Socks"
+                  onchange="onCatChange()"
+                />
+                Socks</label
+              >
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Brand</div>
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  id="brand-all"
+                  checked
+                  onchange="onBrandAllChange(this)"
+                />
+                All Brands</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="Nike"
+                  onchange="onBrandChange()"
+                />
+                Nike</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="Adidas"
+                  onchange="onBrandChange()"
+                />
+                Adidas</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="New Era"
+                  onchange="onBrandChange()"
+                />
+                New Era</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="Carhartt"
+                  onchange="onBrandChange()"
+                />
+                Carhartt</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="Vans"
+                  onchange="onBrandChange()"
+                />
+                Vans</label
+              >
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Price Range</div>
+              <div class="price-range-row">
+                <input type="number" id="priceMin" placeholder="Min" />
+                <span>-</span>
+                <input type="number" id="priceMax" placeholder="Max" />
+              </div>
+              <button class="filter-apply-btn" onclick="applyPriceFilter()">
+                Apply Filters
+              </button>
+            </div>
+          </aside>
+
+          <!-- ===== MAIN CONTENT ===== -->
+          <div>
+            <!-- Promo strip -->
+            <div class="promo-strip">
+              <div>
+                <div class="promo-strip-text">Complete the Look! 🎒</div>
+                <div class="promo-strip-sub">
+                  Free shipping on accessories over ₱1,000
+                </div>
+              </div>
+              <button
+                class="promo-strip-btn"
+                onclick="showToast('Promo applied at checkout!')"
+              >
+                Shop
+              </button>
+            </div>
+
+            <!-- Sub-category tabs -->
+            <div class="subcategory-tabs" id="subcatTabs">
+              <button
+                class="subcategory-tab active"
+                data-cat="All"
+                onclick="setActiveTab(this)"
+              >
+                All
+              </button>
+              <button
+                class="subcategory-tab"
+                data-cat="Bags"
+                onclick="setActiveTab(this)"
+              >
+                Bags
+              </button>
+              <button
+                class="subcategory-tab"
+                data-cat="Caps"
+                onclick="setActiveTab(this)"
+              >
+                Caps
+              </button>
+              <button
+                class="subcategory-tab"
+                data-cat="Jackets"
+                onclick="setActiveTab(this)"
+              >
+                Jackets
+              </button>
+              <button
+                class="subcategory-tab"
+                data-cat="Accessories"
+                onclick="setActiveTab(this)"
+              >
+                Accessories
+              </button>
+              <button
+                class="subcategory-tab"
+                data-cat="Socks"
+                onclick="setActiveTab(this)"
+              >
+                Socks
+              </button>
+            </div>
+
+            <!-- Product grid -->
+            <div class="product-grid" id="productGrid"></div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img
+              src="../images/logo.png"
+              alt="AuringPh Logo"
+              class="footer-logo-img"
+            />
+            AuringPh
+          </div>
+          <p>
+            Your go-to online boutique for trendy shirts, shoes, pants, and
+            accessories — proudly Filipino, made for every budget. Follow our
+            Facebook page for the latest drops, restocks, and deals!
+          </p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Shop</div>
+          <nav class="footer-links" aria-label="Shop categories">
+            <a href="home.html">Home</a>
+            <a href="shirts.html">Shirts</a>
+            <a href="shoes.html">Shoes</a>
+            <a href="pants.html">Pants</a>
+            <a href="others.html">Others</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">My Account</div>
+          <nav class="footer-links" aria-label="My account">
+            <a href="profile.html">My Profile</a>
+            <a href="orders.html">My Orders</a>
+            <a href="favorites.html">My Favorites</a>
+            <a href="cart.html">My Cart</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Connect with Us</div>
+          <div class="footer-social">
+            <a
+              href="https://www.facebook.com/auringph"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="AuringPh on Facebook (opens in a new tab)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="footer-contact">
+            📍 Calauan, Laguna, Philippines<br />
+            ✉️ hello@auringph.com
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 AuringPh. All rights reserved. | A student project prototype.
+      </div>
+    </footer>
+
+    <!-- ============ BOTTOM NAV (Mobile Only) ============ -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'home.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Home
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'favorites.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Favorites
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'orders.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="3"
+            y1="6"
+            x2="21"
+            y2="6"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Orders
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'notifications.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Notif
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'profile.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Profile
+      </button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/script.js"></script>
+    <script>
+      // ============================================================
+      //  OTHERS PAGE — Full Logic
+      //  Features: pagination, category tabs + sidebar, brand filter,
+      //            price filter, search, sort, heart/favorites toggle
+      // ============================================================
+
+      const ITEMS_PER_PAGE = 6;
+
+      const ALL_PRODUCTS = [
+        // BAGS
+        {
+          id: 1,
+          name: "Nike Heritage Eugene Backpack Black",
+          brand: "Nike",
+          cat: "Bags",
+          price: 2495,
+          origPrice: null,
+          badge: "BESTSELLER",
+          img: "nike-heritage-bag.jpg",
+          isNew: false,
+        },
+        {
+          id: 2,
+          name: "Vans Ward Cross Body Bag Black",
+          brand: "Vans",
+          cat: "Bags",
+          price: 1299,
+          origPrice: null,
+          badge: "",
+          img: "vans-ward-bag.jpg",
+          isNew: false,
+        },
+        {
+          id: 3,
+          name: "Adidas Classic Trefoil Backpack",
+          brand: "Adidas",
+          cat: "Bags",
+          price: 1899,
+          origPrice: 2299,
+          badge: "SALE",
+          img: "adidas-backpack.jpg",
+          isNew: false,
+        },
+        {
+          id: 4,
+          name: "Nike Brasilia 9.5 Training Duffel",
+          brand: "Nike",
+          cat: "Bags",
+          price: 2199,
+          origPrice: null,
+          badge: "NEW",
+          img: "nike-duffel.jpg",
+          isNew: true,
+        },
+        {
+          id: 5,
+          name: "Carhartt Foundry Series Backpack",
+          brand: "Carhartt",
+          cat: "Bags",
+          price: 3299,
+          origPrice: null,
+          badge: "",
+          img: "carhartt-backpack.jpg",
+          isNew: false,
+        },
+        {
+          id: 6,
+          name: "Vans Bumper Tote Bag",
+          brand: "Vans",
+          cat: "Bags",
+          price: 849,
+          origPrice: null,
+          badge: "",
+          img: "vans-tote.jpg",
+          isNew: false,
+        },
+
+        // CAPS
+        {
+          id: 7,
+          name: "New Era 9FORTY Adjustable Cap Black",
+          brand: "New Era",
+          cat: "Caps",
+          price: 899,
+          origPrice: 1200,
+          badge: "SALE",
+          img: "new-era-cap.jpg",
+          isNew: false,
+        },
+        {
+          id: 8,
+          name: "Carhartt Acrylic Watch Hat Beanie Grey",
+          brand: "Carhartt",
+          cat: "Caps",
+          price: 749,
+          origPrice: null,
+          badge: "",
+          img: "carhartt-beanie.jpg",
+          isNew: false,
+        },
+        {
+          id: 9,
+          name: "Nike Swoosh Heritage 86 Cap",
+          brand: "Nike",
+          cat: "Caps",
+          price: 999,
+          origPrice: null,
+          badge: "NEW",
+          img: "nike-cap.jpg",
+          isNew: true,
+        },
+        {
+          id: 10,
+          name: "Adidas Trefoil Baseball Cap",
+          brand: "Adidas",
+          cat: "Caps",
+          price: 850,
+          origPrice: null,
+          badge: "",
+          img: "adidas-cap.jpg",
+          isNew: false,
+        },
+        {
+          id: 11,
+          name: "New Era 59FIFTY Fitted Cap",
+          brand: "New Era",
+          cat: "Caps",
+          price: 1499,
+          origPrice: 1899,
+          badge: "SALE",
+          img: "new-era-59fifty.jpg",
+          isNew: false,
+        },
+        {
+          id: 12,
+          name: "Vans Jockey Cap Black",
+          brand: "Vans",
+          cat: "Caps",
+          price: 699,
+          origPrice: null,
+          badge: "",
+          img: "vans-cap.jpg",
+          isNew: false,
+        },
+
+        // JACKETS
+        {
+          id: 13,
+          name: "Adidas Windbreaker Track Jacket Navy",
+          brand: "Adidas",
+          cat: "Jackets",
+          price: 3299,
+          origPrice: null,
+          badge: "NEW",
+          img: "adidas-windbreaker.jpg",
+          isNew: true,
+        },
+        {
+          id: 14,
+          name: "Nike Sportswear Windrunner Jacket",
+          brand: "Nike",
+          cat: "Jackets",
+          price: 4599,
+          origPrice: 5299,
+          badge: "SALE",
+          img: "nike-windrunner.jpg",
+          isNew: false,
+        },
+        {
+          id: 15,
+          name: "Carhartt Duck Detroit Jacket Brown",
+          brand: "Carhartt",
+          cat: "Jackets",
+          price: 5999,
+          origPrice: null,
+          badge: "BESTSELLER",
+          img: "carhartt-jacket.jpg",
+          isNew: false,
+        },
+        {
+          id: 16,
+          name: "Adidas SST Track Jacket Black",
+          brand: "Adidas",
+          cat: "Jackets",
+          price: 2899,
+          origPrice: 3499,
+          badge: "SALE",
+          img: "adidas-sst-jacket.jpg",
+          isNew: false,
+        },
+
+        // ACCESSORIES
+        {
+          id: 17,
+          name: "Nike Reversible Belt Adjustable",
+          brand: "Nike",
+          cat: "Accessories",
+          price: 649,
+          origPrice: null,
+          badge: "",
+          img: "nike-belt.jpg",
+          isNew: false,
+        },
+        {
+          id: 18,
+          name: "Adidas Sport Watch Water Resistant",
+          brand: "Adidas",
+          cat: "Accessories",
+          price: 1499,
+          origPrice: 1899,
+          badge: "SALE",
+          img: "adidas-watch.jpg",
+          isNew: false,
+        },
+        {
+          id: 19,
+          name: "Vans Sunglasses Squared Off Black",
+          brand: "Vans",
+          cat: "Accessories",
+          price: 999,
+          origPrice: null,
+          badge: "NEW",
+          img: "vans-shades.jpg",
+          isNew: true,
+        },
+        {
+          id: 20,
+          name: "Carhartt Watch Hat Knit Beanie Black",
+          brand: "Carhartt",
+          cat: "Accessories",
+          price: 599,
+          origPrice: null,
+          badge: "",
+          img: "carhartt-knit.jpg",
+          isNew: false,
+        },
+
+        // SOCKS
+        {
+          id: 21,
+          name: "Nike Everyday Cushioned Crew Socks 3pk",
+          brand: "Nike",
+          cat: "Socks",
+          price: 349,
+          origPrice: 499,
+          badge: "SALE",
+          img: "nike-crew-socks.jpg",
+          isNew: false,
+        },
+        {
+          id: 22,
+          name: "Adidas Crew Socks 3 Pairs White",
+          brand: "Adidas",
+          cat: "Socks",
+          price: 299,
+          origPrice: null,
+          badge: "",
+          img: "adidas-socks.jpg",
+          isNew: false,
+        },
+        {
+          id: 23,
+          name: "Vans Classic Crew Socks 3 Pack",
+          brand: "Vans",
+          cat: "Socks",
+          price: 399,
+          origPrice: null,
+          badge: "NEW",
+          img: "vans-socks.jpg",
+          isNew: true,
+        },
+        {
+          id: 24,
+          name: "Carhartt All Season Crew Socks",
+          brand: "Carhartt",
+          cat: "Socks",
+          price: 449,
+          origPrice: null,
+          badge: "",
+          img: "carhartt-socks.jpg",
+          isNew: false,
+        },
+      ];
+
+      // ---- STATE ----
+      let currentPage = 1;
+      let favorites = new Set();
+      let activeTab = "All"; // from tabs
+      let activeCats = []; // from sidebar checkboxes
+      let activeBrands = [];
+      let priceMin = null;
+      let priceMax = null;
+      let searchQuery = "";
+      let sortValue = "featured";
+
+      // ---- CART ----
+      let cart = JSON.parse(localStorage.getItem("auringph_cart")) || [];
+
+      function saveCart() {
+        localStorage.setItem("auringph_cart", JSON.stringify(cart));
+        if (typeof syncNavBadges === "function") syncNavBadges();
+      }
+
+      function addToCart(product) {
+        const existing = cart.find((x) => x.id === product.id);
+        if (existing) {
+          existing.qty++;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: `../images/products/others/${product.img}`,
+            category: product.cat || "Others",
+            qty: 1,
+          });
+        }
+        saveCart();
+        showToast("Added to cart!");
+      }
+      window._addToCart = function (id) {
+        const p = ALL_PRODUCTS.find((x) => x.id === id);
+        if (p) addToCart(p);
+      };
+
+      // ---- TOAST ----
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+      }
+
+      // ---- SUBCATEGORY TABS ----
+      function setActiveTab(el) {
+        document
+          .querySelectorAll(".subcategory-tab")
+          .forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+        activeTab = el.dataset.cat;
+
+        // Sync sidebar category checkboxes with tab
+        if (activeTab === "All") {
+          document.getElementById("cat-all").checked = true;
+          document
+            .querySelectorAll(".cat-cb")
+            .forEach((c) => (c.checked = false));
+          activeCats = [];
+        } else {
+          document.getElementById("cat-all").checked = false;
+          document.querySelectorAll(".cat-cb").forEach((c) => {
+            c.checked = c.value === activeTab;
+          });
+          activeCats = [activeTab];
+        }
+
+        currentPage = 1;
+        renderPage();
+      }
+
+      // ---- CATEGORY SIDEBAR ----
+      function onCatAllChange(cb) {
+        if (cb.checked) {
+          document
+            .querySelectorAll(".cat-cb")
+            .forEach((c) => (c.checked = false));
+          activeCats = [];
+          activeTab = "All";
+          syncTabToState();
+        }
+        currentPage = 1;
+        renderPage();
+      }
+
+      function onCatChange() {
+        const checked = document.querySelectorAll(".cat-cb:checked");
+        document.getElementById("cat-all").checked = checked.length === 0;
+        activeCats = Array.from(checked).map((c) => c.value);
+        // Sync tab: if only 1 cat selected, highlight that tab; else go to All
+        if (activeCats.length === 1) {
+          activeTab = activeCats[0];
+        } else {
+          activeTab = "All";
+        }
+        syncTabToState();
+        currentPage = 1;
+        renderPage();
+      }
+
+      function syncTabToState() {
+        document.querySelectorAll(".subcategory-tab").forEach((t) => {
+          t.classList.toggle("active", t.dataset.cat === activeTab);
+        });
+      }
+
+      // ---- BRAND SIDEBAR ----
+      function onBrandAllChange(cb) {
+        if (cb.checked) {
+          document
+            .querySelectorAll(".brand-cb")
+            .forEach((c) => (c.checked = false));
+          activeBrands = [];
+        }
+        currentPage = 1;
+        renderPage();
+      }
+
+      function onBrandChange() {
+        const checked = document.querySelectorAll(".brand-cb:checked");
+        document.getElementById("brand-all").checked = checked.length === 0;
+        activeBrands = Array.from(checked).map((c) => c.value);
+        currentPage = 1;
+        renderPage();
+      }
+
+      // ---- PRICE FILTER ----
+      function applyPriceFilter() {
+        priceMin = Number(document.getElementById("priceMin").value) || null;
+        priceMax = Number(document.getElementById("priceMax").value) || null;
+        currentPage = 1;
+        renderPage();
+        showToast("Filters applied!");
+      }
+
+      // ---- SEARCH ----
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          searchQuery = this.value.trim().toLowerCase();
+          currentPage = 1;
+          renderPage();
+        });
+
+      // ---- SORT ----
+      document
+        .getElementById("sortSelect")
+        .addEventListener("change", function () {
+          sortValue = this.value;
+          currentPage = 1;
+          renderPage();
+        });
+
+      // ---- HEART TOGGLE ----
+      function toggleHeart(btn, id) {
+        if (favorites.has(id)) {
+          favorites.delete(id);
+          btn.textContent = "♡";
+          btn.classList.remove("active");
+          showToast("Removed from favorites");
+        } else {
+          favorites.add(id);
+          btn.textContent = "♥";
+          btn.classList.add("active");
+          showToast("Added to favorites!");
+        }
+      }
+
+      // ---- COMPUTE FILTERED ----
+      function getFiltered() {
+        let list = [...ALL_PRODUCTS];
+
+        // Category — tabs & sidebar synced
+        const catFilter =
+          activeCats.length > 0
+            ? activeCats
+            : activeTab !== "All"
+              ? [activeTab]
+              : [];
+        if (catFilter.length > 0)
+          list = list.filter((p) => catFilter.includes(p.cat));
+
+        // Brand
+        if (activeBrands.length > 0)
+          list = list.filter((p) => activeBrands.includes(p.brand));
+
+        // Price
+        if (priceMin !== null) list = list.filter((p) => p.price >= priceMin);
+        if (priceMax !== null) list = list.filter((p) => p.price <= priceMax);
+
+        // Search
+        if (searchQuery) {
+          list = list.filter(
+            (p) =>
+              p.name.toLowerCase().includes(searchQuery) ||
+              p.brand.toLowerCase().includes(searchQuery) ||
+              p.cat.toLowerCase().includes(searchQuery),
+          );
+        }
+
+        // Sort
+        if (sortValue === "price-asc") list.sort((a, b) => a.price - b.price);
+        if (sortValue === "price-desc") list.sort((a, b) => b.price - a.price);
+        if (sortValue === "newest") list.sort((a, b) => b.isNew - a.isNew);
+
+        return list;
+      }
+
+      // ---- RENDER ----
+      function renderPage() {
+        const filtered = getFiltered();
+        const total = filtered.length;
+        const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        document.getElementById("itemCount").textContent =
+          `${total} item${total !== 1 ? "s" : ""}`;
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
+        const grid = document.getElementById("productGrid");
+
+        if (pageItems.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><div style="font-size:48px">🔍</div><p>No products found. Try adjusting your filters.</p></div>`;
+        } else {
+          grid.innerHTML = pageItems
+            .map(
+              (p) => `
+      <div class="product-card" onclick="showToast('Product detail page coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/others/${p.img}" alt="${p.name}"
+               onerror="this.parentElement.style.background='#f0ebe5';this.style.display='none'">
+          ${p.badge ? `<span class="product-badge ${p.badge === "SALE" ? "sale-badge" : ""}">${p.badge}</span>` : ""}
+        </div>
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-sub">${p.brand} · ${p.cat}</div>
+          <div class="product-bottom">
+            <div class="price-group">
+              <span class="product-price">₱${p.price.toLocaleString()}</span>
+              ${p.origPrice ? `<span class="product-price-original">₱${p.origPrice.toLocaleString()}</span>` : ""}
+            </div>
+            <button class="heart-btn ${favorites.has(p.id) ? "active" : ""}"
+              onclick="event.stopPropagation(); toggleHeart(this, ${p.id})"
+              aria-label="Add to favorites">${favorites.has(p.id) ? "♥" : "♡"}</button>
+          </div>
+          <button class="btn-add-cart" onclick="event.stopPropagation(); window._addToCart(${p.id})">Add to Cart</button>
+        </div>
+      </div>
+    `,
+            )
+            .join("");
+        }
+
+        renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        const pg = document.getElementById("pagination");
+        let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>←</button>`;
+        for (let i = 1; i <= totalPages; i++) {
+          html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="goToPage(${i})">${i}</button>`;
+        }
+        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>→</button>`;
+        pg.innerHTML = html;
+      }
+
+      function goToPage(page) {
+        const totalPages = Math.max(
+          1,
+          Math.ceil(getFiltered().length / ITEMS_PER_PAGE),
+        );
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // ---- INIT ----
+      renderPage();
+    </script>
+    <script>
+      syncNavBadges();
+    </script>
+  </body>
+</html>

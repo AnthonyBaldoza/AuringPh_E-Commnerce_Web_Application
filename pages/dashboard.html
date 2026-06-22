@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - AuringPh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="admin-layout">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-brand">
+      <img src="../images/logo.png" alt="AuringPh Logo" onerror="this.style.display='none'">
+      <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="dashboard.html" class="admin-nav-link active"><span class="nav-ico">📊</span> Dashboard</a>
+      <a href="products.html" class="admin-nav-link"><span class="nav-ico">👕</span> Manage Products</a>
+      <a href="orders.html" class="admin-nav-link"><span class="nav-ico">📦</span> Manage Orders</a>
+      <a href="users.html" class="admin-nav-link"><span class="nav-ico">👥</span> Manage Users</a>
+      <a href="admin-messages.html" class="admin-nav-link"><span class="nav-ico">💬</span> Messages</a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <button class="admin-logout-btn" data-admin-logout>🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="admin-main">
+
+    <div class="admin-topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+        <div>
+          <h1>Dashboard</h1>
+          <div class="admin-sub">Overview of your AuringPh store</div>
+        </div>
+      </div>
+      <div class="admin-whoami">
+        <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+        <span id="adminWhoamiName">Admin</span>
+      </div>
+    </div>
+
+    <!-- ============ STAT CARDS ============ -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="stat-value" id="statProducts">0</div>
+          <div class="stat-label">Total Products</div>
+          <span class="stat-trend flat" id="statProductsTrend">In catalog</span>
+        </div>
+        <div class="stat-icon ic-products">👕</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="stat-value" id="statOrders">0</div>
+          <div class="stat-label">Total Orders</div>
+          <span class="stat-trend up" id="statOrdersTrend">+0 pending</span>
+        </div>
+        <div class="stat-icon ic-orders">📦</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="stat-value" id="statUsers">0</div>
+          <div class="stat-label">Total Users</div>
+          <span class="stat-trend flat" id="statUsersTrend">Registered customers</span>
+        </div>
+        <div class="stat-icon ic-users">👥</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="stat-value" id="statRevenue">₱0</div>
+          <div class="stat-label">Total Revenue</div>
+          <span class="stat-trend up" id="statRevenueTrend">Sample data</span>
+        </div>
+        <div class="stat-icon ic-revenue">💰</div>
+      </div>
+    </div>
+
+    <!-- ============ PANELS ============ -->
+    <div class="dash-panels">
+
+      <div class="panel-card">
+        <h3>🕓 Recent Orders</h3>
+        <div id="recentOrdersList"></div>
+      </div>
+
+      <div class="panel-card">
+        <h3>⚠️ Low Stock Products</h3>
+        <div id="lowStockList"></div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<div class="admin-toast" id="adminToast"></div>
+
+<script src="../js/admin.js"></script>
+<script>
+  requireAdminAuth();
+  seedAdminData();
+
+  const products = JSON.parse(localStorage.getItem(ADMIN_PRODUCTS_KEY)) || [];
+  const orders   = JSON.parse(localStorage.getItem(ADMIN_ORDERS_KEY)) || [];
+  const users    = JSON.parse(localStorage.getItem(ADMIN_USERS_KEY)) || [];
+
+  // ---- Stat cards ----
+  document.getElementById("statProducts").textContent = products.length;
+
+  document.getElementById("statOrders").textContent = orders.length;
+  const pendingCount = orders.filter(o => o.status === "pending").length;
+  document.getElementById("statOrdersTrend").textContent = `+${pendingCount} pending`;
+
+  document.getElementById("statUsers").textContent = users.length;
+
+  const totalRevenue = orders
+    .filter(o => o.status !== "cancelled")
+    .reduce((sum, o) => sum + o.total, 0);
+  document.getElementById("statRevenue").textContent = pesos(totalRevenue);
+
+  // ---- Recent orders panel (latest 5) ----
+  const recentList = document.getElementById("recentOrdersList");
+  const recent = [...orders].slice(0, 5);
+
+  if (recent.length === 0) {
+    recentList.innerHTML = `<div class="empty-row-msg"><div class="empty-icon">📦</div>No orders yet.</div>`;
+  } else {
+    recentList.innerHTML = recent.map(o => `
+      <div class="mini-row">
+        <div>
+          <div class="mini-main">${o.id}</div>
+          <div class="mini-sub">${o.customer.name} · ${o.date}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="mini-main">${pesos(o.total)}</div>
+          <span class="status-pill ${o.status}">${o.status}</span>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  // ---- Low stock panel (stock <= 10) ----
+  const lowStockList = document.getElementById("lowStockList");
+  const lowStock = products.filter(p => p.stock <= 10).sort((a, b) => a.stock - b.stock);
+
+  if (lowStock.length === 0) {
+    lowStockList.innerHTML = `<div class="empty-row-msg"><div class="empty-icon">✅</div>All products are well stocked.</div>`;
+  } else {
+    lowStockList.innerHTML = lowStock.map(p => `
+      <div class="mini-row">
+        <div>
+          <div class="mini-main">${p.name}</div>
+          <div class="mini-sub">${p.category} · ${p.brand}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="mini-main" style="color:${p.stock <= 5 ? 'var(--red)' : 'var(--text-dark)'}">${p.stock} left</div>
+        </div>
+      </div>
+    `).join("");
+  }
+</script>
+</body>
+</html>

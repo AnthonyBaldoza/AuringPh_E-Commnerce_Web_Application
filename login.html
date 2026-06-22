@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login - AuringPh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-login-wrap">
+  <div class="admin-login-card">
+
+    <div class="admin-login-logo">
+      <img src="images/logo.png" alt="AuringPh Logo" onerror="this.style.display='none'">
+      <span class="badge-admin">Admin Panel</span>
+    </div>
+
+    <h1>Admin Login</h1>
+    <p class="admin-login-sub">Sign in to manage AuringPh products, orders, and users.</p>
+
+    <form id="adminLoginForm" novalidate>
+
+      <div class="admin-form-group">
+        <label for="adminUsername">Username</label>
+        <input type="text" id="adminUsername" placeholder="admin" autocomplete="username" required>
+        <span class="admin-error-text" id="usernameError"></span>
+      </div>
+
+      <div class="admin-form-group">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="current-password" required>
+        <span class="admin-error-text" id="passwordError"></span>
+      </div>
+
+      <button type="submit" class="btn-primary btn-full" id="adminLoginBtn">Login</button>
+    </form>
+
+    <a href="index.html" class="admin-back-link">← Back to AuringPh Store</a>
+
+  </div>
+</div>
+
+<div class="admin-toast" id="adminToast"></div>
+
+<script src="js/admin.js"></script>
+<script>
+  seedAdminData();
+
+  // If already logged in, go straight to dashboard
+  if (localStorage.getItem(ADMIN_AUTH_KEY) === "true") {
+    window.location.href = "pages/dashboard.html";
+  }
+
+  document.getElementById("adminLoginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById("adminUsername").value.trim();
+    const password = document.getElementById("adminPassword").value;
+
+    document.getElementById("usernameError").textContent = "";
+    document.getElementById("passwordError").textContent = "";
+
+    let valid = true;
+
+    if (!username) {
+      document.getElementById("usernameError").textContent = "⚠ Username is required.";
+      valid = false;
+    }
+    if (!password) {
+      document.getElementById("passwordError").textContent = "⚠ Password is required.";
+      valid = false;
+    }
+    if (!valid) return;
+
+    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+      localStorage.setItem(ADMIN_AUTH_KEY, "true");
+      localStorage.setItem(ADMIN_INFO_KEY, JSON.stringify({ username: username, name: "Admin User" }));
+      window.location.href = "pages/dashboard.html";
+    } else {
+      document.getElementById("passwordError").textContent = "⚠ Incorrect username or password.";
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+/* ============================================
+   FAVORITES PAGE STYLES
+   File: css/favorites.css
+   ============================================ */
+
+/* ── Page header ── */
+.fav-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.fav-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fav-heart-icon {
+  color: var(--red);
+  font-size: 24px;
+  animation: heartbeat 1.6s ease infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.2);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.15);
+  }
+  56% {
+    transform: scale(1);
+  }
+}
+
+/* ── Clear all button ── */
+.clear-all-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.clear-all-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-bg);
+}
+
+/* ── Category filter tabs ── */
+.fav-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.fav-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-mid);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fav-tab:hover {
+  background: var(--cream);
+  color: var(--brown);
+}
+
+.fav-tab.active {
+  background: var(--brown);
+  color: var(--white);
+  border-color: var(--brown);
+}
+
+.fav-tab-count {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fav-tab.active .fav-tab-count {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Add to cart button on each card ── */
+.fav-add-to-cart {
+  display: block;
+  width: calc(100% - 24px);
+  margin: 0 12px 12px;
+  padding: 9px;
+  background: var(--cream);
+  border: 1.5px solid var(--brown-light);
+  border-radius: var(--radius-full);
+  color: var(--brown);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.fav-add-to-cart:hover {
+  background: var(--brown);
+  color: var(--white);
+  border-color: var(--brown);
+}
+
+/* ── Active heart icon styling on favorites page ── */
+.heart-btn.active {
+  color: var(--red);
+  background: var(--red-bg);
+}
+
+/* ── Active nav icon highlight (favorites icon in navbar) ── */
+.active-nav-icon {
+  color: var(--red) !important;
+}
+
+/* ── Empty state ── */
+.fav-empty {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.fav-empty-icon {
+  font-size: 64px;
+  color: var(--peach);
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.fav-empty-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.fav-empty-text {
+  font-size: 14px;
+  color: var(--text-light);
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+/* ── Logout / Clear modals (reuse profile modal styles) ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(60, 30, 10, 0.35);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(20px);
+  transition: transform 0.25s;
+}
+.modal-overlay.open .modal-box {
+  transform: translateY(0);
+}
+
+.modal-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+.modal-text {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .fav-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .fav-title {
+    font-size: 22px;
+  }
+  .modal-actions {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Products - AuringPh Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="admin-layout">
+      <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-brand">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            onerror="this.style.display = 'none'"
+          />
+          <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+        </div>
+        <nav class="admin-nav">
+          <a href="dashboard.html" class="admin-nav-link"
+            ><span class="nav-ico">📊</span> Dashboard</a
+          >
+          <a href="products.html" class="admin-nav-link"
+            ><span class="nav-ico">👕</span> Manage Products</a
+          >
+          <a href="admin-orders.html" class="admin-nav-link"
+            ><span class="nav-ico">📦</span> Manage Orders</a
+          >
+          <a href="users.html" class="admin-nav-link"
+            ><span class="nav-ico">👥</span> Manage Users</a
+          >
+          <a href="admin-messages.html" class="admin-nav-link"
+            ><span class="nav-ico">💬</span> Messages</a
+          >
+        </nav>
+        <div class="admin-sidebar-footer">
+          <button class="admin-logout-btn" data-admin-logout>🚪 Logout</button>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <div class="admin-topbar">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+            <div>
+              <h1>Manage Products</h1>
+              <div class="admin-sub">
+                <span id="productCountLabel">0 products</span>
+              </div>
+            </div>
+          </div>
+          <div class="admin-whoami">
+            <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+            <span id="adminWhoamiName">Admin</span>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <span aria-hidden="true">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search products..."
+            />
+          </div>
+          <div class="admin-filter-chips" id="categoryChips">
+            <div class="admin-chip active" data-cat="All">All</div>
+            <div class="admin-chip" data-cat="Shirts">Shirts</div>
+            <div class="admin-chip" data-cat="Shoes">Shoes</div>
+            <div class="admin-chip" data-cat="Pants">Pants</div>
+            <div class="admin-chip" data-cat="Others">Others</div>
+          </div>
+          <button class="btn-admin-primary" id="addProductBtn">
+            + Add Product
+          </button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="admin-pagination" id="productsPagination"></div>
+      </main>
+    </div>
+
+    <!-- ADD/EDIT MODAL -->
+    <div class="admin-modal-overlay" id="productModal">
+      <div class="admin-modal-box">
+        <h3 id="productModalTitle">Add Product</h3>
+        <form id="productForm">
+          <input type="hidden" id="productId" />
+          <div class="admin-form-group">
+            <label for="productName">Product Name</label>
+            <input
+              type="text"
+              id="productName"
+              placeholder="e.g. Classic White Tee"
+              required
+            />
+          </div>
+          <div class="modal-field-row">
+            <div class="admin-form-group">
+              <label for="productCategory">Category</label>
+              <select id="productCategory" required>
+                <option value="Shirts">Shirts</option>
+                <option value="Shoes">Shoes</option>
+                <option value="Pants">Pants</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label for="productBrand">Brand</label>
+              <input type="text" id="productBrand" placeholder="e.g. Nike" />
+            </div>
+          </div>
+          <div class="modal-field-row">
+            <div class="admin-form-group">
+              <label for="productPrice">Price (₱)</label>
+              <input
+                type="number"
+                id="productPrice"
+                min="0"
+                step="1"
+                placeholder="0"
+                required
+              />
+            </div>
+            <div class="admin-form-group">
+              <label for="productStock">Stock Qty</label>
+              <input
+                type="number"
+                id="productStock"
+                min="0"
+                step="1"
+                placeholder="0"
+                required
+              />
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label for="productImage">Image filename (optional)</label>
+            <input
+              type="text"
+              id="productImage"
+              placeholder="e.g. ../images/products/shirts/classic-tee.jpg"
+            />
+          </div>
+          <div class="admin-modal-actions">
+            <button
+              type="button"
+              class="modal-btn-cancel"
+              id="productModalCancel"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="modal-btn-save">Save Product</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div class="admin-modal-overlay" id="deleteModal">
+      <div class="admin-modal-box modal-sm">
+        <div class="modal-warning-icon">🗑️</div>
+        <h3 style="text-align: center">Delete this product?</h3>
+        <p class="modal-text">
+          This will permanently remove
+          <strong id="deleteProductName"></strong> from your catalog. This
+          action cannot be undone.
+        </p>
+        <div class="admin-modal-actions">
+          <button type="button" class="modal-btn-cancel" id="deleteModalCancel">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="modal-btn-danger"
+            id="deleteModalConfirm"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-toast" id="adminToast"></div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+      requireAdminAuth();
+      seedAdminData();
+
+      let products = JSON.parse(localStorage.getItem(ADMIN_PRODUCTS_KEY)) || [];
+      let activeCategory = "All";
+      let searchQuery = "";
+      let currentPage = 1;
+      const ITEMS_PER_PAGE = 6;
+      let deleteTargetId = null;
+
+      function saveProducts() {
+        localStorage.setItem(ADMIN_PRODUCTS_KEY, JSON.stringify(products));
+      }
+
+      function getFiltered() {
+        let list = [...products];
+        if (activeCategory !== "All")
+          list = list.filter((p) => p.category === activeCategory);
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          list = list.filter(
+            (p) =>
+              p.name.toLowerCase().includes(q) ||
+              (p.brand || "").toLowerCase().includes(q),
+          );
+        }
+        return list;
+      }
+
+      function renderTable() {
+        const filtered = getFiltered();
+        const totalPages = Math.max(
+          1,
+          Math.ceil(filtered.length / ITEMS_PER_PAGE),
+        );
+        if (currentPage > totalPages) currentPage = totalPages;
+        const pageItems = filtered.slice(
+          (currentPage - 1) * ITEMS_PER_PAGE,
+          currentPage * ITEMS_PER_PAGE,
+        );
+
+        document.getElementById("productCountLabel").textContent =
+          filtered.length + " product" + (filtered.length !== 1 ? "s" : "");
+
+        const tbody = document.getElementById("productsTableBody");
+        if (pageItems.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="6"><div class="empty-row-msg"><div class="empty-icon">🔍</div>No products found.</div></td></tr>';
+        } else {
+          tbody.innerHTML = pageItems
+            .map(
+              (p) =>
+                "<tr>" +
+                '<td><div class="cell-product">' +
+                '<img src="' +
+                (p.image || "../images/logo.png") +
+                '" alt="' +
+                p.name +
+                '" onerror="this.src=\'../images/logo.png\'">' +
+                '<div><div class="p-name">' +
+                p.name +
+                '</div><div class="p-sub">ID: ' +
+                p.id +
+                "</div></div>" +
+                "</div></td>" +
+                "<td>" +
+                p.category +
+                "</td>" +
+                "<td>" +
+                (p.brand || "—") +
+                "</td>" +
+                "<td>" +
+                pesos(p.price) +
+                "</td>" +
+                '<td style="color:' +
+                (p.stock <= 5 ? "var(--red)" : "var(--text-dark)") +
+                "; font-weight:" +
+                (p.stock <= 5 ? "700" : "400") +
+                '">' +
+                p.stock +
+                "</td>" +
+                '<td><div class="row-actions">' +
+                '<button class="btn-admin-sm edit" onclick="openEditModal(\'' +
+                p.id +
+                "')\">Edit</button>" +
+                '<button class="btn-admin-sm danger" onclick="openDeleteModal(\'' +
+                p.id +
+                "')\">Delete</button>" +
+                "</div></td>" +
+                "</tr>",
+            )
+            .join("");
+        }
+        renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        const el = document.getElementById("productsPagination");
+        if (totalPages <= 1) {
+          el.innerHTML = "";
+          return;
+        }
+        let html =
+          "<button " +
+          (currentPage === 1 ? "disabled" : "") +
+          ' onclick="goToPage(' +
+          (currentPage - 1) +
+          ')">←</button>';
+        for (let i = 1; i <= totalPages; i++)
+          html +=
+            '<button class="' +
+            (i === currentPage ? "active" : "") +
+            '" onclick="goToPage(' +
+            i +
+            ')">' +
+            i +
+            "</button>";
+        html +=
+          "<button " +
+          (currentPage === totalPages ? "disabled" : "") +
+          ' onclick="goToPage(' +
+          (currentPage + 1) +
+          ')">→</button>';
+        el.innerHTML = html;
+      }
+
+      window.goToPage = function (page) {
+        currentPage = page;
+        renderTable();
+      };
+
+      document
+        .querySelectorAll("#categoryChips .admin-chip")
+        .forEach((chip) => {
+          chip.addEventListener("click", () => {
+            document
+              .querySelectorAll("#categoryChips .admin-chip")
+              .forEach((c) => c.classList.remove("active"));
+            chip.classList.add("active");
+            activeCategory = chip.dataset.cat;
+            currentPage = 1;
+            renderTable();
+          });
+        });
+
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          searchQuery = this.value.trim();
+          currentPage = 1;
+          renderTable();
+        });
+
+      const productModal = document.getElementById("productModal");
+      const productForm = document.getElementById("productForm");
+
+      document.getElementById("addProductBtn").addEventListener("click", () => {
+        productForm.reset();
+        document.getElementById("productId").value = "";
+        document.getElementById("productModalTitle").textContent =
+          "Add Product";
+        productModal.classList.add("open");
+      });
+
+      window.openEditModal = function (id) {
+        const p = products.find((x) => x.id === id);
+        if (!p) return;
+        document.getElementById("productId").value = p.id;
+        document.getElementById("productName").value = p.name;
+        document.getElementById("productCategory").value = p.category;
+        document.getElementById("productBrand").value = p.brand || "";
+        document.getElementById("productPrice").value = p.price;
+        document.getElementById("productStock").value = p.stock;
+        document.getElementById("productImage").value = p.image || "";
+        document.getElementById("productModalTitle").textContent =
+          "Edit Product";
+        productModal.classList.add("open");
+      };
+
+      document
+        .getElementById("productModalCancel")
+        .addEventListener("click", () => productModal.classList.remove("open"));
+
+      productForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const id = document.getElementById("productId").value;
+        const name = document.getElementById("productName").value.trim();
+        const category = document.getElementById("productCategory").value;
+        const brand = document.getElementById("productBrand").value.trim();
+        const price = Number(document.getElementById("productPrice").value);
+        const stock = Number(document.getElementById("productStock").value);
+        const image = document.getElementById("productImage").value.trim();
+
+        if (id) {
+          Object.assign(
+            products.find((x) => x.id === id),
+            { name, category, brand, price, stock, image },
+          );
+          showAdminToast("Product updated successfully!");
+        } else {
+          products.push({
+            id: "p" + Date.now(),
+            name,
+            category,
+            brand,
+            price,
+            stock,
+            image,
+          });
+          showAdminToast("Product added successfully!");
+        }
+        saveProducts();
+        productModal.classList.remove("open");
+        renderTable();
+      });
+
+      const deleteModal = document.getElementById("deleteModal");
+
+      window.openDeleteModal = function (id) {
+        const p = products.find((x) => x.id === id);
+        if (!p) return;
+        deleteTargetId = id;
+        document.getElementById("deleteProductName").textContent = p.name;
+        deleteModal.classList.add("open");
+      };
+
+      document
+        .getElementById("deleteModalCancel")
+        .addEventListener("click", () => deleteModal.classList.remove("open"));
+
+      document
+        .getElementById("deleteModalConfirm")
+        .addEventListener("click", () => {
+          products = products.filter((x) => x.id !== deleteTargetId);
+          saveProducts();
+          deleteModal.classList.remove("open");
+          showAdminToast("Product deleted.");
+          renderTable();
+        });
+
+      renderTable();
+    </script>
+  </body>
+</html>

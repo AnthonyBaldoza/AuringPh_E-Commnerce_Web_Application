@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Cart - AuringPh</title>
+  <link rel="icon" href="../images/logo.png" type="image/png">
+  <meta name="description" content="AuringPh – Your shopping cart.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/cart.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ============ TOP NAVBAR ============ -->
+<header class="navbar">
+  <div class="container">
+    <a href="home.html" class="nav-logo">
+      <img src="../images/logo.png" alt="AuringPh Logo" class="nav-logo-img">
+    </a>
+
+    <nav class="nav-links">
+      <a href="home.html" class="nav-link">Home</a>
+      <a href="shirts.html" class="nav-link">Shirts</a>
+      <a href="shoes.html" class="nav-link">Shoes</a>
+      <a href="pants.html" class="nav-link">Pants</a>
+      <a href="others.html" class="nav-link">Others</a>
+    </nav>
+
+    <div class="nav-search">
+      <span aria-hidden="true">🔍</span>
+      <input type="text" placeholder="Search..." aria-label="Search products">
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-icon-btn active-nav-icon" aria-label="Shopping cart (current page)">
+        🛒<span class="badge-count" id="cartBadge">3</span>
+      </button>
+      <button class="nav-icon-btn" onclick="window.location.href='favorites.html'" aria-label="Favorites">
+        ♡<span class="badge-count" id="favCount">0</span>
+      </button>
+      <button class="nav-icon-btn" onclick="window.location.href='messages.html'" aria-label="Messages">
+        💬<span class="badge-count" id="msgCount">0</span>
+      </button>
+      <button class="nav-icon-btn" onclick="window.location.href='notifications.html'" aria-label="Notifications">
+        🔔<span class="badge-count" id="notifCount">0</span>
+      </button>
+      <div class="nav-avatar" onclick="window.location.href='profile.html'" aria-label="My Profile">AB</div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container page-section">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="home.html">Home</a> / <span class="current">My Cart</span>
+    </div>
+
+    <!-- Page header -->
+    <div class="cart-page-header">
+      <h1 class="cart-title">My Cart 🛒</h1>
+      <div class="item-count" id="cartCountLabel">3 items</div>
+    </div>
+
+    <div class="cart-layout">
+
+      <!-- ===== LEFT: Cart Items ===== -->
+      <div class="cart-items-section">
+
+        <!-- Select all row -->
+        <div class="cart-select-all-row">
+          <label class="cart-checkbox-label">
+            <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+            Select All (<span id="totalItemsCount">3</span> items)
+          </label>
+          <button class="delete-selected-btn" onclick="deleteSelected()">
+            🗑️ Delete Selected
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartList">
+            </div>
+
+        <!-- Empty state -->
+        <div class="cart-empty" id="cartEmpty" style="display:none">
+          <div class="cart-empty-icon">🛒</div>
+          <div class="cart-empty-title">Your cart is empty</div>
+          <div class="cart-empty-text">Add items from the shop to get started!</div>
+          <a href="home.html" class="btn-primary" style="display:inline-block; margin-top:20px; text-decoration:none; padding:12px 28px;">
+            Browse Products
+          </a>
+        </div>
+
+        <!-- Continue shopping -->
+        <a href="home.html" class="continue-shopping-link">← Continue Shopping</a>
+
+      </div>
+
+      <!-- ===== RIGHT: Order Summary ===== -->
+      <div class="cart-summary">
+
+        <div class="summary-title">Order Summary</div>
+
+        <!-- Promo code -->
+        <div class="promo-code-row">
+          <input type="text" class="promo-input" id="promoInput" placeholder="Enter promo code">
+          <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+        </div>
+        <div class="promo-feedback" id="promoFeedback"></div>
+
+        <!-- Summary breakdown -->
+        <div class="summary-breakdown">
+          <div class="summary-row">
+            <span>Subtotal (<span id="selectedCount">0</span> items)</span>
+            <span id="subtotalVal">₱0</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="shippingVal">₱0</span>
+          </div>
+          <div class="summary-row discount-row" id="discountRow" style="display:none">
+            <span>Promo Discount</span>
+            <span id="discountVal" style="color:var(--green)">-₱0</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span id="totalVal">₱0</span>
+          </div>
+        </div>
+
+        <!-- Free shipping notice -->
+        <div class="free-shipping-notice" id="freeShippingNotice" style="display:none">
+          🎉 You got <strong>FREE shipping!</strong>
+        </div>
+        <div class="shipping-progress-wrap" id="shippingProgressWrap">
+          <div class="shipping-progress-text" id="shippingProgressText">
+            Add <span id="amountToFree">₱1,000</span> more for free shipping!
+          </div>
+          <div class="shipping-progress-bar">
+            <div class="shipping-progress-fill" id="shippingProgressFill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <button class="btn-primary btn-checkout" onclick="checkout()">
+          Proceed to Checkout →
+        </button>
+
+        <!-- Accepted payments -->
+        <div class="payment-methods">
+          <div class="payment-label">We accept (tap to select):</div>
+          <div class="payment-icons" id="paymentChips">
+            <span class="payment-chip" data-method="gcash" onclick="selectPaymentChip(this)">GCash</span>
+            <span class="payment-chip" data-method="maya" onclick="selectPaymentChip(this)">Maya</span>
+            <span class="payment-chip" data-method="cod" onclick="selectPaymentChip(this)">COD</span>
+            <span class="payment-chip" data-method="card" onclick="selectPaymentChip(this)">Card</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ============ CHECKOUT MODAL ============ -->
+<div class="checkout-modal-overlay" id="checkoutModalOverlay" onclick="if(event.target===this) closeCheckoutModal()">
+  <div class="checkout-modal-box">
+
+    <!-- Step 1: choose / confirm payment -->
+    <div id="ccStepSelect">
+      <div class="checkout-modal-title">Confirm Your Order</div>
+      <div class="checkout-modal-subtitle">Choose how you'd like to pay</div>
+
+      <div class="checkout-summary-box">
+        <div class="checkout-summary-row">
+          <span>Items (<span id="ccItemCount">0</span>)</span>
+          <span id="ccSubtotal">₱0</span>
+        </div>
+        <div class="checkout-summary-row">
+          <span>Shipping</span>
+          <span id="ccShipping">₱0</span>
+        </div>
+        <div class="checkout-summary-row checkout-total-row">
+          <span>Total</span>
+          <span id="ccTotal">₱0</span>
+        </div>
+      </div>
+
+      <div class="checkout-section-label">Payment Method</div>
+      <div class="payment-options" id="ccPaymentOptions">
+        <div class="payment-option" data-method="gcash" onclick="selectPaymentOption(this)">
+          <span class="payment-emoji">📱</span> GCash
+        </div>
+        <div class="payment-option" data-method="maya" onclick="selectPaymentOption(this)">
+          <span class="payment-emoji">💳</span> Maya
+        </div>
+        <div class="payment-option" data-method="cod" onclick="selectPaymentOption(this)">
+          <span class="payment-emoji">💵</span> Cash on Delivery
+        </div>
+        <div class="payment-option" data-method="card" onclick="selectPaymentOption(this)">
+          <span class="payment-emoji">🏦</span> Debit / Credit Card
+        </div>
+      </div>
+
+      <div class="checkout-modal-actions">
+        <button class="btn-outline" onclick="closeCheckoutModal()">Cancel</button>
+        <button class="btn-primary" id="ccConfirmBtn" onclick="confirmCheckout()">Confirm Order</button>
+      </div>
+    </div>
+
+    <!-- Step 2: processing -->
+    <div id="ccStepProcessing" style="display:none">
+      <div class="checkout-processing">
+        <div class="checkout-spinner"></div>
+        <div class="checkout-processing-title" id="ccProcessingTitle">Processing payment…</div>
+        <div class="checkout-processing-text" id="ccProcessingText">Please don't close this window.</div>
+      </div>
+    </div>
+
+    <!-- Step 3: success -->
+    <div id="ccStepSuccess" style="display:none">
+      <div class="checkout-success">
+        <div class="checkout-success-icon">✓</div>
+        <div class="checkout-success-title">Order Placed!</div>
+        <div class="checkout-success-text" id="ccSuccessText">Thank you for shopping with AuringPh.</div>
+        <div class="checkout-order-id" id="ccOrderId">#AP-000000</div>
+      </div>
+      <div class="checkout-modal-actions">
+        <button class="btn-outline" onclick="closeCheckoutModal()">Stay on Cart</button>
+        <button class="btn-primary" onclick="window.location.href='orders.html'">View My Orders</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="../images/logo.png" alt="AuringPh Logo" class="footer-logo-img">
+        AuringPh
+      </div>
+      <p>Your go-to online boutique for trendy shirts, shoes, pants, and accessories — proudly Filipino, made for every budget. Follow our Facebook page for the latest drops, restocks, and deals!</p>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-heading">Shop</div>
+      <nav class="footer-links" aria-label="Shop categories">
+        <a href="home.html">Home</a>
+        <a href="shirts.html">Shirts</a>
+        <a href="shoes.html">Shoes</a>
+        <a href="pants.html">Pants</a>
+        <a href="others.html">Others</a>
+      </nav>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-heading">My Account</div>
+      <nav class="footer-links" aria-label="My account">
+        <a href="profile.html">My Profile</a>
+        <a href="orders.html">My Orders</a>
+        <a href="favorites.html">My Favorites</a>
+        <a href="cart.html">My Cart</a>
+      </nav>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-heading">Connect with Us</div>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/auringph" target="_blank" rel="noopener noreferrer" aria-label="AuringPh on Facebook (opens in a new tab)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></svg>
+        </a>
+      </div>
+      <div class="footer-contact">
+        📍 Paranaque, Philippines<br>
+        ✉️ hello@auringph.com
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 AuringPh. All rights reserved. | A student project prototype.
+  </div>
+</footer>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bottom-nav">
+  <button class="bottom-nav-item" onclick="window.location.href='home.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z" stroke="currentColor" stroke-width="2"/></svg>
+    Home
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='favorites.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
+    Favorites
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='orders.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/></svg>
+    Orders
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='notifications.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2"/></svg>
+    Notif
+  </button>
+  <button class="bottom-nav-item" onclick="window.location.href='profile.html'">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+    Profile
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<script src="../js/script.js"></script>
+<script>
+  const FREE_SHIPPING_THRESHOLD = 1000;
+  const SHIPPING_FEE = 99;
+  let promoDiscount = 0;
+
+  // ── Load cart from localStorage and render items ──
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem('auringph_cart')) || [];
+    const cartList = document.getElementById('cartList');
+    cartList.innerHTML = '';
+
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.dataset.id    = item.id;
+      div.dataset.price = item.price;
+      div.innerHTML = `
+        <input type="checkbox" class="cart-item-check" onchange="updateSummary()">
+        <div class="cart-item-img">
+          <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+        </div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-sub">${item.category || ''}</div>
+          <div class="cart-item-price">₱${formatNum(item.price)}</div>
+        </div>
+        <div class="cart-item-controls">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(this,-1)" aria-label="Decrease quantity">−</button>
+            <span class="qty-value">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(this,1)" aria-label="Increase quantity">+</button>
+          </div>
+          <div class="cart-item-subtotal">₱${formatNum(item.price * item.qty)}</div>
+          <button class="cart-remove-btn" onclick="removeCartItem(this)" title="Remove" aria-label="Remove item">✕</button>
+        </div>`;
+      cartList.appendChild(div);
+    });
+
+    updateSummary();
+    checkCartEmpty();
+    syncNavBadges();
+  }
+
+  // ── Save current DOM state back to localStorage ──
+  function saveCart() {
+    const items = [];
+    document.querySelectorAll('.cart-item').forEach(item => {
+      items.push({
+        id:    item.dataset.id,
+        name:  item.querySelector('.cart-item-name').textContent,
+        price: parseFloat(item.dataset.price),
+        image: item.querySelector('img')?.src || '',
+        category: item.querySelector('.cart-item-sub')?.textContent || '',
+        qty:   parseInt(item.querySelector('.qty-value').textContent)
+      });
+    });
+    localStorage.setItem('auringph_cart', JSON.stringify(items));
+    syncNavBadges();
+  }
+
+  // ── Change quantity ──
+  function changeQty(btn, delta) {
+    const qtyEl = btn.parentElement.querySelector('.qty-value');
+    let qty = parseInt(qtyEl.textContent) + delta;
+    if (qty < 1) qty = 1;
+    if (qty > 99) qty = 99;
+    qtyEl.textContent = qty;
+    const item = btn.closest('.cart-item');
+    const price = parseFloat(item.dataset.price);
+    item.querySelector('.cart-item-subtotal').textContent = '₱' + formatNum(price * qty);
+    updateSummary();
+    saveCart();
+  }
+
+  // ── Remove single cart item ──
+  function removeCartItem(btn) {
+    const item = btn.closest('.cart-item');
+    item.style.transition = 'opacity 0.3s, transform 0.3s';
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(20px)';
+    setTimeout(() => {
+      item.remove();
+      updateSummary();
+      checkCartEmpty();
+      saveCart();
+    }, 300);
+    showToast('Item removed from cart');
+  }
+
+  // ── Select all toggle ──
+  function toggleSelectAll(masterCheckbox) {
+    document.querySelectorAll('.cart-item-check').forEach(cb => {
+      cb.checked = masterCheckbox.checked;
+    });
+    updateSummary();
+  }
+
+  // ── Delete selected ──
+  function deleteSelected() {
+    const checked = document.querySelectorAll('.cart-item-check:checked');
+    if (checked.length === 0) { showToast('No items selected!'); return; }
+    checked.forEach(cb => cb.closest('.cart-item').remove());
+    updateSummary();
+    checkCartEmpty();
+    saveCart();
+    showToast(checked.length + ' item(s) removed!');
+  }
+
+  // ── Update order summary ──
+  function updateSummary() {
+    const checkedItems = document.querySelectorAll('.cart-item-check:checked');
+    let subtotal = 0;
+
+    checkedItems.forEach(cb => {
+      const item  = cb.closest('.cart-item');
+      const price = parseFloat(item.dataset.price);
+      const qty   = parseInt(item.querySelector('.qty-value').textContent);
+      subtotal += price * qty;
+    });
+
+    const shipping = checkedItems.length === 0 ? 0
+      : subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+    const total = subtotal + shipping - promoDiscount;
+
+    document.getElementById('selectedCount').textContent  = checkedItems.length;
+    document.getElementById('subtotalVal').textContent    = '₱' + formatNum(subtotal);
+    document.getElementById('shippingVal').textContent    = shipping === 0 && subtotal > 0 ? 'FREE' : '₱' + formatNum(shipping);
+    document.getElementById('totalVal').textContent       = '₱' + formatNum(Math.max(0, total));
+
+    if (promoDiscount > 0) {
+      document.getElementById('discountRow').style.display = '';
+      document.getElementById('discountVal').textContent   = '-₱' + formatNum(promoDiscount);
+    }
+
+    if (subtotal >= FREE_SHIPPING_THRESHOLD && checkedItems.length > 0) {
+      document.getElementById('freeShippingNotice').style.display   = '';
+      document.getElementById('shippingProgressWrap').style.display = 'none';
+    } else {
+      document.getElementById('freeShippingNotice').style.display   = 'none';
+      document.getElementById('shippingProgressWrap').style.display = '';
+      const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
+      const pct       = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+      document.getElementById('amountToFree').textContent          = '₱' + formatNum(remaining);
+      document.getElementById('shippingProgressFill').style.width  = pct + '%';
+    }
+
+    const totalItems = document.querySelectorAll('.cart-item').length;
+    document.getElementById('cartBadge').textContent      = totalItems;
+    document.getElementById('cartCountLabel').textContent = totalItems + ' item' + (totalItems !== 1 ? 's' : '');
+    document.getElementById('totalItemsCount').textContent = totalItems;
+
+    const allChecks = document.querySelectorAll('.cart-item-check');
+    document.getElementById('selectAll').checked =
+      allChecks.length > 0 && checkedItems.length === allChecks.length;
+  }
+
+  // ── Apply promo code ──
+  function applyPromo() {
+    const code = document.getElementById('promoInput').value.trim().toUpperCase();
+    const feedbackEl = document.getElementById('promoFeedback');
+    const promoCodes = { 'AURING10': 100, 'SALE20': 200, 'WELCOME': 150 };
+
+    if (promoCodes[code]) {
+      promoDiscount = promoCodes[code];
+      feedbackEl.textContent = '✅ Promo applied! -₱' + promoDiscount;
+      feedbackEl.style.color = 'var(--green)';
+      updateSummary();
+      showToast('Promo code applied! 🎉');
+    } else {
+      feedbackEl.textContent = '⚠ Invalid promo code.';
+      feedbackEl.style.color = 'var(--red)';
+      promoDiscount = 0;
+      updateSummary();
+    }
+  }
+
+  // ── Payment method selection (chips in Order Summary) ──
+  let selectedPaymentMethod = null;
+
+  const PAYMENT_LABELS = {
+    gcash: 'GCash',
+    maya:  'Maya',
+    cod:   'Cash on Delivery',
+    card:  'Debit / Credit Card'
+  };
+
+  function selectPaymentChip(chip) {
+    const already = chip.classList.contains('selected');
+    document.querySelectorAll('#paymentChips .payment-chip').forEach(c => c.classList.remove('selected'));
+    if (already) {
+      selectedPaymentMethod = null;
+    } else {
+      chip.classList.add('selected');
+      selectedPaymentMethod = chip.dataset.method;
+      showToast(PAYMENT_LABELS[selectedPaymentMethod] + ' selected ✓');
+    }
+  }
+
+  function selectPaymentOption(opt) {
+    document.querySelectorAll('#ccPaymentOptions .payment-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    selectedPaymentMethod = opt.dataset.method;
+
+    // keep the small chips in the sidebar in sync
+    document.querySelectorAll('#paymentChips .payment-chip').forEach(c => {
+      c.classList.toggle('selected', c.dataset.method === selectedPaymentMethod);
+    });
+  }
+
+  // ── Checkout: open modal ──
+  function checkout() {
+    const checked = document.querySelectorAll('.cart-item-check:checked');
+    if (checked.length === 0) { showToast('Please select items to checkout!'); return; }
+    openCheckoutModal();
+  }
+
+  function openCheckoutModal() {
+    const checkedItems = document.querySelectorAll('.cart-item-check:checked');
+    let subtotal = 0;
+    checkedItems.forEach(cb => {
+      const item  = cb.closest('.cart-item');
+      const price = parseFloat(item.dataset.price);
+      const qty   = parseInt(item.querySelector('.qty-value').textContent);
+      subtotal += price * qty;
+    });
+    const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+    const total = Math.max(0, subtotal + shipping - promoDiscount);
+
+    document.getElementById('ccItemCount').textContent = checkedItems.length;
+    document.getElementById('ccSubtotal').textContent   = '₱' + formatNum(subtotal);
+    document.getElementById('ccShipping').textContent   = shipping === 0 ? 'FREE' : '₱' + formatNum(shipping);
+    document.getElementById('ccTotal').textContent      = '₱' + formatNum(total);
+
+    // reset to step 1 and reflect any already-selected payment chip
+    document.getElementById('ccStepSelect').style.display     = '';
+    document.getElementById('ccStepProcessing').style.display = 'none';
+    document.getElementById('ccStepSuccess').style.display    = 'none';
+    document.querySelectorAll('#ccPaymentOptions .payment-option').forEach(o => {
+      o.classList.toggle('selected', o.dataset.method === selectedPaymentMethod);
+    });
+
+    document.getElementById('checkoutModalOverlay').classList.add('open');
+  }
+
+  function closeCheckoutModal() {
+    document.getElementById('checkoutModalOverlay').classList.remove('open');
+  }
+
+  // ── Checkout: confirm + simulate realistic payment flow ──
+  function confirmCheckout() {
+    if (!selectedPaymentMethod) {
+      showToast('Please choose a payment method!');
+      return;
+    }
+
+    document.getElementById('ccStepSelect').style.display     = 'none';
+    document.getElementById('ccStepProcessing').style.display = '';
+
+    const processingCopy = {
+      gcash: { title: 'Connecting to GCash…',        text: 'Confirm the payment on your GCash app.' },
+      maya:  { title: 'Connecting to Maya…',          text: 'Confirm the payment on your Maya app.' },
+      card:  { title: 'Processing card payment…',     text: 'Verifying your card with the bank.' },
+      cod:   { title: 'Confirming your order…',       text: 'Setting up Cash on Delivery.' }
+    }[selectedPaymentMethod];
+
+    document.getElementById('ccProcessingTitle').textContent = processingCopy.title;
+    document.getElementById('ccProcessingText').textContent  = processingCopy.text;
+
+    // simulate network/payment gateway delay
+    const delay = selectedPaymentMethod === 'cod' ? 900 : 1800;
+    setTimeout(() => completeCheckout(), delay);
+  }
+
+  function completeCheckout() {
+    const orderId = '#AP-' + Math.floor(100000 + Math.random() * 900000);
+    const methodLabel = PAYMENT_LABELS[selectedPaymentMethod];
+
+    document.getElementById('ccOrderId').textContent = orderId;
+    document.getElementById('ccSuccessText').textContent =
+      selectedPaymentMethod === 'cod'
+        ? 'Your order is confirmed. Pay ' + document.getElementById('ccTotal').textContent + ' in cash when it arrives.'
+        : 'Paid via ' + methodLabel + '. Thank you for shopping with AuringPh!';
+
+    document.getElementById('ccStepProcessing').style.display = 'none';
+    document.getElementById('ccStepSuccess').style.display    = '';
+
+    // remove the purchased items from the cart
+    document.querySelectorAll('.cart-item-check:checked').forEach(cb => cb.closest('.cart-item').remove());
+    saveCart();
+    updateSummary();
+    checkCartEmpty();
+
+    showToast('Order placed! 🎉');
+  }
+
+  // ── Check if cart is empty ──
+  function checkCartEmpty() {
+    const items = document.querySelectorAll('.cart-item');
+    document.getElementById('cartList').style.display                    = items.length ? '' : 'none';
+    document.getElementById('cartEmpty').style.display                   = items.length ? 'none' : 'flex';
+    document.querySelector('.cart-select-all-row').style.display         = items.length ? '' : 'none';
+    document.querySelector('.continue-shopping-link').style.display      = items.length ? '' : 'none';
+  }
+
+  // ── Format number ──
+  function formatNum(n) {
+    return n.toLocaleString('en-PH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  // ── Init ──
+  loadCart();
+  syncNavBadges();
+</script>
+
+</body>
+</html>

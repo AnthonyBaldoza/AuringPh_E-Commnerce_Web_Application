@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — AuringPh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brown:      #A0522D;
+    --brown-dark: #7a3e20;
+    --peach:      #F5B99A;
+    --peach-light:#FAD9C5;
+    --cream:      #FDF5EE;
+    --text-dark:  #1a1208;
+    --text-mid:   #7a5c48;
+    --text-light: #a8876f;
+    --border:     #e8d5c8;
+    --white:      #ffffff;
+    --red:        #d94f4f;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ── LAYOUT ── */
+  .page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── LEFT: EDITORIAL PANEL ── */
+  .panel-left {
+    position: relative;
+    background: #1a1208;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 56px 52px;
+    overflow: hidden;
+  }
+
+  .panel-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(160,82,45,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(245,185,154,0.18) 0%, transparent 55%);
+    z-index: 1;
+  }
+
+  .panel-left-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.38;
+    mix-blend-mode: luminosity;
+  }
+
+  .panel-left-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .brand-mark {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 64px;
+  }
+
+  .brand-mark-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .brand-mark-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--peach-light);
+  }
+
+  .panel-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 3.8vw, 52px);
+    font-weight: 700;
+    line-height: 1.12;
+    color: var(--white);
+    margin-bottom: 18px;
+    max-width: 400px;
+  }
+
+  .panel-headline em {
+    font-style: italic;
+    color: var(--peach);
+  }
+
+  .panel-sub {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.55);
+    max-width: 340px;
+    margin-bottom: 44px;
+    font-weight: 300;
+  }
+
+  .panel-pills { display: flex; flex-direction: column; gap: 10px; }
+
+  .panel-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+  }
+
+  .pill-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--peach);
+    flex-shrink: 0;
+  }
+
+  /* ── RIGHT: FORM PANEL ── */
+  .panel-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 40px;
+    background: var(--cream); /* 👈 was var(--white) — changed so it still shows when printed */
+  }
+
+  .form-wrap { width: 100%; max-width: 380px; }
+
+  .form-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--peach);
+    margin-bottom: 10px;
+  }
+
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .form-sub {
+    font-size: 13.5px;
+    color: var(--text-light);
+    margin-bottom: 36px;
+  }
+
+  /* Bottom-border inputs */
+  .field-group { margin-bottom: 24px; }
+
+  .field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+
+  .field-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid var(--border);
+    border-radius: 0;
+    padding: 10px 0;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background: transparent;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .field-input::placeholder { color: #d4bfb3; }
+  .field-input:focus { border-bottom-color: var(--brown); }
+  .field-input.is-error { border-bottom-color: var(--red); }
+
+  .field-error {
+    display: block;
+    font-size: 11.5px;
+    color: var(--red);
+    margin-top: 5px;
+    min-height: 16px;
+  }
+
+  .pass-wrap { position: relative; }
+  .pass-wrap .field-input { padding-right: 32px; }
+
+  .toggle-pass {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0;
+    color: var(--text-light);
+  }
+
+  .options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text-mid);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-label input { accent-color: var(--brown); width: 14px; height: 14px; }
+
+  .forgot-link {
+    font-size: 13px;
+    color: var(--brown);
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .forgot-link:hover { opacity: 0.7; }
+
+  /* Shimmer login button — the signature */
+  .btn-login {
+    width: 100%;
+    padding: 15px 0;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--white);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(110deg, var(--brown-dark) 0%, var(--brown) 50%, #c8703a 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    transition: background-position 0.55s ease, transform 0.15s;
+    margin-bottom: 20px;
+  }
+
+  .btn-login:hover { background-position: 0% 0; }
+  .btn-login:active { transform: scale(0.99); }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  .divider-text {
+    font-size: 11px;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .btn-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 0;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 28px;
+  }
+
+  .btn-google:hover { border-color: #bbb; background: #fafafa; }
+
+  .google-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #4285F4;
+    color: white;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .form-footer {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+  }
+
+  .form-footer a { color: var(--brown); font-weight: 600; }
+  .form-footer a:hover { opacity: 0.7; }
+
+  .social-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .social-row a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-light);
+    transition: color 0.2s;
+  }
+
+  .social-row a:hover { color: var(--brown); }
+  .social-row svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* Admin stamp */
+  .admin-stamp {
+    display: flex;
+    justify-content: center;
+    padding-top: 18px;
+    border-top: 1px solid #f0e8e2;
+  }
+
+  .admin-stamp a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #c2a898;
+    transition: color 0.2s;
+  }
+
+  .admin-stamp a:hover { color: var(--brown); }
+
+  .stamp-box {
+    width: 20px; height: 20px;
+    border: 1.5px solid currentColor;
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--text-dark);
+    color: var(--white);
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .page { grid-template-columns: 1fr; }
+    .panel-left { padding: 40px 32px 36px; min-height: 260px; justify-content: flex-end; }
+    .brand-mark { margin-bottom: 24px; }
+    .panel-headline { font-size: 26px; margin-bottom: 0; }
+    .panel-sub, .panel-pills { display: none; }
+    .panel-right { padding: 40px 24px 48px; }
+  }
+
+  @media (max-width: 480px) {
+    .panel-left { min-height: 200px; padding: 28px 24px; }
+    .panel-headline { font-size: 22px; }
+  }
+
+  /* ── PRINT ── */
+  /* Browsers skip background colors by default when printing
+     (to save ink). This forces them to actually show up, so the
+     page won't look like a blank sheet. */
+  @media print {
+    body, .panel-right {
+      background: var(--cream) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .panel-left {
+      background: #1a1208 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ══ LEFT PANEL ══ -->
+  <div class="panel-left">
+    <img src="images/auth-banner.jpg" alt="" class="panel-left-bg" onerror="this.style.display='none'">
+    <div class="panel-left-content">
+      <div class="brand-mark">
+        <img src="images/logo.png" alt="AuringPh" class="brand-mark-logo" onerror="this.style.display='none'">
+        <span class="brand-mark-name">AuringPh</span>
+      </div>
+      <h1 class="panel-headline">
+        Dress the way<br>you want to be <em>seen.</em>
+      </h1>
+      <p class="panel-sub">
+        Shirts, shoes, pants, and accessories — curated for every style and every budget. Proudly Filipino.
+      </p>
+      <div class="panel-pills">
+        <div class="panel-pill"><span class="pill-dot"></span> Premium quality clothing</div>
+        <div class="panel-pill"><span class="pill-dot"></span> Fast delivery nationwide</div>
+        <div class="panel-pill"><span class="pill-dot"></span> Exclusive member deals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RIGHT PANEL ══ -->
+  <div class="panel-right">
+    <div class="form-wrap">
+
+      <div class="form-eyebrow">Member Login</div>
+      <h2 class="form-title">Welcome back</h2>
+      <p class="form-sub">Sign in to continue shopping</p>
+
+      <form id="login-form" novalidate>
+
+        <div class="field-group">
+          <label class="field-label" for="login-email">Email Address</label>
+          <input class="field-input" type="email" id="login-email"
+                 placeholder="your@email.com" required autocomplete="email">
+          <span class="field-error" id="email-error"></span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="login-pass">Password</label>
+          <div class="pass-wrap">
+            <input class="field-input" type="password" id="login-pass"
+                   placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="toggle-pass" onclick="togglePass()">👁</button>
+          </div>
+          <span class="field-error" id="pass-error"></span>
+        </div>
+
+        <div class="options-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberMe"> Remember me
+          </label>
+          <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-login">Log In</button>
+      </form>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">or</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="btn-google" onclick="showToast('Google login coming soon!')">
+        <span class="google-dot">G</span> Continue with Google
+      </button>
+
+      <div class="form-footer">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </div>
+
+      <div class="social-row">
+        <a href="https://www.facebook.com/auringph" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></svg>
+          Follow us on Facebook
+        </a>
+      </div>
+
+      <div class="admin-stamp">
+        <a href="login.html">
+          <span class="stamp-box">⚙</span>
+          Admin Panel
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/script.js"></script>
+<script>
+  function togglePass() {
+    const input = document.getElementById('login-pass');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pass  = document.getElementById('login-pass').value;
+    let valid = true;
+
+    document.getElementById('email-error').textContent = '';
+    document.getElementById('pass-error').textContent = '';
+    document.getElementById('login-email').classList.remove('is-error');
+    document.getElementById('login-pass').classList.remove('is-error');
+
+    if (!email) {
+      document.getElementById('email-error').textContent = 'Email is required.';
+      document.getElementById('login-email').classList.add('is-error');
+      valid = false;
+    }
+    if (!pass) {
+      document.getElementById('pass-error').textContent = 'Password is required.';
+      document.getElementById('login-pass').classList.add('is-error');
+      valid = false;
+    }
+    if (!valid) return;
+
+    // Check against the account actually created at signup.
+    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+
+    if (!storedUser || storedUser.email !== email || storedUser.password !== pass) {
+      document.getElementById('pass-error').textContent = 'Incorrect email or password.';
+      document.getElementById('login-pass').classList.add('is-error');
+      return;
+    }
+
+    // Mark the session as logged in so profile.js (and other guarded
+    // pages) recognize the user instead of bouncing back here.
+    localStorage.setItem('isLoggedIn', 'true');
+
+    showToast('Logging you in…');
+    setTimeout(() => window.location.href = 'pages/home.html', 1200);
+  });
+</script>
+</body>
+</html>

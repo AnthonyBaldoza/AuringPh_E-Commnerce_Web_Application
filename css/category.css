@@ -1,0 +1,421 @@
+/* ============================================
+   CATEGORY / PRODUCT LISTING PAGES
+   (Shirts, Shoes, Pants, Others)
+   ============================================ */
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.breadcrumb a {
+  color: var(--text-light);
+}
+
+.breadcrumb a:hover {
+  color: var(--brown);
+}
+
+.breadcrumb .current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* ===== PAGE TITLE ROW ===== */
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.category-header h1 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.category-header .item-count {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Sort dropdown */
+.sort-select {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white);
+  cursor: pointer;
+  outline: none;
+}
+
+/* ===== LAYOUT: SIDEBAR + GRID ===== */
+.category-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+}
+
+/* ===== SIDEBAR FILTERS ===== */
+.filter-sidebar {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--navbar-height) + 24px);
+}
+
+.filter-group {
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #f0e4dc;
+}
+
+.filter-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.filter-group-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+/* Checkbox filter list (brands, etc) */
+.filter-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.filter-checkbox-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brown);
+  cursor: pointer;
+}
+
+.filter-checkbox-row:hover {
+  color: var(--text-dark);
+}
+
+/* Size grid (for shoes/pants) */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.size-chip {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-mid);
+  cursor: pointer;
+  background: var(--white);
+  transition: all 0.2s;
+}
+
+.size-chip.active {
+  background: var(--brown);
+  color: var(--white);
+  border-color: var(--brown);
+}
+
+.size-chip:hover:not(.active) {
+  border-color: var(--brown);
+}
+
+/* Price range inputs */
+.price-range-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-range-row input {
+  width: 100%;
+  height: 38px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0 10px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+}
+
+.price-range-row input:focus {
+  border-color: var(--brown);
+}
+
+.filter-apply-btn {
+  width: 100%;
+  background: var(--brown);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
+  font-family: var(--font-body);
+}
+
+/* ===== PROMO STRIP (small banner inside listing) ===== */
+.promo-strip {
+  background: var(--brown);
+  border-radius: var(--radius);
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--white);
+}
+
+.promo-strip-text {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.promo-strip-sub {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.promo-strip-btn {
+  background: var(--white);
+  color: var(--brown);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  flex-shrink: 0;
+}
+
+/* ===== Product grid for category pages: 3 columns ===== */
+.category-layout .product-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ===== PAGINATION ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 36px;
+}
+
+.page-btn {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--text-mid);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+}
+
+.page-btn.active {
+  background: var(--brown);
+  color: var(--white);
+  border-color: var(--brown);
+}
+
+.page-btn:hover:not(.active) {
+  border-color: var(--brown);
+  color: var(--brown);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablet: 2-column product grid, sidebar still visible */
+@media (max-width: 1024px) {
+  .category-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+  }
+
+  .category-layout .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .category-header h1 {
+    font-size: 26px;
+  }
+}
+
+/* Mobile: sidebar becomes a collapsible/horizontal filter bar above grid */
+@media (max-width: 768px) {
+  .category-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    position: static;
+    display: none; /* hidden by default on mobile; toggle button shows it */
+  }
+
+  .filter-sidebar.open {
+    display: block;
+  }
+
+  .category-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .category-header h1 {
+    font-size: 22px;
+  }
+
+  .mobile-filter-toggle {
+    display: flex;
+  }
+}
+
+/* Hide mobile filter button on desktop */
+.mobile-filter-toggle {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-bottom: 16px;
+}
+/* ============================================
+   PRODUCT BADGE (NEW, SALE, BESTSELLER)
+   Added for shoes page — works on all category pages
+   ============================================ */
+
+/* Badge sits on top-left of the product image */
+.product-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--brown);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Red version for SALE badge */
+.sale-badge {
+  background: var(--red);
+}
+
+/* ============================================
+   SALE PRICE (original price with strikethrough)
+   ============================================ */
+
+/* Wrapper so price + original sit side by side */
+.price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+/* Strikethrough original price */
+.product-price-original {
+  font-size: 12px;
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+
+/* ============================================
+   SUBCATEGORY TABS (for Others page)
+   ============================================ */
+
+.subcategory-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.subcategory-tab {
+  padding: 7px 18px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--brown-light);
+  background: transparent;
+  color: var(--brown);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subcategory-tab:hover {
+  background: var(--cream);
+}
+
+.subcategory-tab.active {
+  background: var(--brown);
+  color: var(--white);
+  border-color: var(--brown);
+}
+
+/* ── Add to Cart button on product cards ── */
+.btn-add-cart {
+  width: 100%;
+  margin-top: 10px;
+  padding: 9px 0;
+  background: var(--brown);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add-cart:hover {
+  background: var(--brown-dark);
+}

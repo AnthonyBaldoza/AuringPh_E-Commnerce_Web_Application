@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pants - AuringPh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/category.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="navbar">
+      <div class="container">
+        <a href="home.html" class="nav-logo">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            class="nav-logo-img"
+          />
+        </a>
+        <nav class="nav-links">
+          <a href="home.html" class="nav-link">Home</a>
+          <a href="shirts.html" class="nav-link">Shirts</a>
+          <a href="shoes.html" class="nav-link">Shoes</a>
+          <a href="pants.html" class="nav-link active">Pants</a>
+          <a href="others.html" class="nav-link">Others</a>
+        </nav>
+        <div class="nav-search">
+          <span aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search pants..."
+            aria-label="Search pants"
+          />
+        </div>
+        <div class="nav-actions">
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'cart.html'"
+            aria-label="Shopping cart"
+          >
+            🛒<span class="badge-count" id="cartCount">2</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'favorites.html'"
+            aria-label="Favorites"
+          >
+            ♡<span class="badge-count">6</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'messages.html'"
+            aria-label="Messages"
+          >
+            💬<span class="badge-count" id="msgCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'notifications.html'"
+            aria-label="Notifications"
+          >
+            🔔<span class="badge-count">3</span>
+          </button>
+          <div
+            class="nav-avatar"
+            onclick="window.location.href = 'profile.html'"
+            aria-label="My Profile"
+          >
+            AB
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="container page-section">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a href="home.html">Home</a> / <span class="current">Pants</span>
+        </div>
+
+        <!-- Page title + sort -->
+        <div class="category-header">
+          <div>
+            <h1>Pants</h1>
+            <div class="item-count" id="itemCount">24 items</div>
+          </div>
+          <select class="sort-select" id="sortSelect">
+            <option value="featured">Sort by: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+
+        <!-- Mobile-only filter toggle -->
+        <button
+          class="mobile-filter-toggle"
+          onclick="
+            document.querySelector('.filter-sidebar').classList.toggle('open')
+          "
+        >
+          ⚙️ Filters
+        </button>
+
+        <div class="category-layout">
+          <!-- ===== SIDEBAR FILTERS ===== -->
+          <aside class="filter-sidebar">
+            <div class="filter-group">
+              <div class="filter-group-title">Brand</div>
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  id="brand-all"
+                  checked
+                  onchange="onBrandAllChange(this)"
+                />
+                All Brands</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="Bershka"
+                  onchange="onBrandChange()"
+                />
+                Bershka</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="Levi's"
+                  onchange="onBrandChange()"
+                />
+                Levi's</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="A.P.C."
+                  onchange="onBrandChange()"
+                />
+                A.P.C.</label
+              >
+              <label class="filter-checkbox-row"
+                ><input
+                  type="checkbox"
+                  class="brand-cb"
+                  value="LEE"
+                  onchange="onBrandChange()"
+                />
+                LEE</label
+              >
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Size</div>
+              <div class="size-grid">
+                <div class="size-chip" onclick="setActiveSize(this)">XS</div>
+                <div class="size-chip" onclick="setActiveSize(this)">S</div>
+                <div class="size-chip" onclick="setActiveSize(this)">M</div>
+                <div class="size-chip active" onclick="setActiveSize(this)">
+                  L
+                </div>
+                <div class="size-chip" onclick="setActiveSize(this)">XL</div>
+                <div class="size-chip" onclick="setActiveSize(this)">XXL</div>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Price Range</div>
+              <div class="price-range-row">
+                <input type="number" id="priceMin" placeholder="Min" />
+                <span>-</span>
+                <input type="number" id="priceMax" placeholder="Max" />
+              </div>
+              <button class="filter-apply-btn" onclick="applyFilters()">
+                Apply Filters
+              </button>
+            </div>
+          </aside>
+
+          <!-- ===== MAIN CONTENT ===== -->
+          <div>
+            <!-- Promo strip -->
+            <div class="promo-strip">
+              <div>
+                <div class="promo-strip-text">New Denim Drop!</div>
+                <div class="promo-strip-sub">
+                  Fresh fits just arrived this week
+                </div>
+              </div>
+              <button
+                class="promo-strip-btn"
+                onclick="showToast('Promo applied at checkout!')"
+              >
+                Shop
+              </button>
+            </div>
+
+            <!-- Product grid -->
+            <div class="product-grid" id="productGrid"></div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img
+              src="../images/logo.png"
+              alt="AuringPh Logo"
+              class="footer-logo-img"
+            />
+            AuringPh
+          </div>
+          <p>
+            Your go-to online boutique for trendy shirts, shoes, pants, and
+            accessories — proudly Filipino, made for every budget. Follow our
+            Facebook page for the latest drops, restocks, and deals!
+          </p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Shop</div>
+          <nav class="footer-links" aria-label="Shop categories">
+            <a href="home.html">Home</a>
+            <a href="shirts.html">Shirts</a>
+            <a href="shoes.html">Shoes</a>
+            <a href="pants.html">Pants</a>
+            <a href="others.html">Others</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">My Account</div>
+          <nav class="footer-links" aria-label="My account">
+            <a href="profile.html">My Profile</a>
+            <a href="orders.html">My Orders</a>
+            <a href="favorites.html">My Favorites</a>
+            <a href="cart.html">My Cart</a>
+          </nav>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Connect with Us</div>
+          <div class="footer-social">
+            <a
+              href="https://www.facebook.com/auringph"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="AuringPh on Facebook (opens in a new tab)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="footer-contact">
+            📍 Paranaque, Philippines<br />
+            ✉️ hello@auringph.com
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 AuringPh. All rights reserved. | A student project prototype.
+      </div>
+    </footer>
+
+    <!-- ============ BOTTOM NAV (Mobile Only) ============ -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'home.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Home
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'favorites.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Favorites
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'orders.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="3"
+            y1="6"
+            x2="21"
+            y2="6"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Orders
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'notifications.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Notif
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'profile.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Profile
+      </button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/script.js"></script>
+    <script>
+      // ============================================================
+      //  ALL PRODUCTS DATA — 24 items across 4 pages (6 per page)
+      //  Image filenames are under: ../images/products/pants/
+      // ============================================================
+      const ALL_PRODUCTS = [
+        // PAGE 1
+        {
+          id: 1,
+          name: "Baggy Cargo Jeans",
+          brand: "Bershka",
+          price: 650,
+          img: "baggy-cargo-jeans.jpg",
+          isNew: false,
+        },
+        {
+          id: 2,
+          name: "Levi's Vintage Clothing 501 XX Denim",
+          brand: "Levi's",
+          price: 650,
+          img: "levis-501.jpg",
+          isNew: false,
+        },
+        {
+          id: 3,
+          name: "Veronica Trousers Camel Wide-Leg",
+          brand: "A.P.C.",
+          price: 450,
+          img: "veronica-trousers.jpg",
+          isNew: false,
+        },
+        {
+          id: 4,
+          name: "LEE Men's 101+ Denim Pants Austin Fit",
+          brand: "LEE",
+          price: 500,
+          img: "lee-101.jpg",
+          isNew: false,
+        },
+        {
+          id: 5,
+          name: "Bershka Straight-Fit Wide-Leg Trousers",
+          brand: "Bershka",
+          price: 550,
+          img: "bershka-wideleg.jpg",
+          isNew: false,
+        },
+        {
+          id: 6,
+          name: "A.P.C. Petit New Standard Jeans",
+          brand: "A.P.C.",
+          price: 750,
+          img: "apc-petit-new-standard.jpg",
+          isNew: false,
+        },
+
+        // PAGE 2
+        {
+          id: 7,
+          name: "Levi's Wedgie Icon Fit Jeans",
+          brand: "Levi's",
+          price: 700,
+          img: "levis-wedgie.jpg",
+          isNew: true,
+        },
+        {
+          id: 8,
+          name: "Bershka Jogger Pants",
+          brand: "Bershka",
+          price: 420,
+          img: "bershka-jogger.jpg",
+          isNew: true,
+        },
+        {
+          id: 9,
+          name: "A.P.C. Jean de Travail",
+          brand: "A.P.C.",
+          price: 800,
+          img: "apc-jean-de-travail.jpg",
+          isNew: true,
+        },
+        {
+          id: 10,
+          name: "LEE Slim Fit Chino",
+          brand: "LEE",
+          price: 480,
+          img: "lee-slim.jpg",
+          isNew: false,
+        },
+        {
+          id: 11,
+          name: "Bershka Check Tailored Trousers",
+          brand: "Bershka",
+          price: 580,
+          img: "bershka-check-trousers.jpg",
+          isNew: true,
+        },
+        {
+          id: 12,
+          name: "Levi's 512 Slim Taper Jeans",
+          brand: "Levi's",
+          price: 620,
+          img: "levis-512.jpg",
+          isNew: false,
+        },
+
+        // PAGE 3
+        {
+          id: 13,
+          name: "A.P.C. Martin Jeans",
+          brand: "A.P.C.",
+          price: 760,
+          img: "apc-martin.jpg",
+          isNew: false,
+        },
+        {
+          id: 14,
+          name: "LEE Rider Slim Jeans",
+          brand: "LEE",
+          price: 520,
+          img: "lee-rider.jpg",
+          isNew: false,
+        },
+        {
+          id: 15,
+          name: "Bershka Linen Wide-Leg Pants",
+          brand: "Bershka",
+          price: 490,
+          img: "bershka-linen.jpg",
+          isNew: true,
+        },
+        {
+          id: 16,
+          name: "Levi's Ribcage Straight Ankle Jeans",
+          brand: "Levi's",
+          price: 680,
+          img: "levis-ribcage.jpg",
+          isNew: false,
+        },
+        {
+          id: 17,
+          name: "A.P.C. New Cure Jeans",
+          brand: "A.P.C.",
+          price: 820,
+          img: "apc-new-cure.jpg",
+          isNew: true,
+        },
+        {
+          id: 18,
+          name: "LEE Brooklyn Straight Fit",
+          brand: "LEE",
+          price: 510,
+          img: "lee-brooklyn.jpg",
+          isNew: false,
+        },
+
+        // PAGE 4
+        {
+          id: 19,
+          name: "Bershka Paperbag Waist Trousers",
+          brand: "Bershka",
+          price: 460,
+          img: "bershka-paperbag.jpg",
+          isNew: true,
+        },
+        {
+          id: 20,
+          name: "Levi's 724 High Rise Straight Jeans",
+          brand: "Levi's",
+          price: 710,
+          img: "levis-724.jpg",
+          isNew: false,
+        },
+        {
+          id: 21,
+          name: "A.P.C. Sailor Trousers",
+          brand: "A.P.C.",
+          price: 870,
+          img: "apc-sailor.jpg",
+          isNew: true,
+        },
+        {
+          id: 22,
+          name: "LEE Straight Fit Jeans",
+          brand: "LEE",
+          price: 530,
+          img: "lee-straight.jpg",
+          isNew: false,
+        },
+        {
+          id: 23,
+          name: "Bershka Velvet Wide-Leg Trousers",
+          brand: "Bershka",
+          price: 610,
+          img: "bershka-velvet.jpg",
+          isNew: true,
+        },
+        {
+          id: 24,
+          name: "Levi's Wedgie Straight Jeans",
+          brand: "Levi's",
+          price: 690,
+          img: "levis-wedgie-straight.jpg",
+          isNew: false,
+        },
+      ];
+
+      const ITEMS_PER_PAGE = 6;
+      let currentPage = 1;
+      let favorites = new Set();
+      let activeFilters = { brands: [], minPrice: null, maxPrice: null };
+
+      // ---- CART ----
+      let cart = JSON.parse(localStorage.getItem("auringph_cart")) || [];
+
+      function saveCart() {
+        localStorage.setItem("auringph_cart", JSON.stringify(cart));
+        if (typeof syncNavBadges === "function") syncNavBadges();
+      }
+
+      function addToCart(product) {
+        const existing = cart.find((x) => x.id === product.id);
+        if (existing) {
+          existing.qty++;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: `../images/products/pants/${product.img}`,
+            category: "Pants",
+            qty: 1,
+          });
+        }
+        saveCart();
+        showToast("Added to cart!");
+      }
+      window._addToCart = function (id) {
+        const p = ALL_PRODUCTS.find((x) => x.id === id);
+        if (p) addToCart(p);
+      };
+
+      // ---- FILTER LOGIC ----
+      function getFilteredProducts() {
+        let products = [...ALL_PRODUCTS];
+
+        // Brand filter
+        if (activeFilters.brands.length > 0) {
+          products = products.filter((p) =>
+            activeFilters.brands.includes(p.brand),
+          );
+        }
+
+        // Price filter
+        if (activeFilters.minPrice !== null) {
+          products = products.filter((p) => p.price >= activeFilters.minPrice);
+        }
+        if (activeFilters.maxPrice !== null) {
+          products = products.filter((p) => p.price <= activeFilters.maxPrice);
+        }
+
+        // Sort
+        const sort = document.getElementById("sortSelect").value;
+        if (sort === "price-asc") products.sort((a, b) => a.price - b.price);
+        if (sort === "price-desc") products.sort((a, b) => b.price - a.price);
+        if (sort === "newest") products.sort((a, b) => b.isNew - a.isNew);
+
+        return products;
+      }
+
+      function applyFilters() {
+        // Read brand checkboxes
+        const brandCbs = document.querySelectorAll(".brand-cb:checked");
+        activeFilters.brands = Array.from(brandCbs).map((cb) => cb.value);
+
+        // Read price
+        const minVal = document.getElementById("priceMin").value;
+        const maxVal = document.getElementById("priceMax").value;
+        activeFilters.minPrice = minVal ? parseInt(minVal) : null;
+        activeFilters.maxPrice = maxVal ? parseInt(maxVal) : null;
+
+        currentPage = 1;
+        renderPage();
+        showToast("Filters applied!");
+      }
+
+      // ---- BRAND CHECKBOX LOGIC ----
+      function onBrandAllChange(cb) {
+        if (cb.checked) {
+          document
+            .querySelectorAll(".brand-cb")
+            .forEach((c) => (c.checked = false));
+          activeFilters.brands = [];
+        }
+        applyFiltersQuiet();
+      }
+
+      function onBrandChange() {
+        const anyChecked =
+          document.querySelectorAll(".brand-cb:checked").length > 0;
+        document.getElementById("brand-all").checked = !anyChecked;
+        activeFilters.brands = Array.from(
+          document.querySelectorAll(".brand-cb:checked"),
+        ).map((cb) => cb.value);
+        currentPage = 1;
+        renderPage();
+      }
+
+      function applyFiltersQuiet() {
+        currentPage = 1;
+        renderPage();
+      }
+
+      // ---- SIZE CHIP ----
+      function setActiveSize(el) {
+        document
+          .querySelectorAll(".size-chip")
+          .forEach((c) => c.classList.remove("active"));
+        el.classList.add("active");
+      }
+
+      // ---- HEART TOGGLE ----
+      function toggleHeart(btn, id) {
+        if (favorites.has(id)) {
+          favorites.delete(id);
+          btn.textContent = "♡";
+          btn.classList.remove("active");
+          showToast("Removed from favorites");
+        } else {
+          favorites.add(id);
+          btn.textContent = "♥";
+          btn.classList.add("active");
+          showToast("Added to favorites!");
+        }
+      }
+
+      // ---- SEARCH ----
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          currentPage = 1;
+          renderPage();
+        });
+
+      function getSearchedProducts(products) {
+        const q = document
+          .getElementById("searchInput")
+          .value.trim()
+          .toLowerCase();
+        if (!q) return products;
+        return products.filter(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.brand.toLowerCase().includes(q),
+        );
+      }
+
+      // ---- RENDER ----
+      function renderPage() {
+        let products = getFilteredProducts();
+        products = getSearchedProducts(products);
+
+        const total = products.length;
+        const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const pageItems = products.slice(start, start + ITEMS_PER_PAGE);
+
+        // Update count
+        document.getElementById("itemCount").textContent =
+          `${total} item${total !== 1 ? "s" : ""}`;
+
+        // Render cards
+        const grid = document.getElementById("productGrid");
+        if (pageItems.length === 0) {
+          grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#999;">No products found. Try adjusting your filters.</div>`;
+        } else {
+          grid.innerHTML = pageItems
+            .map(
+              (p) => `
+      <div class="product-card" onclick="showToast('Product detail page coming soon!')">
+        <div class="product-img">
+          <img src="../images/products/pants/${p.img}" alt="${p.name}"
+               onerror="this.parentElement.style.background='#f0ebe5';this.style.display='none'">
+        </div>
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-sub">${p.brand}</div>
+          <div class="product-bottom">
+            <span class="product-price">₱${p.price.toLocaleString()}</span>
+            <button class="heart-btn ${favorites.has(p.id) ? "active" : ""}"
+              onclick="event.stopPropagation(); toggleHeart(this, ${p.id})"
+              aria-label="Add to favorites">${favorites.has(p.id) ? "♥" : "♡"}</button>
+          </div>
+          <button class="btn-add-cart" onclick="event.stopPropagation(); window._addToCart(${p.id})">Add to Cart</button>
+        </div>
+      </div>
+    `,
+            )
+            .join("");
+        }
+
+        // Render pagination
+        renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        const pg = document.getElementById("pagination");
+
+        let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>←</button>`;
+
+        for (let i = 1; i <= totalPages; i++) {
+          html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="goToPage(${i})">${i}</button>`;
+        }
+
+        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>→</button>`;
+
+        pg.innerHTML = html;
+      }
+
+      function goToPage(page) {
+        const products = getSearchedProducts(getFilteredProducts());
+        const totalPages = Math.max(
+          1,
+          Math.ceil(products.length / ITEMS_PER_PAGE),
+        );
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Sort change
+      document
+        .getElementById("sortSelect")
+        .addEventListener("change", function () {
+          currentPage = 1;
+          renderPage();
+        });
+
+      // ---- INIT ----
+      renderPage();
+    </script>
+    <script>
+      syncNavBadges();
+    </script>
+  </body>
+</html>

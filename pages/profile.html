@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile - AuringPh</title>
+    <link rel="icon" href="../images/logo.png" type="image/png" />
+    <meta
+      name="description"
+      content="AuringPh – Manage your profile and account settings."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="navbar">
+      <div class="container">
+        <a href="home.html" class="nav-logo">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            class="nav-logo-img"
+          />
+        </a>
+
+        <nav class="nav-links">
+          <a href="home.html" class="nav-link">Home</a>
+          <a href="shirts.html" class="nav-link">Shirts</a>
+          <a href="shoes.html" class="nav-link">Shoes</a>
+          <a href="pants.html" class="nav-link">Pants</a>
+          <a href="others.html" class="nav-link">Others</a>
+        </nav>
+
+        <div class="nav-search">
+          <span aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            placeholder="Search..."
+            aria-label="Search products"
+          />
+        </div>
+
+        <div class="nav-actions">
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'cart.html'"
+            aria-label="Shopping cart"
+          >
+            🛒<span class="badge-count" id="cartCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'favorites.html'"
+            aria-label="Favorites"
+          >
+            ♡<span class="badge-count" id="favCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'messages.html'"
+            aria-label="Messages"
+          >
+            💬<span class="badge-count" id="msgCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'notifications.html'"
+            aria-label="Notifications"
+          >
+            🔔<span class="badge-count" id="notifCount">0</span>
+          </button>
+          <div
+            class="nav-avatar active-avatar"
+            aria-label="My Profile (current page)"
+          >
+            AB
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="container page-section">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a href="home.html">Home</a> / <span class="current">My Profile</span>
+        </div>
+
+        <div class="profile-layout">
+          <!-- ===== LEFT: Profile Card ===== -->
+          <aside class="profile-sidebar">
+            <!-- Avatar + name -->
+            <div class="profile-card">
+              <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="profileAvatar">AB</div>
+                <!-- If user has photo, show <img> instead of initials -->
+                <!-- <img src="../images/profile.jpg" alt="Profile Photo" class="profile-avatar-img"> -->
+                <label class="profile-avatar-edit" title="Change photo">
+                  ✏️
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style="display: none"
+                    onchange="handleProfilePhoto(this)"
+                  />
+                </label>
+              </div>
+              <div class="profile-name">Anthony Baldoza</div>
+              <div class="profile-email">anthony.baldoza@email.com</div>
+              <div class="profile-member-badge">🌸 Member since 2024</div>
+            </div>
+
+            <!-- Stats -->
+            <div class="profile-stats">
+              <div class="stat-item">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Orders</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Favorites</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Reviews</div>
+              </div>
+            </div>
+
+            <!-- Sidebar nav -->
+            <nav class="profile-nav">
+              <button
+                class="profile-nav-item active"
+                onclick="showSection('info', this)"
+              >
+                👤 Personal Info
+              </button>
+              <button
+                class="profile-nav-item"
+                onclick="showSection('orders', this)"
+              >
+                📦 My Orders
+              </button>
+              <button
+                class="profile-nav-item"
+                onclick="showSection('address', this)"
+              >
+                📍 My Addresses
+              </button>
+              <button
+                class="profile-nav-item"
+                onclick="showSection('password', this)"
+              >
+                🔒 Change Password
+              </button>
+              <button
+                class="profile-nav-item logout-btn"
+                onclick="confirmLogout()"
+              >
+                🚪 Logout
+              </button>
+            </nav>
+          </aside>
+
+          <!-- ===== RIGHT: Content Sections ===== -->
+          <div class="profile-content">
+            <!-- SECTION 1: Personal Info -->
+            <div class="profile-section active" id="section-info">
+              <div class="section-header">
+                <h2>Personal Information</h2>
+                <button class="btn-edit" id="editBtn" onclick="toggleEdit()">
+                  ✏️ Edit
+                </button>
+              </div>
+
+              <form class="profile-form" onsubmit="saveProfile(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>First Name</label>
+                    <input
+                      type="text"
+                      class="form-input"
+                      id="firstName"
+                      value="Anthony"
+                      disabled
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input
+                      type="text"
+                      class="form-input"
+                      id="lastName"
+                      value="Baldoza"
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input
+                    type="email"
+                    class="form-input"
+                    id="email"
+                    value="anthony.baldoza@email.com"
+                    disabled
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-input"
+                    id="phone"
+                    value="+63 912 345 6789"
+                    disabled
+                  />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Birthday</label>
+                    <input
+                      type="date"
+                      class="form-input"
+                      id="birthday"
+                      value="2000-03-15"
+                      disabled
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Gender</label>
+                    <select class="form-input" id="gender" disabled>
+                      <option value="female" selected>Female</option>
+                      <option value="male">Male</option>
+                      <option value="other">Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div
+                  class="form-actions"
+                  id="formActions"
+                  style="display: none"
+                >
+                  <button type="submit" class="btn-primary">
+                    💾 Save Changes
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-outline"
+                    onclick="cancelEdit()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- SECTION 2: My Orders -->
+            <div class="profile-section" id="section-orders">
+              <div class="section-header">
+                <h2>My Orders</h2>
+                <span class="section-count">12 orders</span>
+              </div>
+
+              <div class="order-filters">
+                <button
+                  class="order-filter-btn active"
+                  onclick="setOrderFilter(this)"
+                >
+                  All
+                </button>
+                <button class="order-filter-btn" onclick="setOrderFilter(this)">
+                  To Pay
+                </button>
+                <button class="order-filter-btn" onclick="setOrderFilter(this)">
+                  To Ship
+                </button>
+                <button class="order-filter-btn" onclick="setOrderFilter(this)">
+                  To Receive
+                </button>
+                <button class="order-filter-btn" onclick="setOrderFilter(this)">
+                  Completed
+                </button>
+              </div>
+
+              <!-- Order cards -->
+              <div class="order-card">
+                <div class="order-card-header">
+                  <span class="order-id">#ORD-20241101</span>
+                  <span class="order-status status-completed"
+                    >✅ Completed</span
+                  >
+                </div>
+                <div class="order-items">
+                  <div class="order-item">
+                    <div class="order-item-img">
+                      <img
+                        src="../images/products/shirts/classic-tee.jpg"
+                        alt="Classic Tee"
+                      />
+                    </div>
+                    <div class="order-item-info">
+                      <div class="order-item-name">Classic Tee White</div>
+                      <div class="order-item-sub">Size: M · Qty: 2</div>
+                    </div>
+                    <div class="order-item-price">₱998</div>
+                  </div>
+                </div>
+                <div class="order-card-footer">
+                  <span class="order-date">Nov 1, 2024</span>
+                  <span class="order-total">Total: <strong>₱998</strong></span>
+                </div>
+                <div class="order-actions">
+                  <button
+                    class="btn-outline btn-sm"
+                    onclick="showToast('Redirecting to order details...')"
+                  >
+                    View Details
+                  </button>
+                  <button
+                    class="btn-primary btn-sm"
+                    onclick="showToast('Review submitted! Thank you 🌸')"
+                  >
+                    Leave Review
+                  </button>
+                </div>
+              </div>
+
+              <div class="order-card">
+                <div class="order-card-header">
+                  <span class="order-id">#ORD-20241015</span>
+                  <span class="order-status status-shipping"
+                    >🚚 To Receive</span
+                  >
+                </div>
+                <div class="order-items">
+                  <div class="order-item">
+                    <div class="order-item-img">
+                      <img
+                        src="../images/products/shoes/nike-air-force-1.jpg"
+                        alt="Nike Air Force 1"
+                      />
+                    </div>
+                    <div class="order-item-info">
+                      <div class="order-item-name">
+                        Nike Air Force 1 '07 White
+                      </div>
+                      <div class="order-item-sub">Size: EU 42 · Qty: 1</div>
+                    </div>
+                    <div class="order-item-price">₱4,995</div>
+                  </div>
+                </div>
+                <div class="order-card-footer">
+                  <span class="order-date">Oct 15, 2024</span>
+                  <span class="order-total"
+                    >Total: <strong>₱4,995</strong></span
+                  >
+                </div>
+                <div class="order-actions">
+                  <button
+                    class="btn-outline btn-sm"
+                    onclick="showToast('Tracking page coming soon!')"
+                  >
+                    Track Order
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3: My Addresses -->
+            <div class="profile-section" id="section-address">
+              <div class="section-header">
+                <h2>My Addresses</h2>
+                <button
+                  class="btn-edit"
+                  onclick="showToast('Add address coming soon!')"
+                >
+                  + Add New
+                </button>
+              </div>
+
+              <div class="address-card default-address">
+                <div class="address-card-header">
+                  <span class="address-label">🏠 Home</span>
+                  <span class="address-default-badge">Default</span>
+                </div>
+                <div class="address-name">
+                  Anthony Baldoza · +63 912 345 6789
+                </div>
+                <div class="address-text">
+                  123 Sampaguita St., Brgy. Uno, Calauan, Laguna, 4012
+                </div>
+                <div class="address-actions">
+                  <button
+                    class="btn-outline btn-sm"
+                    onclick="showToast('Edit address coming soon!')"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="btn-outline btn-sm btn-danger"
+                    onclick="showToast('Address deleted!')"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+              <div class="address-card">
+                <div class="address-card-header">
+                  <span class="address-label">🏢 Office</span>
+                  <button
+                    class="set-default-btn"
+                    onclick="showToast('Set as default!')"
+                  >
+                    Set as Default
+                  </button>
+                </div>
+                <div class="address-name">
+                  Anthony Baldoza · +63 917 987 6543
+                </div>
+                <div class="address-text">
+                  456 Rizal Ave., Brgy. Dos, San Pablo, Laguna, 4000
+                </div>
+                <div class="address-actions">
+                  <button
+                    class="btn-outline btn-sm"
+                    onclick="showToast('Edit address coming soon!')"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="btn-outline btn-sm btn-danger"
+                    onclick="showToast('Address deleted!')"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: Change Password -->
+            <div class="profile-section" id="section-password">
+              <div class="section-header">
+                <h2>Change Password</h2>
+              </div>
+
+              <form class="profile-form" onsubmit="changePassword(event)">
+                <div class="form-group">
+                  <label>Current Password</label>
+                  <div class="input-password-wrap">
+                    <input
+                      type="password"
+                      class="form-input"
+                      id="currentPass"
+                      placeholder="Enter current password"
+                    />
+                    <button
+                      type="button"
+                      class="toggle-pass"
+                      onclick="togglePassword('currentPass', this)"
+                    >
+                      👁️
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>New Password</label>
+                  <div class="input-password-wrap">
+                    <input
+                      type="password"
+                      class="form-input"
+                      id="newPass"
+                      placeholder="Enter new password"
+                    />
+                    <button
+                      type="button"
+                      class="toggle-pass"
+                      onclick="togglePassword('newPass', this)"
+                    >
+                      👁️
+                    </button>
+                  </div>
+                  <div class="password-strength" id="passStrength"></div>
+                </div>
+                <div class="form-group">
+                  <label>Confirm New Password</label>
+                  <div class="input-password-wrap">
+                    <input
+                      type="password"
+                      class="form-input"
+                      id="confirmPass"
+                      placeholder="Re-enter new password"
+                    />
+                    <button
+                      type="button"
+                      class="toggle-pass"
+                      onclick="togglePassword('confirmPass', this)"
+                    >
+                      👁️
+                    </button>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn-primary">
+                    🔒 Update Password
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img
+              src="../images/logo.png"
+              alt="AuringPh Logo"
+              class="footer-logo-img"
+            />
+            AuringPh
+          </div>
+          <p>
+            Your go-to online boutique for trendy shirts, shoes, pants, and
+            accessories — proudly Filipino, made for every budget. Follow our
+            Facebook page for the latest drops, restocks, and deals!
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">Shop</div>
+          <nav class="footer-links" aria-label="Shop categories">
+            <a href="home.html">Home</a>
+            <a href="shirts.html">Shirts</a>
+            <a href="shoes.html">Shoes</a>
+            <a href="pants.html">Pants</a>
+            <a href="others.html">Others</a>
+          </nav>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">My Account</div>
+          <nav class="footer-links" aria-label="My account">
+            <a href="profile.html">My Profile</a>
+            <a href="orders.html">My Orders</a>
+            <a href="favorites.html">My Favorites</a>
+            <a href="cart.html">My Cart</a>
+          </nav>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">Connect with Us</div>
+          <div class="footer-social">
+            <a
+              href="https://www.facebook.com/auringph"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="AuringPh on Facebook (opens in a new tab)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="footer-contact">
+            📍 Calauan, Laguna, Philippines<br />
+            ✉️ hello@auringph.com
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 AuringPh. All rights reserved. | A student project prototype.
+      </div>
+    </footer>
+
+    <!-- ============ BOTTOM NAV (Mobile Only) ============ -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'home.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Home
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'favorites.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Favorites
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'orders.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="3"
+            y1="6"
+            x2="21"
+            y2="6"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Orders
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'notifications.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Notif
+      </button>
+      <button
+        class="bottom-nav-item active"
+        onclick="window.location.href = 'profile.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Profile
+      </button>
+    </nav>
+
+    <!-- Logout confirmation modal -->
+    <div class="modal-overlay" id="logoutModal">
+      <div class="modal-box">
+        <div class="modal-icon">🚪</div>
+        <div class="modal-title">Logout?</div>
+        <div class="modal-text">
+          Are you sure you want to log out of your account?
+        </div>
+        <div class="modal-actions">
+          <button class="btn-outline" onclick="closeModal()">Cancel</button>
+          <button class="btn-primary" onclick="doLogout()">Yes, Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+      // NOTE: toggleEdit / cancelEdit / saveProfile / handleProfilePhoto /
+      // changePassword are defined in profile.js (the localStorage-aware
+      // versions). They used to be re-declared here too, which caused a
+      // duplicate "let editing" SyntaxError that silently killed this whole
+      // <script> block — that's why the left sidebar tabs looked unclickable.
+
+      // ── Section switcher (left sidebar tabs) ──
+      function showSection(id, btn) {
+        document
+          .querySelectorAll(".profile-section")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".profile-nav-item")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById("section-" + id).classList.add("active");
+        btn.classList.add("active");
+      }
+
+      // ── Profile photo upload preview ──
+     function handleProfilePhoto(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imgUrl = e.target.result;
+
+      document.querySelectorAll('.profile-avatar, .nav-avatar').forEach(avatar => {
+        avatar.style.backgroundImage = `url(${imgUrl})`;
+        avatar.style.backgroundSize = 'cover';
+        avatar.style.backgroundPosition = 'center';
+        avatar.textContent = '';
+      });
+
+      if (typeof currentUser !== 'undefined' && currentUser) {
+        currentUser.photo = imgUrl;
+        localStorage.setItem('user', JSON.stringify(currentUser));
+      }
+    };
+    reader.readAsDataURL(file);
+    showToast('Profile photo updated! 🌸');
+}
+
+      // ── Password toggle visibility ──
+      function togglePassword(id, btn) {
+        const input = document.getElementById(id);
+        input.type = input.type === "password" ? "text" : "password";
+        btn.textContent = input.type === "password" ? "👁️" : "🙈";
+      }
+
+      // ── Password strength checker ──
+      document.getElementById("newPass").addEventListener("input", function () {
+        const val = this.value;
+        const el = document.getElementById("passStrength");
+        if (!val) {
+          el.textContent = "";
+          el.className = "password-strength";
+          return;
+        }
+        if (val.length < 6) {
+          el.textContent = "⚠️ Too short";
+          el.className = "password-strength strength-weak";
+        } else if (
+          val.length < 10 ||
+          !/[A-Z]/.test(val) ||
+          !/[0-9]/.test(val)
+        ) {
+          el.textContent = "🟡 Medium strength";
+          el.className = "password-strength strength-medium";
+        } else {
+          el.textContent = "✅ Strong password";
+          el.className = "password-strength strength-strong";
+        }
+      });
+
+      // ── Order filter tabs ──
+      function setOrderFilter(btn) {
+        document
+          .querySelectorAll(".order-filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        showToast("Showing: " + btn.textContent + " orders");
+      }
+    </script>
+  </body>
+</html>

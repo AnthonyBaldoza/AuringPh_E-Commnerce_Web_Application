@@ -1,0 +1,64 @@
+/* ============================================
+   ORDERS PAGE STYLES
+   File: css/orders.css
+   Reuses .order-card, .order-status, .order-filters
+   etc. from profile.css — this file just adds the
+   page-level header/empty-state/extra status color.
+   ============================================ */
+
+.orders-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.orders-page-header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Extra status color not covered in profile.css */
+.status-topay { background: var(--red-bg); color: var(--red); }
+
+/* Order cards look nicer with a touch more breathing room here */
+.order-card { padding: 18px; }
+
+/* ===== EMPTY STATE ===== */
+.orders-empty {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.orders-empty-icon {
+  font-size: 64px;
+  color: var(--peach);
+  margin-bottom: 16px;
+}
+
+.orders-empty-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.orders-empty-text {
+  font-size: 14px;
+  color: var(--text-light);
+  max-width: 280px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .orders-page-header h1 { font-size: 22px; }
+  .order-card { padding: 14px; }
+}

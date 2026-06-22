@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - AuringPh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="auth-page">
+
+  <!-- LEFT SIDE: Branding -->
+  <div class="auth-branding">
+    <img src="images/auth-banner.jpg" alt="AuringPh Collection" class="auth-branding-img"
+         onerror="this.style.display='none'">
+    <div class="auth-branding-overlay"></div>
+    <div class="auth-branding-content">
+      <div class="brand-logo">
+        <img src="images/logo.png" alt="AuringPh Logo" class="auth-logo-img"
+             onerror="this.style.display='none'">
+        <span class="brand-name">AuringPh</span>
+      </div>
+      <h1>Join the AuringPh community</h1>
+      <p>Create an account to track orders, save favorites, and get first access to new drops and sales.</p>
+
+      <div class="auth-features">
+        <div class="auth-feature-item">🎁 Welcome discount on first order</div>
+        <div class="auth-feature-item">❤️ Save your favorite items</div>
+        <div class="auth-feature-item">📦 Easy order tracking</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE: Signup Form -->
+  <div class="auth-form-section" id="main">
+    <div class="auth-form-wrap auth-form-wrap-wide">
+
+      <div class="auth-header">
+        <h2>Create your account 🌸</h2>
+        <p>It's free and only takes a minute</p>
+      </div>
+
+      <!-- Step indicator -->
+      <div class="signup-steps">
+        <div class="signup-step active" id="step1-dot">
+          <div class="step-circle">1</div>
+          <div class="step-label">Details</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="signup-step" id="step2-dot">
+          <div class="step-circle">2</div>
+          <div class="step-label">Security</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="signup-step" id="step3-dot">
+          <div class="step-circle">3</div>
+          <div class="step-label">Done</div>
+        </div>
+      </div>
+
+      <form id="signup-form" novalidate>
+
+        <!-- Step 1: Personal Details -->
+        <div class="form-step" id="formStep1">
+          <div class="form-row">
+            <div class="form-col">
+              <div class="form-group-auth">
+                <label class="field-label" for="first-name">First Name</label>
+                <input class="field-input" type="text" id="first-name"
+                       placeholder="Anna" required>
+                <span class="field-error" id="fname-error"></span>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="form-group-auth">
+                <label class="field-label" for="last-name">Last Name</label>
+                <input class="field-input" type="text" id="last-name"
+                       placeholder="Bautista" required>
+                <span class="field-error" id="lname-error"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group-auth">
+            <label class="field-label" for="phone">Phone Number</label>
+            <input class="field-input" type="tel" id="phone"
+                   placeholder="+63 9XX XXX XXXX" required>
+            <span class="field-error" id="phone-error"></span>
+          </div>
+
+          <div class="form-group-auth">
+            <label class="field-label" for="signup-email">Email Address</label>
+            <input class="field-input" type="email" id="signup-email"
+                   placeholder="your@email.com" required autocomplete="email">
+            <span class="field-error" id="semail-error"></span>
+          </div>
+
+          <button type="button" class="btn-primary btn-full" onclick="goStep2()">
+            Continue →
+          </button>
+        </div>
+
+        <!-- Step 2: Password -->
+        <div class="form-step" id="formStep2" style="display:none">
+
+          <div class="form-group-auth">
+            <label class="field-label" for="signup-pass">Password</label>
+            <div class="input-pass-wrap">
+              <input class="field-input" type="password" id="signup-pass"
+                     placeholder="Min. 8 characters" required minlength="8">
+              <button type="button" class="toggle-pass-btn"
+                      onclick="togglePassVis('signup-pass', this)">👁️</button>
+            </div>
+            <div class="password-strength" id="signupPassStrength"></div>
+            <span class="field-error" id="spass-error"></span>
+          </div>
+
+          <div class="form-group-auth">
+            <label class="field-label" for="confirm-pass">Confirm Password</label>
+            <div class="input-pass-wrap">
+              <input class="field-input" type="password" id="confirm-pass"
+                     placeholder="Re-enter password" required>
+              <button type="button" class="toggle-pass-btn"
+                      onclick="togglePassVis('confirm-pass', this)">👁️</button>
+            </div>
+            <span class="field-error" id="cpass-error"></span>
+          </div>
+
+          <label class="checkbox-row" style="margin-bottom: 20px; font-size:13px; color: var(--text-mid)">
+            <input type="checkbox" id="agreeTerms" style="accent-color: var(--brown)">
+            I agree to the <a href="#" style="color:var(--brown); font-weight:600">Terms of Service</a>
+            and <a href="#" style="color:var(--brown); font-weight:600">Privacy Policy</a>
+          </label>
+
+          <div style="display:flex; gap:12px;">
+            <button type="button" class="btn-outline btn-full" onclick="goStep1()">
+              ← Back
+            </button>
+            <button type="submit" class="btn-primary btn-full" id="signupBtn">
+              Create Account
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="auth-divider"><span>or</span></div>
+
+      <button class="btn-outline btn-full btn-google"
+              onclick="showToast('Google signup coming soon!')">
+        <span class="google-icon">G</span> Continue with Google
+      </button>
+
+      <div class="link-row">
+        Already have an account? <a href="index.html">Log in</a>
+      </div>
+
+      <div class="auth-social-row">
+        <a href="https://www.facebook.com/auringph" target="_blank" rel="noopener noreferrer" aria-label="AuringPh on Facebook (opens in a new tab)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></svg>
+          Follow us on Facebook
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/script.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // ── Password show/hide ──
+  function togglePassVis(id, btn) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+    btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+  }
+
+  // ── Password strength ──
+  document.getElementById('signup-pass').addEventListener('input', function() {
+    const val = this.value;
+    const el = document.getElementById('signupPassStrength');
+    if (!val) { el.textContent = ''; el.className = 'password-strength'; return; }
+    if (val.length < 6) {
+      el.textContent = '⚠️ Too short';
+      el.className = 'password-strength strength-weak';
+    } else if (val.length < 10 || !/[A-Z]/.test(val) || !/[0-9]/.test(val)) {
+      el.textContent = '🟡 Medium strength';
+      el.className = 'password-strength strength-medium';
+    } else {
+      el.textContent = '✅ Strong password';
+      el.className = 'password-strength strength-strong';
+    }
+  });
+
+  // ── Step 1 → Step 2 ──
+  function goStep2() {
+    let valid = true;
+    const fname = document.getElementById('first-name').value.trim();
+    const lname = document.getElementById('last-name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+
+    document.getElementById('fname-error').textContent  = '';
+    document.getElementById('lname-error').textContent  = '';
+    document.getElementById('phone-error').textContent  = '';
+    document.getElementById('semail-error').textContent = '';
+
+    if (!fname) { document.getElementById('fname-error').textContent = '⚠ First name is required.'; valid = false; }
+    if (!lname) { document.getElementById('lname-error').textContent = '⚠ Last name is required.'; valid = false; }
+    if (!phone) { document.getElementById('phone-error').textContent = '⚠ Phone number is required.'; valid = false; }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      document.getElementById('semail-error').textContent = '⚠ Enter a valid email.'; valid = false;
+    }
+
+    if (!valid) return;
+
+    document.getElementById('formStep1').style.display = 'none';
+    document.getElementById('formStep2').style.display = '';
+    document.getElementById('step1-dot').classList.remove('active');
+    document.getElementById('step1-dot').classList.add('done');
+    document.getElementById('step2-dot').classList.add('active');
+  }
+
+  // ── Step 2 → Step 1 ──
+  function goStep1() {
+    document.getElementById('formStep2').style.display = 'none';
+    document.getElementById('formStep1').style.display = '';
+    document.getElementById('step2-dot').classList.remove('active');
+    document.getElementById('step1-dot').classList.remove('done');
+    document.getElementById('step1-dot').classList.add('active');
+  }
+
+  // ── Final submit ──
+  document.getElementById('signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    const pass    = document.getElementById('signup-pass').value;
+    const confirm = document.getElementById('confirm-pass').value;
+    const agreed  = document.getElementById('agreeTerms').checked;
+
+    document.getElementById('spass-error').textContent  = '';
+    document.getElementById('cpass-error').textContent  = '';
+
+    if (!pass || pass.length < 8) {
+      document.getElementById('spass-error').textContent = '⚠ Password must be at least 8 characters.'; valid = false;
+    }
+    if (pass !== confirm) {
+      document.getElementById('cpass-error').textContent = '⚠ Passwords do not match.'; valid = false;
+    }
+    if (!agreed) {
+      showToast('Please agree to the Terms of Service first.'); valid = false;
+    }
+
+    if (!valid) return;
+
+    const btn = document.getElementById('signupBtn');
+    btn.textContent = 'Creating account...';
+    btn.disabled = true;
+
+    // Mark step 3 done
+    document.getElementById('step2-dot').classList.remove('active');
+    document.getElementById('step2-dot').classList.add('done');
+    document.getElementById('step3-dot').classList.add('active');
+
+    setTimeout(() => {
+      window.location.href = 'pages/home.html';
+    }, 1000);
+  });
+</script>
+</body>
+</html>

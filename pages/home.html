@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AuringPh - Home</title>
+    <link rel="icon" href="../images/logo.png" type="image/png" />
+    <meta
+      name="description"
+      content="AuringPh – Shop the latest streetwear: shirts, shoes, pants, and more."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/home.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- ============ TOP NAVBAR (Desktop) ============ -->
+    <header class="navbar">
+      <div class="container">
+        <a href="home.html" class="nav-logo">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            class="nav-logo-img"
+          />
+        </a>
+
+        <nav class="nav-links">
+          <a href="home.html" class="nav-link active">Home</a>
+          <a href="shirts.html" class="nav-link">Shirts</a>
+          <a href="shoes.html" class="nav-link">Shoes</a>
+          <a href="pants.html" class="nav-link">Pants</a>
+          <a href="others.html" class="nav-link">Others</a>
+        </nav>
+
+        <div class="nav-search">
+          <span aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            id="navSearch"
+            placeholder="Search shirts, shoes, bags..."
+            aria-label="Search products"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="nav-actions">
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'cart.html'"
+            aria-label="Shopping cart"
+          >
+            🛒<span class="badge-count" id="cartCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'favorites.html'"
+            aria-label="Favorites"
+          >
+            ♡<span class="badge-count" id="favCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'messages.html'"
+            aria-label="Messages"
+          >
+            💬<span class="badge-count" id="msgCount">0</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'notifications.html'"
+            aria-label="Notifications"
+          >
+            🔔<span class="badge-count" id="notifCount">0</span>
+          </button>
+          <div
+            class="nav-avatar"
+            onclick="window.location.href = 'profile.html'"
+            aria-label="My Profile"
+          >
+            AB
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ HERO BANNER ============ -->
+      <div class="container page-section">
+        <div class="hero-banner">
+          <img src="../images/hero-banner.jpg" alt="Summer Collection 2026" />
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="hero-tag">NEW ARRIVALS</span>
+            <h1>Summer Collection 2026</h1>
+            <p>
+              Free shipping on orders over ₱500. Shop the latest shirts, shoes,
+              and accessories.
+            </p>
+            <button
+              class="btn-primary"
+              onclick="
+                document
+                  .getElementById('featured')
+                  .scrollIntoView({ behavior: 'smooth' })
+              "
+            >
+              Shop Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CATEGORIES ============ -->
+      <div class="container page-section">
+        <div class="section-heading">
+          <h2>Shop by Category</h2>
+        </div>
+        <div class="category-grid">
+          <a href="shirts.html" class="category-card">
+            <img src="../images/category-shirts.jpg" alt="Shirts" />
+            <div class="category-card-label">Shirts</div>
+          </a>
+          <a href="shoes.html" class="category-card">
+            <img src="../images/category-shoes.jpg" alt="Shoes" />
+            <div class="category-card-label">Shoes</div>
+          </a>
+          <a href="pants.html" class="category-card">
+            <img src="../images/category-pants.jpg" alt="Pants" />
+            <div class="category-card-label">Pants</div>
+          </a>
+          <a href="others.html" class="category-card">
+            <img
+              src="../images/category-others.jpg"
+              alt="Others & Accessories"
+            />
+            <div class="category-card-label">Others</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ============ FEATURED PRODUCTS ============ -->
+      <div class="container page-section" id="featured">
+        <div class="section-heading">
+          <h2>Featured Products</h2>
+          <span
+            class="see-all-link"
+            onclick="window.location.href = 'shirts.html'"
+            >See all →</span
+          >
+        </div>
+
+        <div class="filter-chips" style="margin-bottom: 24px">
+          <div class="chip active" onclick="setActiveChip(this)">All</div>
+          <div class="chip" onclick="window.location.href = 'shirts.html'">
+            Shirts
+          </div>
+          <div class="chip" onclick="window.location.href = 'shoes.html'">
+            Shoes
+          </div>
+          <div class="chip" onclick="window.location.href = 'pants.html'">
+            Pants
+          </div>
+          <div class="chip" onclick="window.location.href = 'others.html'">
+            Others
+          </div>
+        </div>
+
+        <div class="product-grid">
+          <div
+            class="product-card"
+            onclick="showToast('Product detail page coming soon!')"
+          >
+            <div class="product-img">
+              <img src="../images/products/classic-tee.jpg" alt="Classic Tee" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Classic Tee</div>
+              <div class="product-sub">Shirts</div>
+              <div class="product-bottom">
+                <span class="product-price">₱399</span>
+                <button
+                  class="heart-btn"
+                  onclick="
+                    event.stopPropagation();
+                    toggleHeart(this);
+                  "
+                  aria-label="Add to favorites"
+                >
+                  ♡
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            onclick="showToast('Product detail page coming soon!')"
+          >
+            <div class="product-img">
+              <img
+                src="../images/products/white-sneakers.jpg"
+                alt="White Sneakers"
+              />
+            </div>
+            <div class="product-info">
+              <div class="product-name">White Sneakers</div>
+              <div class="product-sub">Shoes</div>
+              <div class="product-bottom">
+                <span class="product-price">₱999</span>
+                <button
+                  class="heart-btn"
+                  onclick="
+                    event.stopPropagation();
+                    toggleHeart(this);
+                  "
+                  aria-label="Add to favorites"
+                >
+                  ♡
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            onclick="showToast('Product detail page coming soon!')"
+          >
+            <div class="product-img">
+              <img src="../images/products/canvas-cap.jpg" alt="Canvas Cap" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Canvas Cap</div>
+              <div class="product-sub">Others</div>
+              <div class="product-bottom">
+                <span class="product-price">₱1,000</span>
+                <button
+                  class="heart-btn"
+                  onclick="
+                    event.stopPropagation();
+                    toggleHeart(this);
+                  "
+                  aria-label="Add to favorites"
+                >
+                  ♡
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            onclick="showToast('Product detail page coming soon!')"
+          >
+            <div class="product-img">
+              <img
+                src="../images/products/straight-jeans.jpg"
+                alt="Straight Jeans"
+              />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Straight Jeans</div>
+              <div class="product-sub">Pants</div>
+              <div class="product-bottom">
+                <span class="product-price">₱650</span>
+                <button
+                  class="heart-btn"
+                  onclick="
+                    event.stopPropagation();
+                    toggleHeart(this);
+                  "
+                  aria-label="Add to favorites"
+                >
+                  ♡
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ ABOUT / BRAND STORY ============ -->
+      <div class="container page-section">
+        <div class="about-section">
+          <div class="about-content">
+            <span class="about-tag">Our Story</span>
+            <h2>A small Filipino boutique, built for every budget</h2>
+            <p>
+              AuringPh started as a small online shop selling pre-loved and
+              affordable shirts, shoes, pants, and accessories to friends and
+              classmates — and has since grown into a go-to spot for trendy
+              finds at honest prices. Every order is packed with care, every
+              message gets a reply, and every customer is treated like a friend.
+              Sundo na lang ang bagong outfit mo!
+            </p>
+            <div class="about-actions">
+              <a
+                href="https://www.facebook.com/auringph"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="about-fb-btn"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+                  />
+                </svg>
+                Follow AuringPh on Facebook
+              </a>
+            </div>
+          </div>
+          <div class="about-stats">
+            <div class="about-stat">
+              <div class="about-stat-number">500+</div>
+              <div class="about-stat-label">Happy Customers</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-number">100+</div>
+              <div class="about-stat-label">Products</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-number">4.9★</div>
+              <div class="about-stat-label">Average Rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img
+              src="../images/logo.png"
+              alt="AuringPh Logo"
+              class="footer-logo-img"
+            />
+            AuringPh
+          </div>
+          <p>
+            Your go-to online boutique for trendy shirts, shoes, pants, and
+            accessories — proudly Filipino, made for every budget. Follow our
+            Facebook page for the latest drops, restocks, and deals!
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">Shop</div>
+          <nav class="footer-links" aria-label="Shop categories">
+            <a href="home.html">Home</a>
+            <a href="shirts.html">Shirts</a>
+            <a href="shoes.html">Shoes</a>
+            <a href="pants.html">Pants</a>
+            <a href="others.html">Others</a>
+          </nav>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">My Account</div>
+          <nav class="footer-links" aria-label="My account">
+            <a href="profile.html">My Profile</a>
+            <a href="orders.html">My Orders</a>
+            <a href="favorites.html">My Favorites</a>
+            <a href="cart.html">My Cart</a>
+          </nav>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">Connect with Us</div>
+          <div class="footer-social">
+            <a
+              href="https://www.facebook.com/auringph"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="AuringPh on Facebook (opens in a new tab)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="footer-contact">
+            📍 Paranaque, Philippines<br />
+            ✉️ hello@auringph.com
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 AuringPh. All rights reserved. | A student project prototype.
+      </div>
+    </footer>
+
+    <!-- ============ BOTTOM NAV (Mobile Only) ============ -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-nav-item active"
+        onclick="window.location.href = 'home.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Home
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'favorites.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Favorites
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'orders.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="3"
+            y1="6"
+            x2="21"
+            y2="6"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Orders
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'notifications.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Notif
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'profile.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Profile
+      </button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/script.js"></script>
+    <script>
+      syncNavBadges();
+
+      // LIVE SEARCH
+      document
+        .getElementById("navSearch")
+        .addEventListener("input", function () {
+          const query = this.value.trim().toLowerCase();
+          const cards = document.querySelectorAll("#featured .product-card");
+          let visibleCount = 0;
+
+          cards.forEach((card) => {
+            const name =
+              card.querySelector(".product-name")?.textContent.toLowerCase() ||
+              "";
+            const sub =
+              card.querySelector(".product-sub")?.textContent.toLowerCase() ||
+              "";
+            const match = !query || name.includes(query) || sub.includes(query);
+            card.style.display = match ? "" : "none";
+            if (match) visibleCount++;
+          });
+
+          let noResults = document.getElementById("searchNoResults");
+          if (!noResults) {
+            noResults = document.createElement("div");
+            noResults.id = "searchNoResults";
+            noResults.style.cssText =
+              "text-align:center;padding:40px 20px;color:var(--text-light);font-size:15px;width:100%;";
+            noResults.innerHTML =
+              'No products matched "<strong id="searchTerm"></strong>"';
+            document.querySelector("#featured .product-grid").after(noResults);
+          }
+
+          if (query && visibleCount === 0) {
+            document.getElementById("searchTerm").textContent = query;
+            noResults.style.display = "";
+          } else {
+            noResults.style.display = "none";
+          }
+        });
+    </script>
+  </body>
+</html>

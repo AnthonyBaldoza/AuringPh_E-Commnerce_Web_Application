@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications - AuringPh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/notifications.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- ============ TOP NAVBAR ============ -->
+    <header class="navbar">
+      <div class="container">
+        <a href="home.html" class="nav-logo">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            class="nav-logo-img"
+          />
+        </a>
+
+        <nav class="nav-links">
+          <a href="home.html" class="nav-link">Home</a>
+          <a href="shirts.html" class="nav-link">Shirts</a>
+          <a href="shoes.html" class="nav-link">Shoes</a>
+          <a href="pants.html" class="nav-link">Pants</a>
+          <a href="others.html" class="nav-link">Others</a>
+        </nav>
+
+        <div class="nav-search">
+          <span aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            placeholder="Search..."
+            aria-label="Search products"
+          />
+        </div>
+
+        <div class="nav-actions">
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'cart.html'"
+            aria-label="Shopping cart"
+          >
+            🛒<span class="badge-count">2</span>
+          </button>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'favorites.html'"
+            aria-label="Favorites"
+          >
+            ♡<span class="badge-count">6</span>
+          </button>
+          <button
+            class="nav-icon-btn active-nav-icon"
+            aria-label="Notifications (current page)"
+          >
+            🔔<span class="badge-count" id="unreadCount">3</span>
+          </button>
+          <div
+            class="nav-avatar"
+            onclick="window.location.href = 'profile.html'"
+            aria-label="My Profile"
+          >
+            AB
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="container page-section">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a href="home.html">Home</a> /
+          <span class="current">Notifications</span>
+        </div>
+
+        <!-- Page header -->
+        <div class="notif-page-header">
+          <div>
+            <h1 class="notif-title">Notifications</h1>
+            <div class="item-count" id="unreadLabel">3 unread</div>
+          </div>
+          <button class="mark-all-btn" onclick="markAllRead()">
+            ✔ Mark all as read
+          </button>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="notif-tabs">
+          <button class="notif-tab active" onclick="filterNotifs('all', this)">
+            All <span class="notif-tab-count" id="countAll">6</span>
+          </button>
+          <button class="notif-tab" onclick="filterNotifs('order', this)">
+            📦 Orders <span class="notif-tab-count" id="countOrder">2</span>
+          </button>
+          <button class="notif-tab" onclick="filterNotifs('promo', this)">
+            🏷️ Promos <span class="notif-tab-count" id="countPromo">2</span>
+          </button>
+          <button class="notif-tab" onclick="filterNotifs('account', this)">
+            👤 Account <span class="notif-tab-count" id="countAccount">2</span>
+          </button>
+        </div>
+
+        <!-- Notification list -->
+        <div class="notif-list" id="notifList">
+          <!-- TODAY label -->
+          <div class="notif-date-label">Today</div>
+
+          <!-- Notif 1 — Order shipped (UNREAD) -->
+          <div
+            class="notif-item unread"
+            data-type="order"
+            onclick="markRead(this)"
+          >
+            <div class="notif-icon-wrap order-icon">📦</div>
+            <div class="notif-body">
+              <div class="notif-top">
+                <span class="notif-title-text">Your order is on the way!</span>
+                <span class="notif-time">2 hrs ago</span>
+              </div>
+              <div class="notif-desc">
+                Order <strong>#ORD-20241015</strong> (Nike Air Force 1 '07
+                White) has been shipped. Expected delivery:
+                <strong>June 16, 2026</strong>.
+              </div>
+              <button
+                class="notif-action-btn"
+                onclick="
+                  event.stopPropagation();
+                  showToast('Redirecting to tracking...');
+                "
+              >
+                Track Order →
+              </button>
+            </div>
+            <div class="notif-unread-dot"></div>
+          </div>
+
+          <!-- Notif 2 — Promo (UNREAD) -->
+          <div
+            class="notif-item unread"
+            data-type="promo"
+            onclick="markRead(this)"
+          >
+            <div class="notif-icon-wrap promo-icon">🏷️</div>
+            <div class="notif-body">
+              <div class="notif-top">
+                <span class="notif-title-text"
+                  >Sole Season Sale is LIVE! 🔥</span
+                >
+                <span class="notif-time">5 hrs ago</span>
+              </div>
+              <div class="notif-desc">
+                Up to <strong>30% off</strong> on selected shoes this week only.
+                Don't miss out — limited stocks!
+              </div>
+              <button
+                class="notif-action-btn"
+                onclick="
+                  event.stopPropagation();
+                  window.location.href = 'shoes.html';
+                "
+              >
+                Shop Shoes →
+              </button>
+            </div>
+            <div class="notif-unread-dot"></div>
+          </div>
+
+          <!-- Notif 3 — Account (UNREAD) -->
+          <div
+            class="notif-item unread"
+            data-type="account"
+            onclick="markRead(this)"
+          >
+            <div class="notif-icon-wrap account-icon">👤</div>
+            <div class="notif-body">
+              <div class="notif-top">
+                <span class="notif-title-text"
+                  >Profile updated successfully</span
+                >
+                <span class="notif-time">6 hrs ago</span>
+              </div>
+              <div class="notif-desc">
+                Your personal information has been updated. If this wasn't you,
+                please secure your account immediately.
+              </div>
+              <button
+                class="notif-action-btn"
+                onclick="
+                  event.stopPropagation();
+                  window.location.href = 'profile.html';
+                "
+              >
+                View Profile →
+              </button>
+            </div>
+            <div class="notif-unread-dot"></div>
+          </div>
+
+          <!-- EARLIER label -->
+          <div class="notif-date-label">Earlier</div>
+
+          <!-- Notif 4 — Order completed (READ) -->
+          <div class="notif-item" data-type="order" onclick="markRead(this)">
+            <div class="notif-icon-wrap order-icon">✅</div>
+            <div class="notif-body">
+              <div class="notif-top">
+                <span class="notif-title-text">Order delivered!</span>
+                <span class="notif-time">Nov 5, 2024</span>
+              </div>
+              <div class="notif-desc">
+                Order <strong>#ORD-20241101</strong> (Classic Tee White) has
+                been delivered. Enjoy your purchase! 🌸
+              </div>
+              <button
+                class="notif-action-btn"
+                onclick="
+                  event.stopPropagation();
+                  showToast('Redirecting to review...');
+                "
+              >
+                Leave a Review →
+              </button>
+            </div>
+          </div>
+
+          <!-- Notif 5 — Promo (READ) -->
+          <div class="notif-item" data-type="promo" onclick="markRead(this)">
+            <div class="notif-icon-wrap promo-icon">🎉</div>
+            <div class="notif-body">
+              <div class="notif-top">
+                <span class="notif-title-text"
+                  >Free shipping this weekend!</span
+                >
+                <span class="notif-time">Nov 2, 2024</span>
+              </div>
+              <div class="notif-desc">
+                Enjoy free shipping on all orders this weekend. No minimum spend
+                required — shop now!
+              </div>
+              <button
+                class="notif-action-btn"
+                onclick="
+                  event.stopPropagation();
+                  window.location.href = 'home.html';
+                "
+              >
+                Shop Now →
+              </button>
+            </div>
+          </div>
+
+          <!-- Notif 6 — Account (READ) -->
+          <div class="notif-item" data-type="account" onclick="markRead(this)">
+            <div class="notif-icon-wrap account-icon">🔒</div>
+            <div class="notif-body">
+              <div class="notif-top">
+                <span class="notif-title-text">Password changed</span>
+                <span class="notif-time">Oct 28, 2024</span>
+              </div>
+              <div class="notif-desc">
+                Your account password was changed successfully. Keep your
+                account safe by using a strong, unique password.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="notif-empty" id="notifEmpty" style="display: none">
+          <div class="notif-empty-icon">🔔</div>
+          <div class="notif-empty-title">No notifications</div>
+          <div class="notif-empty-text">
+            You're all caught up! Check back later for updates.
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img
+              src="../images/logo.png"
+              alt="AuringPh Logo"
+              class="footer-logo-img"
+            />
+            AuringPh
+          </div>
+          <p>
+            Your go-to online boutique for trendy shirts, shoes, pants, and
+            accessories — proudly Filipino, made for every budget. Follow our
+            Facebook page for the latest drops, restocks, and deals!
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">Shop</div>
+          <nav class="footer-links" aria-label="Shop categories">
+            <a href="home.html">Home</a>
+            <a href="shirts.html">Shirts</a>
+            <a href="shoes.html">Shoes</a>
+            <a href="pants.html">Pants</a>
+            <a href="others.html">Others</a>
+          </nav>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">My Account</div>
+          <nav class="footer-links" aria-label="My account">
+            <a href="profile.html">My Profile</a>
+            <a href="orders.html">My Orders</a>
+            <a href="favorites.html">My Favorites</a>
+            <a href="cart.html">My Cart</a>
+          </nav>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-heading">Connect with Us</div>
+          <div class="footer-social">
+            <a
+              href="https://www.facebook.com/auringph"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="AuringPh on Facebook (opens in a new tab)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="footer-contact">
+            📍 Paranaque, Philippines<br />
+            ✉️ hello@auringph.com
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 AuringPh. All rights reserved. | A student project prototype.
+      </div>
+    </footer>
+
+    <!-- ============ BOTTOM NAV ============ -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'home.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Home
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'favorites.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Favorites
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'orders.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="3"
+            y1="6"
+            x2="21"
+            y2="6"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Orders
+      </button>
+      <button class="bottom-nav-item active">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+        Notif
+      </button>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'profile.html'"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Profile
+      </button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/script.js"></script>
+    <script>
+      // ── Mark single notification as read ──
+      function markRead(item) {
+        if (!item.classList.contains("unread")) return;
+        item.classList.remove("unread");
+        item.querySelector(".notif-unread-dot")?.remove();
+        updateUnreadCount();
+      }
+
+      // ── Mark all as read ──
+      function markAllRead() {
+        document.querySelectorAll(".notif-item.unread").forEach((item) => {
+          item.classList.remove("unread");
+          item.querySelector(".notif-unread-dot")?.remove();
+        });
+        updateUnreadCount();
+        showToast("All notifications marked as read ✔");
+      }
+
+      // ── Update unread badge count ──
+      function updateUnreadCount() {
+        const count = document.querySelectorAll(".notif-item.unread").length;
+        document.getElementById("unreadCount").textContent = count;
+        document.getElementById("unreadLabel").textContent =
+          count === 0 ? "All caught up!" : count + " unread";
+        if (count === 0) {
+          document.getElementById("unreadCount").style.display = "none";
+        }
+      }
+
+      // ── Filter by type tab ──
+      function filterNotifs(type, btn) {
+        document
+          .querySelectorAll(".notif-tab")
+          .forEach((t) => t.classList.remove("active"));
+        btn.classList.add("active");
+
+        const items = document.querySelectorAll(".notif-item");
+        const labels = document.querySelectorAll(".notif-date-label");
+
+        items.forEach((item) => {
+          item.style.display =
+            type === "all" || item.dataset.type === type ? "" : "none";
+        });
+
+        // Hide date labels if no items visible below them
+        labels.forEach((label) => {
+          let next = label.nextElementSibling;
+          let hasVisible = false;
+          while (next && !next.classList.contains("notif-date-label")) {
+            if (next.style.display !== "none") hasVisible = true;
+            next = next.nextElementSibling;
+          }
+          label.style.display = hasVisible ? "" : "none";
+        });
+
+        checkEmpty();
+      }
+
+      // ── Show empty state if no visible notifs ──
+      function checkEmpty() {
+        const visible = [...document.querySelectorAll(".notif-item")].filter(
+          (i) => i.style.display !== "none",
+        );
+        document.getElementById("notifList").style.display = visible.length
+          ? ""
+          : "none";
+        document.getElementById("notifEmpty").style.display = visible.length
+          ? "none"
+          : "flex";
+      }
+    </script>
+    <script>
+      syncNavBadges();
+    </script>
+  </body>
+</html>
