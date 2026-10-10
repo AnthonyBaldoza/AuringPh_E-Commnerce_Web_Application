@@ -8,64 +8,422 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/auth.css">
+<style>
+  /* ── OTP Page Specific Styles ── */
+
+  .otp-page {
+    min-height: 100vh;
+    display: flex;
+    background: var(--cream);
+  }
+
+  /* LEFT: branding panel */
+  .otp-left {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+
+  .otp-left-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .otp-left-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(59,42,26,0.15) 0%,
+      rgba(59,42,26,0.82) 100%
+    );
+    z-index: 1;
+  }
+
+  .otp-left-content {
+    position: relative;
+    z-index: 2;
+    padding: 48px;
+    color: var(--white);
+  }
+
+  .otp-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .otp-brand-name {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .otp-left-content h1 {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 14px;
+    max-width: 400px;
+  }
+
+  .otp-left-content p {
+    font-size: 15px;
+    opacity: 0.88;
+    max-width: 380px;
+    line-height: 1.7;
+  }
+
+  .otp-steps {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .otp-step-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .otp-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .otp-step-item.done .otp-step-num {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.8);
+  }
+
+  .otp-step-item.current .otp-step-num {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--brown-dark);
+  }
+
+  /* RIGHT: form panel */
+  .otp-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 40px;
+    background: var(--white);
+  }
+
+  .otp-form-wrap {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* Back link */
+  .otp-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brown);
+    text-decoration: none;
+    margin-bottom: 36px;
+    transition: gap 0.2s;
+  }
+  .otp-back:hover { gap: 10px; }
+
+  /* Email icon badge */
+  .otp-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--peach) 0%, #f5cba5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(160,82,45,0.15);
+  }
+
+  /* Heading */
+  .otp-heading {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+
+  .otp-subtext {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .otp-email-display {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 32px;
+  }
+
+  /* OTP boxes */
+  .otp-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .otp-digit {
+    width: 54px;
+    height: 62px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: var(--cream);
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, transform 0.15s;
+    caret-color: var(--brown);
+  }
+
+  .otp-digit:focus {
+    border-color: var(--brown);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(160,82,45,0.12);
+    transform: translateY(-2px);
+  }
+
+  .otp-digit.filled {
+    border-color: var(--brown);
+    background: var(--peach-light, #fdf0e8);
+  }
+
+  .otp-digit.otp-error {
+    border-color: var(--red, #e25252);
+    background: #fff5f5;
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+  }
+
+  /* Verify button */
+  .otp-verify-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--brown);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    margin-bottom: 24px;
+    letter-spacing: 0.02em;
+  }
+
+  .otp-verify-btn:hover { background: var(--brown-dark); transform: translateY(-1px); }
+  .otp-verify-btn:active { transform: translateY(0); }
+  .otp-verify-btn:disabled {
+    background: var(--border);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Resend / countdown */
+  .otp-resend-row {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 14px;
+  }
+
+  .otp-countdown {
+    font-weight: 700;
+    color: var(--brown);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .otp-resend-btn {
+    background: none;
+    border: none;
+    color: var(--brown);
+    font-weight: 700;
+    font-size: 13px;
+    font-family: var(--font-body);
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    display: none;
+  }
+
+  .otp-resend-btn:hover { opacity: 0.8; }
+
+  .otp-change-email {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .otp-change-email a {
+    color: var(--brown);
+    font-weight: 600;
+  }
+  .otp-change-email a:hover { text-decoration: underline; }
+
+  /* Divider */
+  .otp-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* Security note */
+  .otp-security-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  .otp-security-note span:first-child {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .otp-page { flex-direction: column; }
+    .otp-left { flex: none; min-height: 240px; }
+    .otp-left-content { padding: 32px; }
+    .otp-left-content h1 { font-size: 26px; }
+    .otp-steps { display: none; }
+    .otp-right { flex: none; padding: 36px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .otp-digit { width: 46px; height: 54px; font-size: 22px; border-radius: 10px; }
+    .otp-inputs { gap: 8px; }
+    .otp-left { min-height: 180px; }
+  }
+</style>
 </head>
 <body>
-<a href="#main" class="skip-link">Skip to main content</a>
+<a href="#otp-main" class="skip-link">Skip to main content</a>
 
-<div class="auth-page">
+<div class="otp-page">
 
-  <!-- LEFT SIDE: Branding / Image -->
-  <div class="auth-branding">
-    <div class="auth-branding-overlay"></div>
-    <img src="images/auth-banner.jpg" alt="AuringPh Collection" class="auth-branding-img">
-    <div class="auth-branding-content">
-      <div class="brand-logo">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+  <!-- LEFT: Branding -->
+  <div class="otp-left">
+    <div class="otp-left-overlay"></div>
+    <img src="images/auth-banner.jpg" alt="AuringPh Collection" class="otp-left-img">
+    <div class="otp-left-content">
+      <div class="otp-brand">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
           <polygon points="50,6 94,88 6,88" stroke="#ffffff" stroke-width="2" fill="none"/>
           <polygon points="50,13 87,85 13,85" stroke="#ffffff" stroke-width="1" fill="none"/>
           <text x="50" y="40" text-anchor="middle" font-size="10" fill="#ffffff" font-family="Georgia,serif" letter-spacing="3">AURING</text>
           <line x1="24" y1="48" x2="76" y2="48" stroke="#ffffff" stroke-width="0.8"/>
           <ellipse cx="50" cy="64" rx="10" ry="13" stroke="#ffffff" stroke-width="1.2" fill="none"/>
         </svg>
-        <span class="brand-name">AuringPh</span>
+        <span class="otp-brand-name">AuringPh</span>
       </div>
       <h1>Almost there!</h1>
-      <p>Enter the 6-digit code we sent you to verify it's really you before resetting your password.</p>
+      <p>One quick step left. Enter the code we sent to verify it's really you before resetting your password.</p>
+
+      <div class="otp-steps">
+        <div class="otp-step-item done">
+          <div class="otp-step-num">✓</div>
+          <span>Entered your email address</span>
+        </div>
+        <div class="otp-step-item current">
+          <div class="otp-step-num">2</div>
+          <span>Verify the 6-digit code</span>
+        </div>
+        <div class="otp-step-item">
+          <div class="otp-step-num">3</div>
+          <span>Set your new password</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- RIGHT SIDE: OTP Form -->
-  <div class="auth-form-section" id="main">
-    <div class="auth-form-wrap">
+  <!-- RIGHT: OTP Form -->
+  <div class="otp-right" id="otp-main">
+    <div class="otp-form-wrap">
 
-      <a href="forgot-password.html" class="auth-back-link">← Back</a>
+      <a href="forgot-password.html" class="otp-back">← Back</a>
 
-      <div class="icon-circle" style="background:#d4e8f0;">✉️</div>
+      <div class="otp-icon-wrap">✉️</div>
 
-      <div class="auth-header center">
-        <h2>Check your Email</h2>
-        <p style="margin-bottom:4px;">We sent a 6-digit code to</p>
-        <p style="font-weight:700; color:var(--text-dark);">bal***@email.com</p>
+      <h2 class="otp-heading">Check your email</h2>
+      <p class="otp-subtext">We sent a 6-digit code to</p>
+      <p class="otp-email-display" id="maskedEmail">your email</p>
+
+      <div class="otp-inputs" id="otpInputs">
+        <input class="otp-digit" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1">
+        <input class="otp-digit" maxlength="1" inputmode="numeric" aria-label="Digit 2">
+        <input class="otp-digit" maxlength="1" inputmode="numeric" aria-label="Digit 3">
+        <input class="otp-digit" maxlength="1" inputmode="numeric" aria-label="Digit 4">
+        <input class="otp-digit" maxlength="1" inputmode="numeric" aria-label="Digit 5">
+        <input class="otp-digit" maxlength="1" inputmode="numeric" aria-label="Digit 6">
       </div>
 
-      <form id="otp-form">
-        <div class="otp-row">
-          <input class="otp-box" maxlength="1" inputmode="numeric" value="3">
-          <input class="otp-box" maxlength="1" inputmode="numeric" value="8">
-          <input class="otp-box" maxlength="1" inputmode="numeric" value="4">
-          <input class="otp-box" maxlength="1" inputmode="numeric">
-          <input class="otp-box" maxlength="1" inputmode="numeric">
-          <input class="otp-box" maxlength="1" inputmode="numeric">
-        </div>
+      <button class="otp-verify-btn" id="verifyBtn" disabled>Verify Code</button>
 
-        <button type="submit" class="btn-primary">Verify Code</button>
-      </form>
-
-      <div class="link-row" style="margin-top:14px;">
-        Didn't receive the code? <a onclick="showToast('Verification code resent!')">Resend (0:45)</a>
+      <div class="otp-resend-row">
+        <span id="countdownText">Resend code in <span class="otp-countdown" id="countdown">0:45</span></span>
+        <button class="otp-resend-btn" id="resendBtn" onclick="resendCode()">Resend code</button>
       </div>
-      <div class="link-row">
-        Wrong email? <a href="forgot-password.html">Change Email</a>
+
+      <div class="otp-change-email">
+        Wrong email? <a href="forgot-password.html">Change email</a>
+      </div>
+
+      <div class="otp-divider"></div>
+
+      <div class="otp-security-note">
+        <span>🔒</span>
+        <span>Never share your verification code with anyone. AuringPh will never ask for it.</span>
       </div>
 
     </div>
@@ -77,29 +435,124 @@
 
 <script src="js/script.js"></script>
 <script>
-// ── OTP auto-focus: jump to next box, go back on backspace ──
-const otpBoxes = document.querySelectorAll('.otp-box');
-otpBoxes.forEach((box, i) => {
-  box.addEventListener('input', () => {
-    box.value = box.value.replace(/[^0-9]/g, ''); // digits only
-    if (box.value && i < otpBoxes.length - 1) otpBoxes[i + 1].focus();
-  });
-  box.addEventListener('keydown', e => {
-    if (e.key === 'Backspace' && !box.value && i > 0) otpBoxes[i - 1].focus();
-  });
-});
-
-document.getElementById('otp-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const code = [...otpBoxes].map(b => b.value).join('');
-  if (code.length < 6) {
-    showToast('Please enter the full 6-digit code');
-    return;
+  // ── Show masked email from forgot-password page ──
+  function maskEmail(email) {
+    if (!email) return 'your email';
+    const [user, domain] = email.split('@');
+    if (!domain) return email;
+    return user.slice(0, 3) + '***@' + domain;
   }
-  // For now, just go to the reset password page.
-  // Later: this is where you'd verify the code with your backend.
-  window.location.href = 'reset-password.html';
-});
+
+  const savedEmail = sessionStorage.getItem('reset_email') || '';
+  document.getElementById('maskedEmail').textContent = maskEmail(savedEmail);
+
+  // ── OTP box logic ──
+  const digits = document.querySelectorAll('.otp-digit');
+  const verifyBtn = document.getElementById('verifyBtn');
+
+  function checkAllFilled() {
+    const allFilled = [...digits].every(d => d.value.length === 1);
+    verifyBtn.disabled = !allFilled;
+  }
+
+  digits.forEach((box, i) => {
+    box.addEventListener('input', () => {
+      box.value = box.value.replace(/[^0-9]/g, '');
+      box.classList.toggle('filled', box.value.length === 1);
+      if (box.value && i < digits.length - 1) digits[i + 1].focus();
+      checkAllFilled();
+    });
+
+    box.addEventListener('keydown', e => {
+      if (e.key === 'Backspace') {
+        if (!box.value && i > 0) {
+          digits[i - 1].value = '';
+          digits[i - 1].classList.remove('filled');
+          digits[i - 1].focus();
+        }
+        box.classList.remove('filled');
+        checkAllFilled();
+      }
+    });
+
+    // Allow paste of full 6-digit code
+    box.addEventListener('paste', e => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData)
+        .getData('text').replace(/[^0-9]/g, '').slice(0, 6);
+      pasted.split('').forEach((char, idx) => {
+        if (digits[idx]) {
+          digits[idx].value = char;
+          digits[idx].classList.add('filled');
+        }
+      });
+      const next = digits[Math.min(pasted.length, digits.length - 1)];
+      next.focus();
+      checkAllFilled();
+    });
+  });
+
+  // Auto-focus first box on load
+  digits[0].focus();
+
+  // ── Verify button ──
+  verifyBtn.addEventListener('click', function () {
+    const code = [...digits].map(d => d.value).join('');
+    if (code.length < 6) {
+      showToast('Please enter the full 6-digit code');
+      return;
+    }
+    // Mark verified and go to reset password
+    verifyBtn.textContent = 'Verified ✓';
+    verifyBtn.style.background = 'var(--green, #2a7a4a)';
+    setTimeout(() => {
+      window.location.href = 'reset-password.html';
+    }, 600);
+  });
+
+  // ── Countdown timer ──
+  let timeLeft = 45;
+  const countdownEl = document.getElementById('countdown');
+  const countdownText = document.getElementById('countdownText');
+  const resendBtn = document.getElementById('resendBtn');
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    countdownEl.textContent = mins + ':' + String(secs).padStart(2, '0');
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      countdownText.style.display = 'none';
+      resendBtn.style.display = 'inline';
+    }
+  }, 1000);
+
+  function resendCode() {
+    showToast('Verification code resent!');
+    resendBtn.style.display = 'none';
+    countdownText.style.display = '';
+    timeLeft = 45;
+    countdownEl.textContent = '0:45';
+    // Clear boxes
+    digits.forEach(d => { d.value = ''; d.classList.remove('filled', 'otp-error'); });
+    digits[0].focus();
+    checkAllFilled();
+    // Restart timer
+    let t = 45;
+    const newTimer = setInterval(() => {
+      t--;
+      const m = Math.floor(t / 60);
+      const s = t % 60;
+      countdownEl.textContent = m + ':' + String(s).padStart(2, '0');
+      if (t <= 0) {
+        clearInterval(newTimer);
+        countdownText.style.display = 'none';
+        resendBtn.style.display = 'inline';
+      }
+    }, 1000);
+  }
 </script>
 </body>
 </html>

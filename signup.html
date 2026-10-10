@@ -3,278 +3,638 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up - AuringPh</title>
+<title>Create account — AuringPH</title>
+<meta name="description" content="Create your free AuringPH account to track orders, save favorites, and get first access to new drops and sales.">
+<meta name="theme-color" content="#1a1208">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/auth.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== 1. TOKENS (same as index.html) ===== */
+  :root{
+    --brand:#A0522D;
+    --brand-dark:#7a3e20;
+    --brand-light:#c8703a;
+    --peach:#F5B99A;
+    --peach-light:#FAD9C5;
+    --cream:#FDF5EE;
+    --ink:#1a1208;
+    --text:#4a3628;
+    --muted:#7a5c48;
+    --line:#e8d5c8;
+    --white:#fff;
+    --danger:#c0392b;
+    --danger-soft:rgba(192,57,43,.12);
+    --success:#2e8b57;
+    --ring:rgba(160,82,45,.18);
+    --radius:10px;
+    --shadow-btn:0 8px 20px rgba(122,62,32,.25);
+    --font-head:"Playfair Display",Georgia,serif;
+    --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+
+  /* ===== 2. BASE ===== */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  [hidden]{display:none!important}
+  body{font-family:var(--font-body);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer}
+  .ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  .ico-fill{fill:currentColor;stroke:none}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:4px}
+
+  .skip-link{position:absolute;left:16px;top:-48px;z-index:100;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;transition:top .15s ease}
+  .skip-link:focus{top:16px}
+
+  /* ===== 3. LAYOUT ===== */
+  .page{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);min-height:100vh;min-height:100dvh}
+
+  /* ===== 4. HERO (LEFT) ===== */
+  .hero{
+    position:relative;isolation:isolate;
+    display:flex;flex-direction:column;justify-content:space-between;gap:48px;
+    padding:48px 56px;color:#fff;overflow:hidden;
+    background:
+      radial-gradient(ellipse 70% 50% at 25% 15%, rgba(160,82,45,.40), transparent 60%),
+      radial-gradient(ellipse 60% 45% at 85% 85%, rgba(245,185,154,.16), transparent 60%),
+      linear-gradient(160deg,#241509,#120a05);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;z-index:-1;opacity:.07;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .hero-bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;opacity:.3;mix-blend-mode:luminosity}
+
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-logo{width:36px;height:36px;border-radius:8px;object-fit:cover}
+  .brand-name{font-family:var(--font-head);font-size:1.125rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--peach-light)}
+
+  .hero-body{max-width:460px}
+  .hero-title{font-family:var(--font-head);font-size:clamp(2rem,4vw,3.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;text-wrap:balance;margin-bottom:20px}
+  .hero-title em{font-style:italic;font-weight:600;color:var(--peach)}
+  .hero-sub{font-size:1rem;line-height:1.7;color:rgba(255,255,255,.74);max-width:400px;margin-bottom:36px}
+
+  .features{list-style:none;display:grid;gap:16px}
+  .features li{display:flex;align-items:center;gap:14px;font-size:.9375rem;font-weight:500;color:rgba(255,255,255,.9)}
+  .feature-icon{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--peach);background:rgba(245,185,154,.10);border:1px solid rgba(245,185,154,.22)}
+
+  .trust{list-style:none;display:flex;flex-wrap:wrap;gap:12px 28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:.8125rem;color:rgba(255,255,255,.72)}
+  .trust li{display:flex;align-items:center;gap:8px}
+  .trust .ico{width:16px;height:16px;color:var(--peach)}
+
+  /* ===== 5. FORM PANEL (RIGHT) ===== */
+  .panel{display:flex;flex-direction:column;min-width:0;background:var(--cream)}
+  .form-area{flex:1;display:grid;place-items:center;padding:40px 32px}
+  .form-wrap{width:100%;max-width:440px}
+
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+  .form-title{font-family:var(--font-head);font-size:2rem;font-weight:700;line-height:1.15;letter-spacing:-.01em;margin-bottom:8px}
+  .form-sub{font-size:.9375rem;color:var(--muted);margin-bottom:24px}
+
+  /* step indicator */
+  .steps{display:flex;align-items:flex-start;margin-bottom:28px}
+  .step{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:64px;font-size:.75rem;font-weight:500;color:var(--muted)}
+  .step-circle{
+    width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+    font-size:.8125rem;font-weight:600;color:var(--muted);
+    background:var(--white);border:1.5px solid var(--line);
+    transition:background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease;
+  }
+  .step .ico-check{display:none;width:16px;height:16px;stroke-width:2.6}
+  .step.active{color:var(--ink)}
+  .step.active .step-circle{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 0 0 4px var(--ring)}
+  .step.done{color:var(--ink)}
+  .step.done .step-circle{background:var(--brand);border-color:var(--brand);color:#fff}
+  .step.done .num{display:none}
+  .step.done .ico-check{display:block}
+  .step-line{flex:1;height:2px;margin:15px 8px 0;background:var(--line);border-radius:2px;position:relative;overflow:hidden}
+  .step-line::after{content:"";position:absolute;inset:0;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+  .step-line.is-filled::after{transform:scaleX(1)}
+
+  /* fields */
+  .form-step{animation:stepIn .25s ease both}
+  @keyframes stepIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-size:.875rem;font-weight:600;color:var(--ink);margin-bottom:8px}
+  .field input[type=text],.field input[type=tel],.field input[type=email],.field input[type=password]{
+    width:100%;height:48px;padding:0 14px;font:inherit;font-size:.9375rem;color:var(--ink);
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    transition:border-color .15s ease,box-shadow .15s ease;
+  }
+  .field input::placeholder{color:#b9a597}
+  .field input:hover{border-color:#d3bba9}
+  .field input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)}
+  .field input.is-invalid{border-color:var(--danger)}
+  .field input.is-invalid:focus{box-shadow:0 0 0 4px var(--danger-soft)}
+  .field-error{display:block;margin-top:6px;font-size:.8125rem;color:var(--danger)}
+  .field-error:empty{display:none}
+  .field-hint{display:block;margin-top:6px;font-size:.8125rem;color:var(--muted)}
+
+  .pass-wrap{position:relative}
+  .pass-wrap input{padding-right:52px!important}
+  .toggle-pass{position:absolute;top:50%;right:6px;transform:translateY(-50%);width:36px;height:36px;display:grid;place-items:center;border:0;background:transparent;color:var(--muted);border-radius:8px;transition:color .15s ease,background .15s ease}
+  .toggle-pass:hover{color:var(--brand-dark);background:var(--ring)}
+  .toggle-pass .eye-hide{display:none}
+  .toggle-pass.is-on .eye-show{display:none}
+  .toggle-pass.is-on .eye-hide{display:block}
+
+  /* password strength meter */
+  .strength{margin-top:10px}
+  .strength-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .strength-bars span{height:4px;border-radius:4px;background:var(--line);transition:background .2s ease}
+  .strength-text{display:block;margin-top:6px;font-size:.8125rem;color:var(--muted)}
+  .strength[data-level="1"] .strength-bars span:nth-child(-n+1){background:#d9534f}
+  .strength[data-level="2"] .strength-bars span:nth-child(-n+2){background:#e0a030}
+  .strength[data-level="3"] .strength-bars span:nth-child(-n+3){background:#8aa83a}
+  .strength[data-level="4"] .strength-bars span:nth-child(-n+4){background:var(--success)}
+
+  /* checkbox */
+  .check{display:inline-flex;align-items:flex-start;gap:10px;font-size:.875rem;color:var(--text);cursor:pointer;user-select:none;position:relative;line-height:1.5}
+  .check input{position:absolute;opacity:0;width:1px;height:1px}
+  .check-box{flex-shrink:0;margin-top:1px;width:18px;height:18px;border-radius:5px;border:1.5px solid #cdb5a4;background:var(--white);display:grid;place-items:center;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}
+  .check-box::after{content:"";width:5px;height:9px;margin-top:-2px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .15s ease}
+  .check input:checked + .check-box{background:var(--brand);border-color:var(--brand)}
+  .check input:checked + .check-box::after{transform:rotate(45deg) scale(1)}
+  .check input:focus-visible + .check-box{box-shadow:0 0 0 4px var(--ring)}
+  .check.is-invalid .check-box{border-color:var(--danger)}
+  .check a{color:var(--brand);font-weight:600}
+  .check a:hover{text-decoration:underline;text-underline-offset:3px}
+  .terms{margin-bottom:24px}
+
+  /* buttons */
+  .btn{
+    position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    height:50px;padding:0 20px;font-size:.875rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    border:0;border-radius:var(--radius);
+    transition:transform .15s ease,box-shadow .15s ease,filter .15s ease,background .15s ease,border-color .15s ease;
+  }
+  .btn .ico{width:18px;height:18px}
+  .btn-block{width:100%}
+  .btn-primary{color:#fff;background:linear-gradient(135deg,var(--brand-light),var(--brand) 45%,var(--brand-dark));box-shadow:var(--shadow-btn)}
+  .btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 26px rgba(122,62,32,.32)}
+  .btn-primary:active:not(:disabled){transform:translateY(0);filter:brightness(.95)}
+  .btn-primary:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+  .btn-primary:disabled{cursor:not-allowed;opacity:.9}
+  .btn-outline{color:var(--brand-dark);background:var(--white);border:1px solid var(--line)}
+  .btn-outline:hover{border-color:var(--brand);background:#fffaf6}
+  .btn-outline:active{background:#faf1ea}
+  .actions{display:grid;grid-template-columns:1fr 1.5fr;gap:12px}
+
+  .spinner{display:none;position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+  .btn.is-loading .btn-text{visibility:hidden}
+  .btn.is-loading .spinner{display:block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .divider{display:flex;align-items:center;gap:16px;margin:24px 0;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .btn-google{height:48px;gap:12px;font-size:.9375rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink);background:var(--white);border:1px solid var(--line)}
+  .btn-google:hover{border-color:#cdb5a4;background:#fffaf6;box-shadow:0 2px 8px rgba(26,18,8,.06)}
+
+  .login-line{text-align:center;font-size:.9375rem;color:var(--muted);margin-top:28px}
+  .login-line a{font-weight:600;color:var(--brand)}
+  .login-line a:hover{color:var(--brand-dark);text-decoration:underline;text-underline-offset:3px}
+
+  /* success state (step 3) */
+  .success{text-align:center;padding:16px 0 8px}
+  .success-icon{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--brand-light),var(--brand-dark));box-shadow:0 0 0 8px var(--ring)}
+  .success-icon .ico{width:30px;height:30px;stroke-width:2.6}
+  .success .form-sub{margin-bottom:24px}
+  .progress{height:4px;max-width:220px;margin:0 auto;background:var(--line);border-radius:4px;overflow:hidden}
+  .progress span{display:block;height:100%;background:var(--brand);transform-origin:left;animation:fill 1.5s linear forwards}
+  @keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+  /* ===== 6. FOOTER ===== */
+  .panel-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:20px 32px;border-top:1px solid var(--line);font-size:.75rem;color:var(--muted)}
+  .footer-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+  .footer-links a:hover{color:var(--brand-dark);text-decoration:underline;text-underline-offset:3px}
+  .social{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;color:var(--muted);border:1px solid var(--line);transition:color .15s ease,border-color .15s ease,background .15s ease}
+  .footer-links a.social:hover{color:var(--brand);border-color:var(--brand);background:var(--white);text-decoration:none}
+  .social .ico{width:15px;height:15px}
+
+  /* ===== 7. TOAST (used by showToast) ===== */
+  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-size:.875rem;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;z-index:999;transition:opacity .25s ease,transform .25s ease}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* ===== 8. RESPONSIVE ===== */
+  @media (max-width:900px){
+    .page{grid-template-columns:1fr}
+    .hero{padding:16px;gap:0}
+    .hero-body,.trust{display:none}
+    .form-area{padding:32px 16px 24px;place-items:start center}
+    .panel-footer{padding:20px 16px}
+  }
+  @media (max-width:480px){
+    .form-title{font-size:1.75rem}
+    .row{grid-template-columns:1fr;gap:0}
+    .step{min-width:56px}
+  }
+
+  /* ===== 9. REDUCED MOTION ===== */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+
+  /* ===== 10. PRINT ===== */
+  @media print{
+    body,.panel{background:var(--cream)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .hero{background:#1a1208!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
 </head>
 <body>
-<a href="#main" class="skip-link">Skip to main content</a>
 
-<div class="auth-page">
+<a href="#first-name" class="skip-link">Skip to sign-up form</a>
 
-  <!-- LEFT SIDE: Branding -->
-  <div class="auth-branding">
-    <img src="images/auth-banner.jpg" alt="AuringPh Collection" class="auth-branding-img"
-         onerror="this.style.display='none'">
-    <div class="auth-branding-overlay"></div>
-    <div class="auth-branding-content">
-      <div class="brand-logo">
-        <img src="images/logo.png" alt="AuringPh Logo" class="auth-logo-img"
-             onerror="this.style.display='none'">
-        <span class="brand-name">AuringPh</span>
-      </div>
-      <h1>Join the AuringPh community</h1>
-      <p>Create an account to track orders, save favorites, and get first access to new drops and sales.</p>
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-gift" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-return" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-6.5 0-10-7-10-7a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c6.5 0 10 7 10 7a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></symbol>
+</svg>
 
-      <div class="auth-features">
-        <div class="auth-feature-item">🎁 Welcome discount on first order</div>
-        <div class="auth-feature-item">❤️ Save your favorite items</div>
-        <div class="auth-feature-item">📦 Easy order tracking</div>
-      </div>
+<div class="page">
+
+  <!-- ══ LEFT: BRAND / HERO ══ -->
+  <aside class="hero" aria-label="About AuringPH">
+    <img src="images/auth-banner.jpg" alt="" class="hero-bg" onerror="this.remove()">
+
+    <a href="index.html" class="brand" aria-label="AuringPH home">
+      <img src="images/logo.png" alt="" class="brand-logo" width="36" height="36" onerror="this.style.display='none'">
+      <span class="brand-name">AuringPH</span>
+    </a>
+
+    <div class="hero-body">
+      <p class="hero-title">Join the AuringPH <em>community.</em></p>
+      <p class="hero-sub">Create an account to track orders, save favorites, and get first access to new drops and sales.</p>
+
+      <ul class="features">
+        <li><span class="feature-icon"><svg class="ico"><use href="#i-gift"/></svg></span>Welcome discount on first order</li>
+        <li><span class="feature-icon"><svg class="ico"><use href="#i-heart"/></svg></span>Save your favorite items</li>
+        <li><span class="feature-icon"><svg class="ico"><use href="#i-box"/></svg></span>Easy order tracking</li>
+      </ul>
     </div>
-  </div>
 
-  <!-- RIGHT SIDE: Signup Form -->
-  <div class="auth-form-section" id="main">
-    <div class="auth-form-wrap auth-form-wrap-wide">
+    <ul class="trust">
+      <li><svg class="ico"><use href="#i-lock"/></svg>Secure &amp; private</li>
+      <li><svg class="ico"><use href="#i-pin"/></svg>Nationwide delivery</li>
+      <li><svg class="ico"><use href="#i-return"/></svg>Easy returns</li>
+    </ul>
+  </aside>
 
-      <div class="auth-header">
-        <h2>Create your account 🌸</h2>
-        <p>It's free and only takes a minute</p>
-      </div>
+  <!-- ══ RIGHT: SIGN UP ══ -->
+  <main class="panel" id="main">
+    <div class="form-area">
+      <div class="form-wrap">
 
-      <!-- Step indicator -->
-      <div class="signup-steps">
-        <div class="signup-step active" id="step1-dot">
-          <div class="step-circle">1</div>
-          <div class="step-label">Details</div>
+        <header id="formHead">
+          <p class="eyebrow">Create account</p>
+          <h1 class="form-title">Create your account</h1>
+          <p class="form-sub">It's free and only takes a minute</p>
+        </header>
+
+        <!-- Step indicator -->
+        <div class="steps" aria-label="Sign-up progress">
+          <div class="step active" id="step1-dot" aria-current="step">
+            <div class="step-circle"><span class="num">1</span><svg class="ico ico-check"><use href="#i-check"/></svg></div>
+            <div class="step-label">Details</div>
+          </div>
+          <div class="step-line" id="line1"></div>
+          <div class="step" id="step2-dot">
+            <div class="step-circle"><span class="num">2</span><svg class="ico ico-check"><use href="#i-check"/></svg></div>
+            <div class="step-label">Security</div>
+          </div>
+          <div class="step-line" id="line2"></div>
+          <div class="step" id="step3-dot">
+            <div class="step-circle"><span class="num">3</span><svg class="ico ico-check"><use href="#i-check"/></svg></div>
+            <div class="step-label">Done</div>
+          </div>
         </div>
-        <div class="step-line"></div>
-        <div class="signup-step" id="step2-dot">
-          <div class="step-circle">2</div>
-          <div class="step-label">Security</div>
-        </div>
-        <div class="step-line"></div>
-        <div class="signup-step" id="step3-dot">
-          <div class="step-circle">3</div>
-          <div class="step-label">Done</div>
-        </div>
-      </div>
 
-      <form id="signup-form" novalidate>
+        <form id="signup-form" novalidate>
 
-        <!-- Step 1: Personal Details -->
-        <div class="form-step" id="formStep1">
-          <div class="form-row">
-            <div class="form-col">
-              <div class="form-group-auth">
-                <label class="field-label" for="first-name">First Name</label>
-                <input class="field-input" type="text" id="first-name"
-                       placeholder="Anna" required>
+          <!-- Step 1: Personal details -->
+          <div class="form-step" id="formStep1">
+            <div class="row">
+              <div class="field">
+                <label for="first-name">First name</label>
+                <input type="text" id="first-name" placeholder="Anna" autocomplete="given-name" required aria-describedby="fname-error">
                 <span class="field-error" id="fname-error"></span>
               </div>
-            </div>
-            <div class="form-col">
-              <div class="form-group-auth">
-                <label class="field-label" for="last-name">Last Name</label>
-                <input class="field-input" type="text" id="last-name"
-                       placeholder="Bautista" required>
+              <div class="field">
+                <label for="last-name">Last name</label>
+                <input type="text" id="last-name" placeholder="Bautista" autocomplete="family-name" required aria-describedby="lname-error">
                 <span class="field-error" id="lname-error"></span>
               </div>
             </div>
+
+            <div class="field">
+              <label for="phone">Mobile number</label>
+              <input type="tel" id="phone" placeholder="+63 9XX XXX XXXX" autocomplete="tel" inputmode="tel" required aria-describedby="phone-error">
+              <span class="field-error" id="phone-error"></span>
+            </div>
+
+            <div class="field">
+              <label for="signup-email">Email address</label>
+              <input type="email" id="signup-email" placeholder="name@example.com" autocomplete="email" inputmode="email" required aria-describedby="semail-error">
+              <span class="field-error" id="semail-error"></span>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="continueBtn">
+              Continue <svg class="ico"><use href="#i-arrow-right"/></svg>
+            </button>
           </div>
 
-          <div class="form-group-auth">
-            <label class="field-label" for="phone">Phone Number</label>
-            <input class="field-input" type="tel" id="phone"
-                   placeholder="+63 9XX XXX XXXX" required>
-            <span class="field-error" id="phone-error"></span>
+          <!-- Step 2: Password -->
+          <div class="form-step" id="formStep2" hidden>
+
+            <div class="field">
+              <label for="signup-pass">Password</label>
+              <div class="pass-wrap">
+                <input type="password" id="signup-pass" placeholder="At least 8 characters" autocomplete="new-password" required minlength="8" aria-describedby="pass-hint spass-error">
+                <button type="button" class="toggle-pass" data-target="signup-pass" aria-label="Show password" aria-pressed="false">
+                  <svg class="ico eye-show"><use href="#i-eye"/></svg>
+                  <svg class="ico eye-hide"><use href="#i-eye-off"/></svg>
+                </button>
+              </div>
+              <div class="strength" id="signupPassStrength" data-level="0" aria-live="polite" hidden>
+                <div class="strength-bars"><span></span><span></span><span></span><span></span></div>
+                <span class="strength-text" id="strengthText"></span>
+              </div>
+              <span class="field-hint" id="pass-hint">Use 8+ characters with a mix of letters, numbers, and symbols.</span>
+              <span class="field-error" id="spass-error"></span>
+            </div>
+
+            <div class="field">
+              <label for="confirm-pass">Confirm password</label>
+              <div class="pass-wrap">
+                <input type="password" id="confirm-pass" placeholder="Re-enter your password" autocomplete="new-password" required aria-describedby="cpass-error">
+                <button type="button" class="toggle-pass" data-target="confirm-pass" aria-label="Show password" aria-pressed="false">
+                  <svg class="ico eye-show"><use href="#i-eye"/></svg>
+                  <svg class="ico eye-hide"><use href="#i-eye-off"/></svg>
+                </button>
+              </div>
+              <span class="field-error" id="cpass-error"></span>
+            </div>
+
+            <div class="terms">
+              <label class="check" id="termsLabel">
+                <input type="checkbox" id="agreeTerms" aria-describedby="terms-error">
+                <span class="check-box" aria-hidden="true"></span>
+                <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+              </label>
+              <span class="field-error" id="terms-error"></span>
+            </div>
+
+            <div class="actions">
+              <button type="button" class="btn btn-outline" id="backBtn">
+                <svg class="ico"><use href="#i-arrow-left"/></svg> Back
+              </button>
+              <button type="submit" class="btn btn-primary" id="signupBtn">
+                <span class="btn-text">Create account</span>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+            </div>
           </div>
 
-          <div class="form-group-auth">
-            <label class="field-label" for="signup-email">Email Address</label>
-            <input class="field-input" type="email" id="signup-email"
-                   placeholder="your@email.com" required autocomplete="email">
-            <span class="field-error" id="semail-error"></span>
+          <!-- Step 3: Success -->
+          <div class="form-step success" id="formStep3" hidden role="status" aria-live="polite">
+            <div class="success-icon"><svg class="ico"><use href="#i-check"/></svg></div>
+            <h2 class="form-title">You're all set!</h2>
+            <p class="form-sub">Your account has been created. Taking you to the store…</p>
+            <div class="progress" aria-hidden="true"><span></span></div>
           </div>
 
-          <button type="button" class="btn-primary btn-full" onclick="goStep2()">
-            Continue →
+        </form>
+
+        <!-- Alternative sign-up + login link (Step 1 only) -->
+        <div id="altAuth">
+          <div class="divider" role="separator" aria-label="or">or</div>
+
+          <button type="button" class="btn btn-google btn-block" onclick="showToast('Google signup coming soon!')">
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Continue with Google
           </button>
+
+          <p class="login-line">Already have an account? <a href="index.html">Log in</a></p>
         </div>
 
-        <!-- Step 2: Password -->
-        <div class="form-step" id="formStep2" style="display:none">
-
-          <div class="form-group-auth">
-            <label class="field-label" for="signup-pass">Password</label>
-            <div class="input-pass-wrap">
-              <input class="field-input" type="password" id="signup-pass"
-                     placeholder="Min. 8 characters" required minlength="8">
-              <button type="button" class="toggle-pass-btn"
-                      onclick="togglePassVis('signup-pass', this)">👁️</button>
-            </div>
-            <div class="password-strength" id="signupPassStrength"></div>
-            <span class="field-error" id="spass-error"></span>
-          </div>
-
-          <div class="form-group-auth">
-            <label class="field-label" for="confirm-pass">Confirm Password</label>
-            <div class="input-pass-wrap">
-              <input class="field-input" type="password" id="confirm-pass"
-                     placeholder="Re-enter password" required>
-              <button type="button" class="toggle-pass-btn"
-                      onclick="togglePassVis('confirm-pass', this)">👁️</button>
-            </div>
-            <span class="field-error" id="cpass-error"></span>
-          </div>
-
-          <label class="checkbox-row" style="margin-bottom: 20px; font-size:13px; color: var(--text-mid)">
-            <input type="checkbox" id="agreeTerms" style="accent-color: var(--brown)">
-            I agree to the <a href="#" style="color:var(--brown); font-weight:600">Terms of Service</a>
-            and <a href="#" style="color:var(--brown); font-weight:600">Privacy Policy</a>
-          </label>
-
-          <div style="display:flex; gap:12px;">
-            <button type="button" class="btn-outline btn-full" onclick="goStep1()">
-              ← Back
-            </button>
-            <button type="submit" class="btn-primary btn-full" id="signupBtn">
-              Create Account
-            </button>
-          </div>
-        </div>
-
-      </form>
-
-      <div class="auth-divider"><span>or</span></div>
-
-      <button class="btn-outline btn-full btn-google"
-              onclick="showToast('Google signup coming soon!')">
-        <span class="google-icon">G</span> Continue with Google
-      </button>
-
-      <div class="link-row">
-        Already have an account? <a href="index.html">Log in</a>
       </div>
-
-      <div class="auth-social-row">
-        <a href="https://www.facebook.com/auringph" target="_blank" rel="noopener noreferrer" aria-label="AuringPh on Facebook (opens in a new tab)">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></svg>
-          Follow us on Facebook
-        </a>
-      </div>
-
     </div>
-  </div>
+
+    <footer class="panel-footer">
+      <span>© 2026 AuringPH. All rights reserved.</span>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="https://www.facebook.com/auringph" class="social" target="_blank" rel="noopener noreferrer" aria-label="AuringPH on Facebook (opens in a new tab)">
+          <svg class="ico ico-fill"><use href="#i-facebook"/></svg>
+        </a>
+      </nav>
+    </footer>
+  </main>
 
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/script.js"></script>
 <script src="js/auth.js"></script>
 <script>
-  // ── Password show/hide ──
-  function togglePassVis(id, btn) {
-    const input = document.getElementById(id);
-    input.type = input.type === 'password' ? 'text' : 'password';
-    btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+  const $ = (id) => document.getElementById(id);
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let currentStep = 1;
+
+  // Fallback in case js/script.js doesn't provide showToast
+  window.showToast = window.showToast || function (msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.remove('show'), 2500);
+  };
+
+  // ── Helpers ──
+  function setError(input, errEl, msg) {
+    errEl.textContent = msg;
+    if (input) {
+      input.classList.toggle('is-invalid', !!msg);
+      input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    }
   }
 
+  function updateSteps(cur) {
+    [1, 2, 3].forEach(function (i) {
+      const dot = $('step' + i + '-dot');
+      dot.classList.toggle('done', i < cur);
+      dot.classList.toggle('active', i === cur);
+      if (i === cur) dot.setAttribute('aria-current', 'step'); else dot.removeAttribute('aria-current');
+    });
+    $('line1').classList.toggle('is-filled', cur > 1);
+    $('line2').classList.toggle('is-filled', cur > 2);
+  }
+
+  function showStep(n, focusId) {
+    currentStep = n;
+    $('formStep1').hidden = n !== 1;
+    $('formStep2').hidden = n !== 2;
+    $('formStep3').hidden = n !== 3;
+    $('altAuth').hidden   = n !== 1;   // Google / login link only on Step 1
+    $('formHead').hidden  = n === 3;
+    updateSteps(n === 3 ? 4 : n);      // 4 = every step marked done
+    if (focusId) requestAnimationFrame(function () { $(focusId).focus(); });
+  }
+
+  // ── Show / hide password (works for both fields) ──
+  document.querySelectorAll('.toggle-pass').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const input = $(btn.dataset.target);
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.classList.toggle('is-on', show);
+      btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+    });
+  });
+
   // ── Password strength ──
-  document.getElementById('signup-pass').addEventListener('input', function() {
-    const val = this.value;
-    const el = document.getElementById('signupPassStrength');
-    if (!val) { el.textContent = ''; el.className = 'password-strength'; return; }
-    if (val.length < 6) {
-      el.textContent = '⚠️ Too short';
-      el.className = 'password-strength strength-weak';
-    } else if (val.length < 10 || !/[A-Z]/.test(val) || !/[0-9]/.test(val)) {
-      el.textContent = '🟡 Medium strength';
-      el.className = 'password-strength strength-medium';
+  $('signup-pass').addEventListener('input', function () {
+    const v = this.value;
+    const box = $('signupPassStrength');
+    setError(this, $('spass-error'), '');
+    if (!v) { box.hidden = true; box.dataset.level = '0'; return; }
+
+    let level, label;
+    if (v.length < 8) {
+      level = 1; label = 'Too short — use at least 8 characters';
     } else {
-      el.textContent = '✅ Strong password';
-      el.className = 'password-strength strength-strong';
+      let score = 0;
+      if (/[a-z]/.test(v) && /[A-Z]/.test(v)) score++;
+      if (/\d/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+      if (v.length >= 12) score++;
+      level = Math.max(1, score);
+      label = ['', 'Weak', 'Fair', 'Good', 'Strong'][level];
     }
+    box.hidden = false;
+    box.dataset.level = String(level);
+    $('strengthText').textContent = label;
+  });
+
+  // ── Clear errors while typing ──
+  [['first-name', 'fname-error'], ['last-name', 'lname-error'], ['phone', 'phone-error'],
+   ['signup-email', 'semail-error'], ['confirm-pass', 'cpass-error']].forEach(function (p) {
+    $(p[0]).addEventListener('input', function () { setError(this, $(p[1]), ''); });
+  });
+  $('agreeTerms').addEventListener('change', function () {
+    $('termsLabel').classList.remove('is-invalid');
+    $('terms-error').textContent = '';
+  });
+  $('confirm-pass').addEventListener('blur', function () {
+    if (this.value && this.value !== $('signup-pass').value) setError(this, $('cpass-error'), 'Passwords do not match.');
   });
 
   // ── Step 1 → Step 2 ──
   function goStep2() {
-    let valid = true;
-    const fname = document.getElementById('first-name').value.trim();
-    const lname = document.getElementById('last-name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('signup-email').value.trim();
+    const fname = $('first-name'), lname = $('last-name'), phone = $('phone'), email = $('signup-email');
+    let firstInvalid = null;
 
-    document.getElementById('fname-error').textContent  = '';
-    document.getElementById('lname-error').textContent  = '';
-    document.getElementById('phone-error').textContent  = '';
-    document.getElementById('semail-error').textContent = '';
-
-    if (!fname) { document.getElementById('fname-error').textContent = '⚠ First name is required.'; valid = false; }
-    if (!lname) { document.getElementById('lname-error').textContent = '⚠ Last name is required.'; valid = false; }
-    if (!phone) { document.getElementById('phone-error').textContent = '⚠ Phone number is required.'; valid = false; }
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      document.getElementById('semail-error').textContent = '⚠ Enter a valid email.'; valid = false;
+    function check(input, errId, msg) {
+      setError(input, $(errId), msg);
+      if (msg && !firstInvalid) firstInvalid = input;
     }
 
-    if (!valid) return;
+    check(fname, 'fname-error', fname.value.trim() ? '' : 'First name is required.');
+    check(lname, 'lname-error', lname.value.trim() ? '' : 'Last name is required.');
 
-    document.getElementById('formStep1').style.display = 'none';
-    document.getElementById('formStep2').style.display = '';
-    document.getElementById('step1-dot').classList.remove('active');
-    document.getElementById('step1-dot').classList.add('done');
-    document.getElementById('step2-dot').classList.add('active');
+    const digits = phone.value.replace(/\D/g, '');
+    check(phone, 'phone-error',
+      !phone.value.trim() ? 'Mobile number is required.'
+      : (digits.length < 10 || digits.length > 13) ? 'Enter a valid mobile number, e.g. +63 9XX XXX XXXX.' : '');
+
+    const em = email.value.trim();
+    check(email, 'semail-error',
+      !em ? 'Email is required.' : !EMAIL_RE.test(em) ? 'Enter a valid email address.' : '');
+
+    if (firstInvalid) { firstInvalid.focus(); return; }
+    showStep(2, 'signup-pass');
   }
 
   // ── Step 2 → Step 1 ──
-  function goStep1() {
-    document.getElementById('formStep2').style.display = 'none';
-    document.getElementById('formStep1').style.display = '';
-    document.getElementById('step2-dot').classList.remove('active');
-    document.getElementById('step1-dot').classList.remove('done');
-    document.getElementById('step1-dot').classList.add('active');
-  }
+  function goStep1() { showStep(1, 'first-name'); }
+
+  $('continueBtn').addEventListener('click', goStep2);
+  $('backBtn').addEventListener('click', goStep1);
 
   // ── Final submit ──
-  document.getElementById('signup-form').addEventListener('submit', function(e) {
+  $('signup-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    let valid = true;
 
-    const pass    = document.getElementById('signup-pass').value;
-    const confirm = document.getElementById('confirm-pass').value;
-    const agreed  = document.getElementById('agreeTerms').checked;
+    // Pressing Enter on Step 1 should just move to Step 2
+    if (currentStep === 1) { goStep2(); return; }
+    if (currentStep !== 2) return;
 
-    document.getElementById('spass-error').textContent  = '';
-    document.getElementById('cpass-error').textContent  = '';
+    const passEl = $('signup-pass'), confEl = $('confirm-pass'), agreed = $('agreeTerms').checked;
+    let firstInvalid = null;
 
-    if (!pass || pass.length < 8) {
-      document.getElementById('spass-error').textContent = '⚠ Password must be at least 8 characters.'; valid = false;
+    if (passEl.value.length < 8) {
+      setError(passEl, $('spass-error'), 'Password must be at least 8 characters.');
+      firstInvalid = passEl;
     }
-    if (pass !== confirm) {
-      document.getElementById('cpass-error').textContent = '⚠ Passwords do not match.'; valid = false;
+    if (passEl.value !== confEl.value) {
+      setError(confEl, $('cpass-error'), 'Passwords do not match.');
+      firstInvalid = firstInvalid || confEl;
     }
     if (!agreed) {
-      showToast('Please agree to the Terms of Service first.'); valid = false;
+      $('termsLabel').classList.add('is-invalid');
+      $('terms-error').textContent = 'Please agree to the Terms of Service and Privacy Policy.';
+      firstInvalid = firstInvalid || $('agreeTerms');
     }
+    if (firstInvalid) { firstInvalid.focus(); return; }
 
-    if (!valid) return;
-
-    const btn = document.getElementById('signupBtn');
-    btn.textContent = 'Creating account...';
+    const btn = $('signupBtn');
     btn.disabled = true;
+    btn.classList.add('is-loading');
+    btn.setAttribute('aria-busy', 'true');
 
-    // Mark step 3 done
-    document.getElementById('step2-dot').classList.remove('active');
-    document.getElementById('step2-dot').classList.add('done');
-    document.getElementById('step3-dot').classList.add('active');
+    setTimeout(function () {
+      // ── Save the account so index.html (login) can verify it ──
+      // If js/auth.js already saves the same user, this block is skipped automatically.
+      const user = {
+        firstName: $('first-name').value.trim(),
+        lastName:  $('last-name').value.trim(),
+        phone:     $('phone').value.trim(),
+        email:     $('signup-email').value.trim(),
+        password:  passEl.value
+      };
+      try {
+        let existing = null;
+        try { existing = JSON.parse(localStorage.getItem('user') || 'null'); } catch (err) {}
+        if (!existing || existing.email !== user.email || existing.password !== user.password) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        localStorage.setItem('isLoggedIn', 'true'); // auto-login after signup
+      } catch (err) {}
 
-    setTimeout(() => {
-      window.location.href = 'pages/home.html';
-    }, 1000);
+      showStep(3);
+      setTimeout(function () { window.location.href = 'pages/home.html'; }, 1500);
+    }, 700);
   });
 </script>
 </body>

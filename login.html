@@ -3,48 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login - AuringPh</title>
+<title>Admin Login — AuringPH</title>
+<meta name="description" content="Secure staff sign-in for the AuringPH admin panel.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1a0f0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/admin.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin-login.css">
 </head>
-<body class="admin-body">
+<body class="al-body">
 
-<div class="admin-login-wrap">
-  <div class="admin-login-card">
+<main class="al-wrap">
+  <section class="al-card" aria-labelledby="al-title">
 
-    <div class="admin-login-logo">
-      <img src="images/logo.png" alt="AuringPh Logo" onerror="this.style.display='none'">
-      <span class="badge-admin">Admin Panel</span>
-    </div>
+    <header class="al-brand">
+      <img src="images/logo.png" alt="" width="40" height="40" onerror="this.style.display='none'">
+      <span class="al-brand-name">AuringPH</span>
+      <span class="al-badge">Admin</span>
+    </header>
 
-    <h1>Admin Login</h1>
-    <p class="admin-login-sub">Sign in to manage AuringPh products, orders, and users.</p>
+    <h1 id="al-title" class="al-title">Welcome back</h1>
+    <p class="al-sub">Sign in to manage products, orders, and users.</p>
 
     <form id="adminLoginForm" novalidate>
 
-      <div class="admin-form-group">
+      <div class="al-field">
         <label for="adminUsername">Username</label>
-        <input type="text" id="adminUsername" placeholder="admin" autocomplete="username" required>
-        <span class="admin-error-text" id="usernameError"></span>
+        <input type="text" id="adminUsername" placeholder="Enter your username"
+               autocomplete="username" autocapitalize="none" spellcheck="false" required
+               aria-describedby="usernameError">
+        <span class="admin-error-text" id="usernameError" role="alert" aria-live="polite"></span>
       </div>
 
-      <div class="admin-form-group">
+      <div class="al-field">
         <label for="adminPassword">Password</label>
-        <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="current-password" required>
-        <span class="admin-error-text" id="passwordError"></span>
+        <div class="al-input-wrap">
+          <input type="password" id="adminPassword" placeholder="Enter your password"
+                 autocomplete="current-password" required aria-describedby="passwordError capsWarning">
+          <button type="button" class="al-eye" id="togglePw" aria-label="Show password" aria-pressed="false">
+            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <span class="al-caps" id="capsWarning" hidden>Caps Lock is on</span>
+        <span class="admin-error-text" id="passwordError" role="alert" aria-live="polite"></span>
       </div>
 
-      <button type="submit" class="btn-primary btn-full" id="adminLoginBtn">Login</button>
+      <button type="submit" class="al-btn" id="adminLoginBtn">
+        <span class="al-btn-text">Log in</span>
+        <span class="al-spinner" aria-hidden="true"></span>
+      </button>
     </form>
 
-    <a href="index.html" class="admin-back-link">← Back to AuringPh Store</a>
+    <a href="index.html" class="al-back">← Back to AuringPH Store</a>
 
-  </div>
-</div>
+    <p class="al-foot">Authorized staff only. Activity may be monitored.</p>
+  </section>
+</main>
 
-<div class="admin-toast" id="adminToast"></div>
+<div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
 
 <script src="js/admin.js"></script>
 <script>
@@ -55,34 +75,82 @@
     window.location.href = "pages/dashboard.html";
   }
 
-  document.getElementById("adminLoginForm").addEventListener("submit", function (e) {
+  const form = document.getElementById("adminLoginForm");
+  const userInput = document.getElementById("adminUsername");
+  const passInput = document.getElementById("adminPassword");
+  const userErr = document.getElementById("usernameError");
+  const passErr = document.getElementById("passwordError");
+  const btn = document.getElementById("adminLoginBtn");
+  const toggle = document.getElementById("togglePw");
+  const caps = document.getElementById("capsWarning");
+
+  function setError(input, el, msg) {
+    el.textContent = msg;
+    input.classList.toggle("is-invalid", !!msg);
+    input.setAttribute("aria-invalid", msg ? "true" : "false");
+  }
+
+  function setLoading(on) {
+    btn.disabled = on;
+    btn.classList.toggle("is-loading", on);
+    btn.setAttribute("aria-busy", on ? "true" : "false");
+  }
+
+  // Show / hide password
+  toggle.addEventListener("click", function () {
+    const show = passInput.type === "password";
+    passInput.type = show ? "text" : "password";
+    toggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    toggle.setAttribute("aria-pressed", show ? "true" : "false");
+    toggle.classList.toggle("is-on", show);
+  });
+
+  // Caps Lock hint
+  passInput.addEventListener("keydown", function (e) {
+    caps.hidden = !(e.getModifierState && e.getModifierState("CapsLock"));
+  });
+  passInput.addEventListener("blur", function () { caps.hidden = true; });
+
+  // Clear error while typing
+  userInput.addEventListener("input", function () { setError(userInput, userErr, ""); });
+  passInput.addEventListener("input", function () { setError(passInput, passErr, ""); });
+
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const username = document.getElementById("adminUsername").value.trim();
-    const password = document.getElementById("adminPassword").value;
+    const username = userInput.value.trim();
+    const password = passInput.value;
 
-    document.getElementById("usernameError").textContent = "";
-    document.getElementById("passwordError").textContent = "";
+    setError(userInput, userErr, "");
+    setError(passInput, passErr, "");
 
-    let valid = true;
+    let firstInvalid = null;
 
     if (!username) {
-      document.getElementById("usernameError").textContent = "⚠ Username is required.";
-      valid = false;
+      setError(userInput, userErr, "Username is required.");
+      firstInvalid = userInput;
     }
     if (!password) {
-      document.getElementById("passwordError").textContent = "⚠ Password is required.";
-      valid = false;
+      setError(passInput, passErr, "Password is required.");
+      firstInvalid = firstInvalid || passInput;
     }
-    if (!valid) return;
+    if (firstInvalid) { firstInvalid.focus(); return; }
 
-    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-      localStorage.setItem(ADMIN_AUTH_KEY, "true");
-      localStorage.setItem(ADMIN_INFO_KEY, JSON.stringify({ username: username, name: "Admin User" }));
-      window.location.href = "pages/dashboard.html";
-    } else {
-      document.getElementById("passwordError").textContent = "⚠ Incorrect username or password.";
-    }
+    setLoading(true);
+
+    // Small delay so the loading state is visible (UX only)
+    setTimeout(function () {
+      if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+        localStorage.setItem(ADMIN_AUTH_KEY, "true");
+        localStorage.setItem(ADMIN_INFO_KEY, JSON.stringify({ username: username, name: "Admin User" }));
+        window.location.href = "pages/dashboard.html";
+      } else {
+        setLoading(false);
+        setError(passInput, passErr, "Incorrect username or password.");
+        passInput.value = "";
+        passInput.focus();
+      }
+    }, 600);
   });
 </script>
 </body>

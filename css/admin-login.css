@@ -1,0 +1,346 @@
+/* ===== Theme tokens ===== */
+:root {
+  --bg-dark: #150c07;
+  --bg-mid: #2a1810;
+  --cream: #fdf5ee;
+  --ink: #1f130d;
+  --muted: #7a6a60;
+  --line: #e7d9cd;
+  --accent: #b4552d;
+  --accent-dark: #8f3f1f;
+  --accent-soft: rgba(193, 106, 60, 0.18);
+  --danger: #c0392b;
+  --radius: 12px;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --font-head: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ===== Page background ===== */
+.al-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background:
+    radial-gradient(
+      900px 500px at 15% 10%,
+      rgba(193, 106, 60, 0.28),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 500px at 90% 90%,
+      rgba(120, 60, 30, 0.35),
+      transparent 60%
+    ),
+    linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+}
+.al-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+/* ===== Card ===== */
+.al-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--cream);
+  border-radius: 20px;
+  padding: 40px 32px 28px;
+  box-shadow: var(--shadow);
+  animation: al-in 0.35s ease-out both;
+}
+@keyframes al-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===== Brand ===== */
+.al-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.al-brand img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+.al-brand-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+}
+.al-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.al-title {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+.al-sub {
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ===== Fields ===== */
+.al-field {
+  margin-bottom: 20px;
+}
+.al-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.al-field input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.al-field input::placeholder {
+  color: #b3a59a;
+}
+.al-field input:hover {
+  border-color: #d4bfae;
+}
+.al-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.al-field input.is-invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 4px rgba(192, 57, 43, 0.12);
+}
+
+.al-input-wrap {
+  position: relative;
+}
+.al-input-wrap input {
+  padding-right: 48px;
+}
+.al-eye {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+.al-eye:hover {
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+}
+.al-eye.is-on {
+  color: var(--accent);
+}
+.al-eye:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.admin-error-text {
+  display: block;
+  min-height: 0;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  color: var(--danger);
+}
+.admin-error-text:empty {
+  display: none;
+}
+.al-caps {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  color: #a86b00;
+}
+
+/* ===== Button ===== */
+.al-btn {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin-top: 4px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(143, 63, 31, 0.28);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.al-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(143, 63, 31, 0.35);
+}
+.al-btn:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+.al-btn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.al-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.al-spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: al-spin 0.7s linear infinite;
+}
+.al-btn.is-loading .al-btn-text {
+  visibility: hidden;
+}
+.al-btn.is-loading .al-spinner {
+  display: block;
+}
+@keyframes al-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Footer links ===== */
+.al-back {
+  display: block;
+  margin-top: 22px;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+.al-back:hover {
+  text-decoration: underline;
+}
+.al-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.al-foot {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ===== Toast (used by admin.js) ===== */
+.admin-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 20px);
+  background: #2a1810;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  z-index: 50;
+}
+.admin-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 480px) {
+  .al-card {
+    padding: 32px 20px 24px;
+    border-radius: 16px;
+  }
+  .al-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
