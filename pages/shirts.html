@@ -1,1300 +1,724 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shirts - AuringPh</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/category.css" />
-    <style>
-      /* Toast */
-      .toast {
-        position: fixed;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%) translateY(20px);
-        background: var(--text-dark);
-        color: var(--white);
-        padding: 12px 22px;
-        border-radius: var(--radius-full);
-        font-size: 14px;
-        font-weight: 500;
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition:
-          opacity 0.3s,
-          transform 0.3s;
-      }
-      .toast.show {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shirts — AuringPH</title>
+<meta name="description" content="Shop trendy shirts, tees, and polos from Nike, Adidas, Lacoste, Carhartt and more at AuringPH.">
+<meta name="theme-color" content="#1a1208">
+<link rel="icon" href="../images/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/home-pro.css">
+<link rel="stylesheet" href="../css/shop.css">
+</head>
+<body>
 
-      /* Modal */
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 200;
-        align-items: center;
-        justify-content: center;
-      }
-      .modal-overlay.open {
-        display: flex;
-      }
-      .modal-box {
-        background: var(--white);
-        border-radius: var(--radius);
-        padding: 32px;
-        width: 90%;
-        max-width: 460px;
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-      .modal-box h3 {
-        font-family: var(--font-display);
-        font-size: 22px;
-        color: var(--text-dark);
-        margin-bottom: 20px;
-      }
-      .modal-field {
-        margin-bottom: 14px;
-      }
-      .modal-field label {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-mid);
-        display: block;
-        margin-bottom: 6px;
-      }
-      .modal-field input,
-      .modal-field select {
-        width: 100%;
-        height: 44px;
-        border: 1.5px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 0 12px;
-        font-size: 14px;
-        font-family: var(--font-body);
-        color: var(--text-dark);
-        background: var(--white);
-        outline: none;
-      }
-      .modal-field input:focus,
-      .modal-field select:focus {
-        border-color: var(--brown);
-      }
-      .modal-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-      }
-      .modal-actions button {
-        flex: 1;
-        padding: 12px 0;
-        border-radius: var(--radius-full);
-        font-size: 14px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        font-family: var(--font-body);
-      }
-      .btn-save {
-        background: var(--brown);
-        color: var(--white);
-      }
-      .btn-save:hover {
-        background: var(--brown-dark);
-      }
-      .btn-cancel {
-        background: var(--cream);
-        color: var(--text-mid);
-        border: 1.5px solid var(--border) !important;
-      }
-      .btn-delete {
-        background: var(--red);
-        color: var(--white);
-      }
+<a href="#main" class="skip-link">Skip to main content</a>
 
-      /* Add shirt button */
-      .add-product-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--brown);
-        color: var(--white);
-        border: none;
-        border-radius: var(--radius-full);
-        padding: 10px 20px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: var(--font-body);
-        transition: background 0.2s;
-      }
-      .add-product-btn:hover {
-        background: var(--brown-dark);
-      }
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"/></symbol>
+</svg>
 
-      /* Product image */
-      .product-img {
-        position: relative;
-      }
-      .product-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+<!-- ============ ANNOUNCEMENT BAR ============ -->
+<div class="topbar">Free shipping on orders over <strong>₱500</strong> &middot; Nationwide delivery</div>
 
-      /* Product badge */
-      .product-badge {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: var(--brown);
-        color: var(--white);
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.8px;
-        padding: 4px 10px;
-        border-radius: var(--radius-full);
-        z-index: 2;
-        pointer-events: none;
-      }
-      .sale-badge {
-        background: var(--red);
-      }
+<!-- ============ NAVBAR ============ -->
+<header class="navbar">
+  <div class="container nav-inner">
 
-      /* Add to cart btn */
-      .btn-add-cart {
-        width: 100%;
-        margin-top: 10px;
-        background: var(--brown);
-        color: var(--white);
-        border: none;
-        border-radius: var(--radius-full);
-        padding: 9px 0;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: var(--font-body);
-        transition: background 0.2s;
-      }
-      .btn-add-cart:hover {
-        background: var(--brown-dark);
-      }
-      .btn-edit {
-        background: var(--cream);
-        color: var(--text-dark);
-        border: 1.5px solid var(--border) !important;
-        font-weight: 600;
-      }
+    <a href="home.html" class="nav-logo" aria-label="AuringPH home">
+      <img src="../images/logo.png" alt="" class="nav-logo-img" width="36" height="36" onerror="this.style.display='none'">
+      <span class="nav-logo-text">AuringPH</span>
+    </a>
 
-      /* Original price */
-      .product-price-original {
-        font-size: 12px;
-        color: var(--text-light);
-        text-decoration: line-through;
-        margin-right: 4px;
-      }
-
-      /* Skeleton */
-      .skeleton-card {
-        background: var(--white);
-        border-radius: var(--radius);
-        overflow: hidden;
-        border: 1px solid #f5ebe3;
-      }
-      .skeleton-img {
-        width: 100%;
-        aspect-ratio: 1;
-        background: linear-gradient(
-          90deg,
-          #f0e4dc 25%,
-          #fdf5ee 50%,
-          #f0e4dc 75%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.4s infinite;
-      }
-      .skeleton-text {
-        margin: 14px 16px;
-        height: 14px;
-        border-radius: 4px;
-        background: linear-gradient(
-          90deg,
-          #f0e4dc 25%,
-          #fdf5ee 50%,
-          #f0e4dc 75%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.4s infinite;
-      }
-      .skeleton-text.short {
-        width: 60%;
-        margin-top: 8px;
-      }
-      @keyframes shimmer {
-        0% {
-          background-position: 200% 0;
-        }
-        100% {
-          background-position: -200% 0;
-        }
-      }
-
-      /* Empty state */
-      .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        grid-column: 1 / -1;
-      }
-      .empty-state p {
-        font-size: 15px;
-        color: var(--text-light);
-        margin-top: 12px;
-      }
-
-      .page-section {
-        padding-top: 32px;
-        padding-bottom: 40px;
-      }
-
-      /* Disabled pagination button */
-      .page-btn:disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
-      }
-    </style>
-  </head>
-  <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
-
-    <!-- NAVBAR -->
-    <header class="navbar">
-      <div class="container">
-        <a href="home.html" class="nav-logo">
-          <img
-            src="../images/logo.png"
-            alt="AuringPh Logo"
-            class="nav-logo-img"
-          />
-        </a>
-        <nav class="nav-links">
-          <a href="home.html" class="nav-link">Home</a>
-          <a href="shirts.html" class="nav-link active">Shirts</a>
-          <a href="shoes.html" class="nav-link">Shoes</a>
-          <a href="pants.html" class="nav-link">Pants</a>
-          <a href="others.html" class="nav-link">Others</a>
-        </nav>
-        <div class="nav-search">
-          <span aria-hidden="true">🔍</span>
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search shirts..."
-            aria-label="Search shirts"
-          />
-        </div>
-        <div class="nav-actions">
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'cart.html'"
-            aria-label="Shopping cart"
-          >
-            🛒<span class="badge-count" id="cartCount">0</span>
-          </button>
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'favorites.html'"
-            aria-label="Favorites"
-          >
-            ♡<span class="badge-count" id="favCount">0</span>
-          </button>
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'messages.html'"
-            aria-label="Messages"
-          >
-            💬<span class="badge-count" id="msgCount">0</span>
-          </button>
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'notifications.html'"
-            aria-label="Notifications"
-          >
-            🔔<span class="badge-count">3</span>
-          </button>
-          <div
-            class="nav-avatar"
-            onclick="window.location.href = 'profile.html'"
-            aria-label="My Profile"
-          >
-            AB
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <main id="main">
-      <div class="container page-section">
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-          <a href="home.html">Home</a> / <span class="current">Shirts</span>
-        </div>
-
-        <!-- Page title + sort -->
-        <div class="category-header">
-          <div>
-            <h1>Shirts</h1>
-            <div class="item-count" id="itemCount">Loading…</div>
-          </div>
-          <div style="display: flex; gap: 12px; align-items: center">
-            <select
-              class="sort-select"
-              id="sortSelect"
-              aria-label="Sort products"
-            >
-              <option value="default">Sort by: Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="name-asc">Name: A–Z</option>
-            </select>
-            <button class="add-product-btn" id="addProductBtn">
-              ＋ Add Shirt
-            </button>
-          </div>
-        </div>
-
-        <!-- Mobile filter toggle -->
-        <button
-          class="mobile-filter-toggle"
-          onclick="
-            document.querySelector('.filter-sidebar').classList.toggle('open')
-          "
-        >
-          ⚙️ Filters
-        </button>
-
-        <div class="category-layout">
-          <!-- SIDEBAR -->
-          <aside class="filter-sidebar">
-            <div class="filter-group">
-              <div class="filter-group-title">Brand</div>
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check"
-                  value="all"
-                  checked
-                  onchange="onBrandAllChange(this)"
-                />
-                All Brands</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check brand-cb"
-                  value="Nike"
-                  onchange="onBrandChange()"
-                />
-                Nike</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check brand-cb"
-                  value="Carhartt"
-                  onchange="onBrandChange()"
-                />
-                Carhartt</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check brand-cb"
-                  value="Essentials"
-                  onchange="onBrandChange()"
-                />
-                Essentials</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check brand-cb"
-                  value="Lacoste"
-                  onchange="onBrandChange()"
-                />
-                Lacoste</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check brand-cb"
-                  value="Guess"
-                  onchange="onBrandChange()"
-                />
-                Guess</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-check brand-cb"
-                  value="Adidas"
-                  onchange="onBrandChange()"
-                />
-                Adidas</label
-              >
-            </div>
-
-            <div class="filter-group">
-              <div class="filter-group-title">Size</div>
-              <div class="size-grid">
-                <div class="size-chip" onclick="setActiveSize(this)">XS</div>
-                <div class="size-chip" onclick="setActiveSize(this)">S</div>
-                <div class="size-chip" onclick="setActiveSize(this)">M</div>
-                <div class="size-chip" onclick="setActiveSize(this)">L</div>
-                <div class="size-chip" onclick="setActiveSize(this)">XL</div>
-                <div class="size-chip" onclick="setActiveSize(this)">XXL</div>
-              </div>
-            </div>
-
-            <div class="filter-group">
-              <div class="filter-group-title">Price Range</div>
-              <div class="price-range-row">
-                <input type="number" id="minPrice" placeholder="Min" />
-                <span>-</span>
-                <input type="number" id="maxPrice" placeholder="Max" />
-              </div>
-              <button class="filter-apply-btn" id="applyPriceBtn">
-                Apply Filters
-              </button>
-            </div>
-          </aside>
-
-          <!-- MAIN -->
-          <div>
-            <!-- Promo strip -->
-            <div class="promo-strip">
-              <div>
-                <div class="promo-strip-text">Buy 5 Get 1 Free!</div>
-                <div class="promo-strip-sub">On all shirts today only</div>
-              </div>
-              <button
-                class="promo-strip-btn"
-                onclick="showToast('Promo applied at checkout!')"
-              >
-                Shop Now
-              </button>
-            </div>
-
-            <!-- Product grid -->
-            <div class="product-grid" id="productGrid" aria-live="polite">
-              <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-text"></div>
-                <div class="skeleton-text short"></div>
-              </div>
-              <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-text"></div>
-                <div class="skeleton-text short"></div>
-              </div>
-              <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-text"></div>
-                <div class="skeleton-text short"></div>
-              </div>
-              <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-text"></div>
-                <div class="skeleton-text short"></div>
-              </div>
-              <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-text"></div>
-                <div class="skeleton-text short"></div>
-              </div>
-              <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-text"></div>
-                <div class="skeleton-text short"></div>
-              </div>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination" id="pagination"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      <div class="container">
-        <div class="footer-brand">
-          <div class="footer-logo">
-            <img
-              src="../images/logo.png"
-              alt="AuringPh Logo"
-              class="footer-logo-img"
-            />
-            AuringPh
-          </div>
-          <p>
-            Your go-to online boutique for trendy shirts, shoes, pants, and
-            accessories — proudly Filipino, made for every budget.
-          </p>
-        </div>
-        <div class="footer-col">
-          <div class="footer-heading">Shop</div>
-          <nav class="footer-links">
-            <a href="home.html">Home</a>
-            <a href="shirts.html">Shirts</a>
-            <a href="shoes.html">Shoes</a>
-            <a href="pants.html">Pants</a>
-            <a href="others.html">Others</a>
-          </nav>
-        </div>
-        <div class="footer-col">
-          <div class="footer-heading">My Account</div>
-          <nav class="footer-links">
-            <a href="profile.html">My Profile</a>
-            <a href="orders.html">My Orders</a>
-            <a href="favorites.html">My Favorites</a>
-            <a href="cart.html">My Cart</a>
-          </nav>
-        </div>
-        <div class="footer-col">
-          <div class="footer-heading">Connect with Us</div>
-          <div class="footer-social">
-            <a
-              href="https://www.facebook.com/auringph"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
-                />
-              </svg>
-            </a>
-          </div>
-          <div class="footer-contact">
-            📍 Paranaque, Philippines<br />
-            ✉️ hello@auringph.com
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        © 2026 AuringPh. All rights reserved. | A student project prototype.
-      </div>
-    </footer>
-
-    <!-- BOTTOM NAV -->
-    <nav class="bottom-nav">
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'home.html'"
-      >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Home
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'favorites.html'"
-      >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Favorites
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'orders.html'"
-      >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <line
-            x1="3"
-            y1="6"
-            x2="21"
-            y2="6"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Orders
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'notifications.html'"
-      >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Notif
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'profile.html'"
-      >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
-        </svg>
-        Profile
-      </button>
+    <nav class="nav-links" aria-label="Main">
+      <a href="home.html" class="nav-link">Home</a>
+      <a href="shirts.html" class="nav-link active" aria-current="page">Shirts</a>
+      <a href="shoes.html" class="nav-link">Shoes</a>
+      <a href="pants.html" class="nav-link">Pants</a>
+      <a href="others.html" class="nav-link">Others</a>
     </nav>
 
-    <!-- ADD/EDIT MODAL -->
-    <div
-      class="modal-overlay"
-      id="productModal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modalTitle"
-    >
-      <div class="modal-box">
-        <h3 id="modalTitle">Add Shirt</h3>
-        <input type="hidden" id="editDocId" />
-        <div class="modal-field">
-          <label for="fName">Product Name *</label>
-          <input type="text" id="fName" placeholder="e.g. Classic White Tee" />
-        </div>
-        <div class="modal-field">
-          <label for="fBrand">Brand *</label>
-          <select id="fBrand">
-            <option value="">Select brand</option>
-            <option>Nike</option>
-            <option>Adidas</option>
-            <option>Carhartt</option>
-            <option>Lacoste</option>
-            <option>Essentials</option>
-            <option>Guess</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="modal-field">
-          <label for="fPrice">Price (₱) *</label>
-          <input type="number" id="fPrice" placeholder="e.g. 599" min="0" />
-        </div>
-        <div class="modal-field">
-          <label for="fOrigPrice"
-            >Original Price (₱)
-            <span style="font-weight: 400; color: var(--text-light)"
-              >(optional, for sale tag)</span
-            ></label
-          >
-          <input type="number" id="fOrigPrice" placeholder="e.g. 799" min="0" />
-        </div>
-        <div class="modal-field">
-          <label for="fSize">Available Sizes</label>
-          <input type="text" id="fSize" placeholder="e.g. S, M, L, XL" />
-        </div>
-        <div class="modal-field">
-          <label for="fBadge">Badge</label>
-          <select id="fBadge">
-            <option value="">None</option>
-            <option value="NEW">NEW</option>
-            <option value="SALE">SALE</option>
-            <option value="BESTSELLER">BESTSELLER</option>
-          </select>
-        </div>
-        <div class="modal-field">
-          <label for="fImage"
-            >Image Filename
-            <span style="font-weight: 400; color: var(--text-light)"
-              >(e.g. classic-tee.jpg)</span
-            ></label
-          >
-          <input type="text" id="fImage" placeholder="classic-tee.jpg" />
-        </div>
-        <div class="modal-actions">
-          <button class="btn-cancel" id="modalCancelBtn">Cancel</button>
-          <button class="btn-delete" id="modalDeleteBtn" style="display: none">
-            Delete
-          </button>
-          <button class="btn-save" id="modalSaveBtn">Save</button>
-        </div>
+    <div class="nav-search" role="search">
+      <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" placeholder="Search shirts…" aria-label="Search shirts" autocomplete="off">
+    </div>
+
+    <div class="nav-actions">
+      <a href="cart.html" class="nav-icon-btn" aria-label="Shopping cart"><svg class="ico"><use href="#i-cart"/></svg><span class="badge-count" id="cartCount">0</span></a>
+      <a href="favorites.html" class="nav-icon-btn hide-sm" aria-label="Favorites"><svg class="ico"><use href="#i-heart"/></svg><span class="badge-count" id="favCount">0</span></a>
+      <a href="messages.html" class="nav-icon-btn" aria-label="Messages"><svg class="ico"><use href="#i-message"/></svg><span class="badge-count" id="msgCount">0</span></a>
+      <a href="notifications.html" class="nav-icon-btn hide-sm" aria-label="Notifications"><svg class="ico"><use href="#i-bell"/></svg><span class="badge-count" id="notifCount">0</span></a>
+      <a href="profile.html" class="nav-avatar hide-sm" id="navAvatar" aria-label="My profile"><svg class="ico"><use href="#i-user"/></svg></a>
+    </div>
+
+  </div>
+</header>
+
+<main id="main" class="shop">
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="home.html">Home</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">Shirts</span>
+    </nav>
+
+    <div class="shop-head">
+      <div>
+        <h1 class="shop-title">Shirts</h1>
+        <p class="shop-count" id="itemCount" aria-live="polite">Loading…</p>
+      </div>
+      <div class="shop-tools">
+        <button type="button" class="btn btn-outline btn-sm btn-filter" id="openFilters">
+          <svg class="ico"><use href="#i-sliders"/></svg>Filters
+        </button>
+        <label class="sr-only" for="sortSelect">Sort products</label>
+        <select class="select" id="sortSelect">
+          <option value="default">Sort by: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A–Z</option>
+        </select>
+        <!-- Admin only (hidden for customers) -->
+        <button type="button" class="btn btn-primary btn-sm admin-only" id="addProductBtn">
+          <svg class="ico"><use href="#i-plus"/></svg>Add shirt
+        </button>
       </div>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
+    <div class="shop-layout">
 
-    <script>
-      // ================================================
-      //  SHIRTS PAGE — Full Logic
-      //  Features: pagination, search, sort, brand filter,
-      //            price filter, size chips, cart, wishlist,
-      //            add/edit/delete modal, localStorage
-      // ================================================
+      <!-- ===== FILTERS ===== -->
+      <aside class="filters" id="filters" aria-label="Product filters">
+        <div class="filters-head">
+          <h2 class="filters-title">Filters</h2>
+          <button type="button" class="icon-btn" id="filtersClose" aria-label="Close filters"><svg class="ico"><use href="#i-x"/></svg></button>
+        </div>
 
-      const STORAGE_KEY = "auringph_shirts";
-      const IMAGES_PATH = "../images/products/shirts/";
-      const ITEMS_PER_PAGE = 6;
-
-      // ---- DEFAULT PRODUCTS ----
-      const DEFAULT_PRODUCTS = [
-        {
-          id: "1",
-          name: "Classic White Tee",
-          brand: "Nike",
-          price: 599,
-          origPrice: 799,
-          sizes: "S,M,L,XL",
-          badge: "SALE",
-          image: "classic-tee.jpg",
-        },
-        {
-          id: "2",
-          name: "Black Essentials Shirt",
-          brand: "Essentials",
-          price: 899,
-          origPrice: null,
-          sizes: "M,L,XL",
-          badge: "NEW",
-          image: "essentials-tee.jpg",
-        },
-        {
-          id: "3",
-          name: "Carhartt Work Shirt",
-          brand: "Carhartt",
-          price: 1299,
-          origPrice: 1599,
-          sizes: "S,M,L,XL,XXL",
-          badge: "SALE",
-          image: "carhartt-tee.jpg",
-        },
-        {
-          id: "4",
-          name: "Adidas Performance Tee",
-          brand: "Adidas",
-          price: 799,
-          origPrice: null,
-          sizes: "XS,S,M,L,XL",
-          badge: "",
-          image: "adidas-tee.jpg",
-        },
-        {
-          id: "5",
-          name: "Lacoste Polo Shirt",
-          brand: "Lacoste",
-          price: 1599,
-          origPrice: null,
-          sizes: "S,M,L,XL",
-          badge: "",
-          image: "lacoste-tee.jpg",
-        },
-        {
-          id: "6",
-          name: "Guess Designer Tee",
-          brand: "Guess",
-          price: 1099,
-          origPrice: 1399,
-          sizes: "XS,S,M,L,XL",
-          badge: "SALE",
-          image: "guess-tee.jpg",
-        },
-        {
-          id: "7",
-          name: "Nike Kids Tee",
-          brand: "Nike",
-          price: 449,
-          origPrice: null,
-          sizes: "XS,S",
-          badge: "NEW",
-          image: "nike-kids-tee.jpg",
-        },
-        {
-          id: "8",
-          name: "Oversized Polo",
-          brand: "Other",
-          price: 699,
-          origPrice: null,
-          sizes: "M,L,XL,XXL",
-          badge: "",
-          image: "oversized-polo.jpg",
-        },
-        {
-          id: "9",
-          name: "Nike Dri-FIT Training Shirt",
-          brand: "Nike",
-          price: 849,
-          origPrice: null,
-          sizes: "S,M,L,XL",
-          badge: "NEW",
-          image: "nike-drifit.jpg",
-        },
-        {
-          id: "10",
-          name: "Carhartt Henley Shirt",
-          brand: "Carhartt",
-          price: 1150,
-          origPrice: 1400,
-          sizes: "M,L,XL,XXL",
-          badge: "SALE",
-          image: "carhartt-henley.jpg",
-        },
-        {
-          id: "11",
-          name: "Adidas Trefoil Tee",
-          brand: "Adidas",
-          price: 750,
-          origPrice: null,
-          sizes: "XS,S,M,L,XL",
-          badge: "",
-          image: "adidas-trefoil.jpg",
-        },
-        {
-          id: "12",
-          name: "Lacoste Slim Fit Polo",
-          brand: "Lacoste",
-          price: 1750,
-          origPrice: null,
-          sizes: "S,M,L,XL",
-          badge: "BESTSELLER",
-          image: "lacoste-slim.jpg",
-        },
-        {
-          id: "13",
-          name: "Essentials Relaxed Tee",
-          brand: "Essentials",
-          price: 780,
-          origPrice: null,
-          sizes: "S,M,L,XL,XXL",
-          badge: "",
-          image: "essentials-relaxed.jpg",
-        },
-        {
-          id: "14",
-          name: "Guess Logo Polo",
-          brand: "Guess",
-          price: 1250,
-          origPrice: 1550,
-          sizes: "S,M,L,XL",
-          badge: "SALE",
-          image: "guess-polo.jpg",
-        },
-        {
-          id: "15",
-          name: "Nike Air Graphic Tee",
-          brand: "Nike",
-          price: 699,
-          origPrice: null,
-          sizes: "XS,S,M,L,XL",
-          badge: "",
-          image: "nike-air-tee.jpg",
-        },
-        {
-          id: "16",
-          name: "Carhartt Pocket T-Shirt",
-          brand: "Carhartt",
-          price: 950,
-          origPrice: null,
-          sizes: "M,L,XL,XXL",
-          badge: "",
-          image: "carhartt-pocket.jpg",
-        },
-        {
-          id: "17",
-          name: "Adidas Aeroready Shirt",
-          brand: "Adidas",
-          price: 880,
-          origPrice: 1100,
-          sizes: "S,M,L,XL",
-          badge: "SALE",
-          image: "adidas-aeroready.jpg",
-        },
-        {
-          id: "18",
-          name: "Lacoste Heritage Polo",
-          brand: "Lacoste",
-          price: 1899,
-          origPrice: null,
-          sizes: "S,M,L,XL",
-          badge: "NEW",
-          image: "lacoste-heritage.jpg",
-        },
-      ];
-
-      // ---- STATE ----
-      let allProducts =
-        JSON.parse(localStorage.getItem(STORAGE_KEY)) || DEFAULT_PRODUCTS;
-      let filtered = [...allProducts];
-      let currentPage = 1;
-      let activeBrands = [];
-      let priceMin = null,
-        priceMax = null;
-      let searchQuery = "";
-      let sortValue = "default";
-
-      // ---- CART / WISHLIST ----
-      let cart = JSON.parse(localStorage.getItem("auringph_cart")) || [];
-      let wishlist =
-        JSON.parse(localStorage.getItem("auringph_wishlist")) || [];
-
-      function saveProducts() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(allProducts));
-      }
-      function saveCart() {
-        localStorage.setItem("auringph_cart", JSON.stringify(cart));
-        document.getElementById("cartCount").textContent = cart.reduce(
-          (a, b) => a + b.qty,
-          0,
-        );
-      }
-      function saveWishlist() {
-        localStorage.setItem("auringph_wishlist", JSON.stringify(wishlist));
-        document.getElementById("favCount").textContent = wishlist.length;
-      }
-
-      saveCart();
-      saveWishlist();
-
-      // ---- TOAST ----
-      function showToast(msg) {
-        const t = document.getElementById("toast");
-        t.textContent = msg;
-        t.classList.add("show");
-        setTimeout(() => t.classList.remove("show"), 3000);
-      }
-
-      // ---- SIZE CHIP ----
-      function setActiveSize(el) {
-        document
-          .querySelectorAll(".size-chip")
-          .forEach((c) => c.classList.remove("active"));
-        el.classList.add("active");
-      }
-
-      // ---- BRAND FILTER ----
-      function onBrandAllChange(cb) {
-        if (cb.checked) {
-          document
-            .querySelectorAll(".brand-cb")
-            .forEach((c) => (c.checked = false));
-          activeBrands = [];
-        }
-        currentPage = 1;
-        applyAndRender();
-      }
-
-      function onBrandChange() {
-        const checked = document.querySelectorAll(".brand-cb:checked");
-        document.querySelector('.brand-check[value="all"]').checked =
-          checked.length === 0;
-        activeBrands = Array.from(checked).map((c) => c.value);
-        currentPage = 1;
-        applyAndRender();
-      }
-
-      // ---- PRICE FILTER ----
-      document.getElementById("applyPriceBtn").addEventListener("click", () => {
-        priceMin = Number(document.getElementById("minPrice").value) || null;
-        priceMax = Number(document.getElementById("maxPrice").value) || null;
-        currentPage = 1;
-        applyAndRender();
-        showToast("Filters applied!");
-      });
-
-      // ---- SEARCH ----
-      document
-        .getElementById("searchInput")
-        .addEventListener("input", function () {
-          searchQuery = this.value.trim().toLowerCase();
-          currentPage = 1;
-          applyAndRender();
-        });
-
-      // ---- SORT ----
-      document
-        .getElementById("sortSelect")
-        .addEventListener("change", function () {
-          sortValue = this.value;
-          currentPage = 1;
-          applyAndRender();
-        });
-
-      // ---- COMPUTE FILTERED ----
-      function applyAndRender() {
-        filtered = [...allProducts];
-
-        // Brand
-        if (activeBrands.length > 0) {
-          filtered = filtered.filter((p) => activeBrands.includes(p.brand));
-        }
-
-        // Price
-        if (priceMin !== null)
-          filtered = filtered.filter((p) => p.price >= priceMin);
-        if (priceMax !== null)
-          filtered = filtered.filter((p) => p.price <= priceMax);
-
-        // Search
-        if (searchQuery) {
-          filtered = filtered.filter(
-            (p) =>
-              p.name.toLowerCase().includes(searchQuery) ||
-              (p.brand && p.brand.toLowerCase().includes(searchQuery)),
-          );
-        }
-
-        // Sort
-        if (sortValue === "price-asc")
-          filtered.sort((a, b) => a.price - b.price);
-        if (sortValue === "price-desc")
-          filtered.sort((a, b) => b.price - a.price);
-        if (sortValue === "name-asc")
-          filtered.sort((a, b) => a.name.localeCompare(b.name));
-
-        renderProducts();
-      }
-
-      // ---- CART ----
-      function addToCart(product) {
-        const existing = cart.find((x) => x.id === product.id);
-        if (existing) {
-          existing.qty++;
-        } else {
-          cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            image: IMAGES_PATH + product.image,
-            qty: 1,
-          });
-        }
-        saveCart();
-        showToast("Added to cart!");
-      }
-
-      function toggleWishlist(id) {
-        const idx = wishlist.findIndex((x) => x.id === id);
-        const p = allProducts.find((x) => x.id === id);
-        if (idx === -1) {
-          wishlist.push({ id, name: p ? p.name : "" });
-          showToast("Added to favorites!");
-        } else {
-          wishlist.splice(idx, 1);
-          showToast("Removed from favorites");
-        }
-        saveWishlist();
-        renderProducts();
-      }
-
-      // ---- RENDER PRODUCTS ----
-      function renderProducts() {
-        const grid = document.getElementById("productGrid");
-        const total = filtered.length;
-        const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
-        if (currentPage > totalPages) currentPage = totalPages;
-
-        document.getElementById("itemCount").textContent =
-          `${total} item${total !== 1 ? "s" : ""}`;
-
-        const start = (currentPage - 1) * ITEMS_PER_PAGE;
-        const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
-
-        if (pageItems.length === 0) {
-          grid.innerHTML = `<div class="empty-state"><div style="font-size:48px">🔍</div><p>No products found. Try adjusting your filters.</p></div>`;
-        } else {
-          grid.innerHTML = pageItems
-            .map((p) => {
-              const inWish = wishlist.some((x) => x.id === p.id);
-              return `
-        <article class="product-card">
-          <div class="product-img">
-            <img src="${IMAGES_PATH}${p.image}" alt="${p.name}"
-                 onerror="this.parentElement.style.background='#f0ebe5';this.style.display='none'">
-            ${p.badge ? `<span class="product-badge ${p.badge === "SALE" ? "sale-badge" : ""}">${p.badge}</span>` : ""}
+        <div class="filters-body">
+          <div class="filter-group">
+            <h2 class="filter-title">Brand</h2>
+            <div id="brandList"></div>
           </div>
-          <div class="product-info">
-            <div class="product-name">${p.name}</div>
-            <div class="product-sub">${p.brand || ""}</div>
-            <div class="product-bottom">
-              <span class="product-price">
-                ${p.origPrice ? `<span class="product-price-original">₱${p.origPrice}</span>` : ""}
-                ₱${p.price.toLocaleString()}
-              </span>
-              <button class="heart-btn ${inWish ? "active" : ""}"
-                onclick="event.stopPropagation(); toggleWishlist('${p.id}')"
-                aria-label="Add to favorites">${inWish ? "♥" : "♡"}</button>
+
+          <div class="filter-group">
+            <h2 class="filter-title">Size</h2>
+            <div class="size-grid" id="sizeGrid" role="group" aria-label="Filter by size">
+              <button type="button" class="size-chip" data-size="XS" aria-pressed="false">XS</button>
+              <button type="button" class="size-chip" data-size="S" aria-pressed="false">S</button>
+              <button type="button" class="size-chip" data-size="M" aria-pressed="false">M</button>
+              <button type="button" class="size-chip" data-size="L" aria-pressed="false">L</button>
+              <button type="button" class="size-chip" data-size="XL" aria-pressed="false">XL</button>
+              <button type="button" class="size-chip" data-size="XXL" aria-pressed="false">XXL</button>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(allProducts.find(x=>x.id==='${p.id}'))">Add to Cart</button>
-            <button class="btn-add-cart btn-edit" onclick="openEditModal('${p.id}')">Edit</button>
           </div>
-        </article>
-      `;
-            })
-            .join("");
-        }
 
-        renderPagination(totalPages);
-      }
+          <div class="filter-group">
+            <h2 class="filter-title">Price range (₱)</h2>
+            <div class="price-row">
+              <input type="number" id="minPrice" placeholder="Min" min="0" inputmode="numeric" aria-label="Minimum price">
+              <span aria-hidden="true">–</span>
+              <input type="number" id="maxPrice" placeholder="Max" min="0" inputmode="numeric" aria-label="Maximum price">
+            </div>
+            <button type="button" class="btn btn-outline btn-sm btn-block" id="applyPriceBtn">Apply price</button>
+          </div>
 
-      // ---- PAGINATION ----
-      function renderPagination(totalPages) {
-        const pg = document.getElementById("pagination");
-        let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>←</button>`;
-        for (let i = 1; i <= totalPages; i++) {
-          html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="goToPage(${i})">${i}</button>`;
-        }
-        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>→</button>`;
-        pg.innerHTML = html;
-      }
+          <button type="button" class="filters-reset" id="resetFilters">Reset all filters</button>
+        </div>
 
-      function goToPage(page) {
-        const totalPages = Math.max(
-          1,
-          Math.ceil(filtered.length / ITEMS_PER_PAGE),
-        );
-        if (page < 1 || page > totalPages) return;
-        currentPage = page;
-        renderProducts();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+        <div class="filters-foot">
+          <button type="button" class="btn btn-primary btn-block" id="showResults">Show results</button>
+        </div>
+      </aside>
+      <div class="filter-backdrop" id="filterBackdrop"></div>
 
-      // ---- MODAL ----
-      const modal = document.getElementById("productModal");
-      const editDocId = document.getElementById("editDocId");
-      const fName = document.getElementById("fName");
-      const fBrand = document.getElementById("fBrand");
-      const fPrice = document.getElementById("fPrice");
-      const fOrigPrice = document.getElementById("fOrigPrice");
-      const fSize = document.getElementById("fSize");
-      const fBadge = document.getElementById("fBadge");
-      const fImage = document.getElementById("fImage");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalDelBtn = document.getElementById("modalDeleteBtn");
+      <!-- ===== PRODUCTS ===== -->
+      <div class="shop-main" id="shopMain">
 
-      function openAddModal() {
-        editDocId.value = "";
-        fName.value = "";
-        fBrand.value = "";
-        fPrice.value = "";
-        fOrigPrice.value = "";
-        fSize.value = "";
-        fBadge.value = "";
-        fImage.value = "";
-        modalTitle.textContent = "Add Shirt";
-        modalDelBtn.style.display = "none";
-        modal.classList.add("open");
-      }
+        <div class="promo">
+          <div class="promo-main">
+            <span class="promo-icon"><svg class="ico"><use href="#i-tag"/></svg></span>
+            <div><strong>Buy 5, get 1 free!</strong><span class="sub">On all shirts today only</span></div>
+          </div>
+          <button type="button" class="btn btn-light btn-sm" id="promoBtn">Shop now</button>
+        </div>
 
-      function openEditModal(id) {
-        const p = allProducts.find((x) => x.id === id);
-        if (!p) return;
-        editDocId.value = id;
-        fName.value = p.name || "";
-        fBrand.value = p.brand || "";
-        fPrice.value = p.price || "";
-        fOrigPrice.value = p.origPrice || "";
-        fSize.value = p.sizes || "";
-        fBadge.value = p.badge || "";
-        fImage.value = p.image || "";
-        modalTitle.textContent = "Edit Shirt";
-        modalDelBtn.style.display = "block";
-        modal.classList.add("open");
-      }
+        <div class="result-bar" id="activeFilters" hidden></div>
 
-      function closeModal() {
-        modal.classList.remove("open");
-      }
+        <div class="product-grid" id="productGrid"></div>
 
-      document
-        .getElementById("addProductBtn")
-        .addEventListener("click", openAddModal);
-      document
-        .getElementById("modalCancelBtn")
-        .addEventListener("click", closeModal);
+        <nav class="pagination" id="pagination" aria-label="Pagination"></nav>
+        <p class="page-info" id="pageInfo"></p>
+      </div>
 
-      document.getElementById("modalSaveBtn").addEventListener("click", () => {
-        const data = {
-          name: fName.value.trim(),
-          brand: fBrand.value,
-          price: Number(fPrice.value),
-          origPrice: Number(fOrigPrice.value) || null,
-          sizes: fSize.value,
-          badge: fBadge.value,
-          image: fImage.value.trim(),
-        };
-        if (!data.name) {
-          showToast("Product name required");
-          return;
-        }
-        if (!data.price) {
-          showToast("Price required");
-          return;
-        }
-        if (!data.image) {
-          showToast("Image filename required");
-          return;
-        }
+    </div>
+  </div>
+</main>
 
-        if (editDocId.value) {
-          const idx = allProducts.findIndex((x) => x.id === editDocId.value);
-          allProducts[idx] = { ...allProducts[idx], ...data };
-        } else {
-          allProducts.push({ id: Date.now().toString(), ...data });
-        }
-        saveProducts();
-        applyAndRender();
-        closeModal();
-        showToast("Saved successfully!");
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="../images/logo.png" alt="" width="36" height="36" onerror="this.style.display='none'">
+        AuringPH
+      </div>
+      <p>Your go-to online boutique for trendy shirts, shoes, pants, and accessories — proudly Filipino, made for every budget.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Shop</div>
+      <nav class="footer-links" aria-label="Shop categories">
+        <a href="home.html">Home</a><a href="shirts.html">Shirts</a><a href="shoes.html">Shoes</a><a href="pants.html">Pants</a><a href="others.html">Others</a>
+      </nav>
+    </div>
+    <div>
+      <div class="footer-heading">My account</div>
+      <nav class="footer-links" aria-label="My account">
+        <a href="profile.html">My Profile</a><a href="orders.html">My Orders</a><a href="favorites.html">My Favorites</a><a href="cart.html">My Cart</a>
+      </nav>
+    </div>
+    <div>
+      <div class="footer-heading">Connect with us</div>
+      <a href="https://www.facebook.com/auringph" class="social" target="_blank" rel="noopener noreferrer" aria-label="AuringPH on Facebook (opens in a new tab)">
+        <svg class="ico ico-fill"><use href="#i-facebook"/></svg>
+      </a>
+      <ul class="footer-contact">
+        <li><svg class="ico"><use href="#i-pin"/></svg>Parañaque, Philippines</li>
+        <li><svg class="ico"><use href="#i-mail"/></svg><a href="mailto:hello@auringph.com">hello@auringph.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <span>© 2026 AuringPH. All rights reserved. &middot; A student project prototype.</span>
+      <nav aria-label="Legal"><a href="#">Privacy</a><a href="#">Terms</a></nav>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ BOTTOM NAV (mobile only) ============ -->
+<nav class="bottom-nav" aria-label="Mobile">
+  <a href="home.html" class="bottom-nav-item"><svg class="ico"><use href="#i-home"/></svg>Home</a>
+  <a href="favorites.html" class="bottom-nav-item"><svg class="ico"><use href="#i-heart"/></svg>Favorites</a>
+  <a href="orders.html" class="bottom-nav-item"><svg class="ico"><use href="#i-box"/></svg>Orders</a>
+  <a href="notifications.html" class="bottom-nav-item"><svg class="ico"><use href="#i-bell"/></svg>Notif</a>
+  <a href="profile.html" class="bottom-nav-item"><svg class="ico"><use href="#i-user"/></svg>Profile</a>
+</nav>
+
+<!-- ============ ADD / EDIT MODAL (admin only) ============ -->
+<dialog class="modal" id="productModal" aria-labelledby="modalTitle">
+  <form class="modal-box" id="productForm" novalidate>
+    <h3 id="modalTitle">Add shirt</h3>
+    <input type="hidden" id="editDocId">
+
+    <div class="m-field">
+      <label for="fName">Product name *</label>
+      <input type="text" id="fName" placeholder="e.g. Classic White Tee" autocomplete="off">
+      <span class="m-error" id="eName"></span>
+    </div>
+
+    <div class="m-field">
+      <label for="fBrand">Brand *</label>
+      <select id="fBrand">
+        <option value="">Select brand</option>
+        <option>Nike</option><option>Adidas</option><option>Carhartt</option>
+        <option>Lacoste</option><option>Essentials</option><option>Guess</option><option>Other</option>
+      </select>
+      <span class="m-error" id="eBrand"></span>
+    </div>
+
+    <div class="m-row">
+      <div class="m-field">
+        <label for="fPrice">Price (₱) *</label>
+        <input type="number" id="fPrice" placeholder="599" min="0">
+        <span class="m-error" id="ePrice"></span>
+      </div>
+      <div class="m-field">
+        <label for="fOrigPrice">Original price <span class="opt">(optional)</span></label>
+        <input type="number" id="fOrigPrice" placeholder="799" min="0">
+        <span class="m-error" id="eOrig"></span>
+      </div>
+    </div>
+
+    <div class="m-field">
+      <label for="fSize">Available sizes</label>
+      <input type="text" id="fSize" placeholder="e.g. S, M, L, XL" autocomplete="off">
+    </div>
+
+    <div class="m-field">
+      <label for="fBadge">Badge</label>
+      <select id="fBadge">
+        <option value="">None</option><option value="NEW">NEW</option><option value="SALE">SALE</option><option value="BESTSELLER">BESTSELLER</option>
+      </select>
+    </div>
+
+    <div class="m-field">
+      <label for="fImage">Image filename * <span class="opt">(e.g. classic-tee.jpg)</span></label>
+      <input type="text" id="fImage" placeholder="classic-tee.jpg" autocomplete="off">
+      <span class="m-error" id="eImage"></span>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-outline" id="modalCancelBtn">Cancel</button>
+      <button type="button" class="btn btn-danger" id="modalDeleteBtn" hidden>Delete</button>
+      <button type="submit" class="btn btn-primary" id="modalSaveBtn">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../js/script.js"></script>
+<script>
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+
+  // ───────── CONFIG ─────────
+  const STORAGE_KEY = 'auringph_shirts';
+  const IMAGES_PATH = '../images/products/shirts/';
+  const PER_PAGE = 12;
+
+  // id, name, brand, price, origPrice, sizes, badge, image
+  const P = (id, name, brand, price, origPrice, sizes, badge, image) =>
+    ({ id, name, brand, price, origPrice, sizes, badge, image });
+
+  const DEFAULTS = [
+    P('1',  'Classic White Tee',           'Nike',       599,  799,  'S,M,L,XL',        'SALE',       'classic-tee.jpg'),
+    P('2',  'Black Essentials Shirt',      'Essentials', 899,  null, 'M,L,XL',          'NEW',        'essentials-tee.jpg'),
+    P('3',  'Carhartt Work Shirt',         'Carhartt',   1299, 1599, 'S,M,L,XL,XXL',    'SALE',       'carhartt-tee.jpg'),
+    P('4',  'Adidas Performance Tee',      'Adidas',     799,  null, 'XS,S,M,L,XL',     '',           'adidas-tee.jpg'),
+    P('5',  'Lacoste Polo Shirt',          'Lacoste',    1599, null, 'S,M,L,XL',        '',           'lacoste-tee.jpg'),
+    P('6',  'Guess Designer Tee',          'Guess',      1099, 1399, 'XS,S,M,L,XL',     'SALE',       'guess-tee.jpg'),
+    P('7',  'Nike Kids Tee',               'Nike',       449,  null, 'XS,S',            'NEW',        'nike-kids-tee.jpg'),
+    P('8',  'Oversized Polo',              'Other',      699,  null, 'M,L,XL,XXL',      '',           'oversized-polo.jpg'),
+    P('9',  'Nike Dri-FIT Training Shirt', 'Nike',       849,  null, 'S,M,L,XL',        'NEW',        'nike-drifit.jpg'),
+    P('10', 'Carhartt Henley Shirt',       'Carhartt',   1150, 1400, 'M,L,XL,XXL',      'SALE',       'carhartt-henley.jpg'),
+    P('11', 'Adidas Trefoil Tee',          'Adidas',     750,  null, 'XS,S,M,L,XL',     '',           'adidas-trefoil.jpg'),
+    P('12', 'Lacoste Slim Fit Polo',       'Lacoste',    1750, null, 'S,M,L,XL',        'BESTSELLER', 'lacoste-slim.jpg'),
+    P('13', 'Essentials Relaxed Tee',      'Essentials', 780,  null, 'S,M,L,XL,XXL',    '',           'essentials-relaxed.jpg'),
+    P('14', 'Guess Logo Polo',             'Guess',      1250, 1550, 'S,M,L,XL',        'SALE',       'guess-polo.jpg'),
+    P('15', 'Nike Air Graphic Tee',        'Nike',       699,  null, 'XS,S,M,L,XL',     '',           'nike-air-tee.jpg'),
+    P('16', 'Carhartt Pocket T-Shirt',     'Carhartt',   950,  null, 'M,L,XL,XXL',      '',           'carhartt-pocket.jpg'),
+    P('17', 'Adidas Aeroready Shirt',      'Adidas',     880,  1100, 'S,M,L,XL',        'SALE',       'adidas-aeroready.jpg'),
+    P('18', 'Lacoste Heritage Polo',       'Lacoste',    1899, null, 'S,M,L,XL',        'NEW',        'lacoste-heritage.jpg')
+  ];
+
+  const BADGES = { NEW: ['new', 'New'], SALE: ['sale', 'Sale'], BESTSELLER: ['best', 'Best seller'] };
+
+  // ───────── HELPERS ─────────
+  const read = (k, fb) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? fb : v; } catch (e) { return fb; } };
+  const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const peso = (n) => '₱' + Number(n).toLocaleString('en-PH');
+  const sizesOf = (p) => String(p.sizes || '').split(',').map((s) => s.trim().toUpperCase()).filter(Boolean);
+
+  window.showToast = window.showToast || function (msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.remove('show'), 2500);
+  };
+
+  // ───────── STATE ─────────
+  let products = read(STORAGE_KEY, null);
+  if (!Array.isArray(products)) products = DEFAULTS.slice();
+  let cart = read('auringph_cart', []);
+  let wishlist = read('auringph_wishlist', []);
+  let filtered = [];
+  const state = { brands: new Set(), size: '', min: null, max: null, q: '', sort: 'default', page: 1 };
+
+  // Admin tools are hidden from customers.
+  // Prototype switch: open shirts.html?admin=1 to show them.
+  // (If you load js/admin.js on this page, a logged-in admin sees them automatically.)
+  const isAdmin =
+    new URLSearchParams(location.search).get('admin') === '1' ||
+    (typeof ADMIN_AUTH_KEY !== 'undefined' && localStorage.getItem(ADMIN_AUTH_KEY) === 'true');
+  document.body.classList.toggle('is-admin', isAdmin);
+
+  // ───────── NAV BADGES + AVATAR ─────────
+  const badges = document.querySelectorAll('.badge-count');
+  function refreshBadges() { badges.forEach((b) => { b.hidden = !(parseInt(b.textContent, 10) > 0); }); }
+  function updateCounts() {
+    $('cartCount').textContent = cart.reduce((a, b) => a + (b.qty || 0), 0);
+    $('favCount').textContent = wishlist.length;
+    refreshBadges();
+  }
+  const mo = new MutationObserver(refreshBadges);
+  badges.forEach((b) => mo.observe(b, { childList: true, characterData: true, subtree: true }));
+
+  try {
+    const u = JSON.parse(localStorage.getItem('user') || 'null');
+    if (u) {
+      const full = ((u.firstName || '') + ' ' + (u.lastName || '')).trim() || u.name || u.fullName || '';
+      const parts = full.split(/\s+/).filter(Boolean);
+      if (parts.length) $('navAvatar').textContent = (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+    }
+  } catch (e) {}
+
+  // ───────── FILTER UI ─────────
+  function renderBrands() {
+    const counts = {};
+    products.forEach((p) => { const b = p.brand || 'Other'; counts[b] = (counts[b] || 0) + 1; });
+    state.brands.forEach((b) => { if (!counts[b]) state.brands.delete(b); });
+    const row = (value, label, count, checked) =>
+      `<label class="check-row"><input type="checkbox" data-brand="${esc(value)}" ${checked ? 'checked' : ''}>` +
+      `<span class="check-box" aria-hidden="true"></span><span>${esc(label)}</span><span class="count">${count}</span></label>`;
+    $('brandList').innerHTML =
+      row('', 'All brands', products.length, state.brands.size === 0) +
+      Object.keys(counts).sort((a, b) => a.localeCompare(b)).map((b) => row(b, b, counts[b], state.brands.has(b))).join('');
+  }
+  function syncBrandChecks() {
+    $('brandList').querySelectorAll('input[data-brand]').forEach((i) => {
+      i.checked = i.dataset.brand ? state.brands.has(i.dataset.brand) : state.brands.size === 0;
+    });
+  }
+  function syncSizeChips() {
+    document.querySelectorAll('.size-chip').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.size === state.size)));
+  }
+
+  $('brandList').addEventListener('change', function (e) {
+    const cb = e.target;
+    if (!cb.matches('input[data-brand]')) return;
+    const b = cb.dataset.brand;
+    if (!b) state.brands.clear();
+    else if (cb.checked) state.brands.add(b);
+    else state.brands.delete(b);
+    syncBrandChecks();
+    state.page = 1;
+    apply();
+  });
+
+  $('sizeGrid').addEventListener('click', function (e) {
+    const chip = e.target.closest('.size-chip');
+    if (!chip) return;
+    state.size = state.size === chip.dataset.size ? '' : chip.dataset.size;
+    syncSizeChips();
+    state.page = 1;
+    apply();
+  });
+
+  function applyPrice() {
+    let min = parseFloat($('minPrice').value), max = parseFloat($('maxPrice').value);
+    min = isNaN(min) ? null : min;
+    max = isNaN(max) ? null : max;
+    if (min !== null && max !== null && min > max) {
+      const t = min; min = max; max = t;
+      $('minPrice').value = min; $('maxPrice').value = max;
+    }
+    state.min = min; state.max = max; state.page = 1;
+    apply();
+    closeFilters();
+  }
+  $('applyPriceBtn').addEventListener('click', applyPrice);
+  ['minPrice', 'maxPrice'].forEach((id) => $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); applyPrice(); } }));
+
+  $('searchInput').addEventListener('input', function () { state.q = this.value.trim().toLowerCase(); state.page = 1; apply(); });
+  $('sortSelect').addEventListener('change', function () { state.sort = this.value; state.page = 1; apply(); });
+
+  function resetFilters() {
+    state.brands.clear(); state.size = ''; state.min = null; state.max = null; state.q = ''; state.page = 1;
+    $('minPrice').value = ''; $('maxPrice').value = ''; $('searchInput').value = '';
+    syncBrandChecks(); syncSizeChips();
+    apply();
+  }
+  $('resetFilters').addEventListener('click', resetFilters);
+
+  $('activeFilters').addEventListener('click', function (e) {
+    const b = e.target.closest('[data-remove]');
+    if (!b) return;
+    const k = b.dataset.remove;
+    if (k === 'all') return resetFilters();
+    if (k === 'brand') state.brands.delete(b.dataset.value);
+    if (k === 'size') state.size = '';
+    if (k === 'price') { state.min = null; state.max = null; $('minPrice').value = ''; $('maxPrice').value = ''; }
+    if (k === 'q') { state.q = ''; $('searchInput').value = ''; }
+    syncBrandChecks(); syncSizeChips();
+    state.page = 1;
+    apply();
+  });
+
+  // Mobile filter drawer
+  function openFilters() {
+    $('filters').classList.add('open');
+    $('filterBackdrop').classList.add('open');
+    document.body.classList.add('no-scroll');
+    $('filtersClose').focus();
+  }
+  function closeFilters() {
+    $('filters').classList.remove('open');
+    $('filterBackdrop').classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  }
+  $('openFilters').addEventListener('click', openFilters);
+  $('filtersClose').addEventListener('click', closeFilters);
+  $('filterBackdrop').addEventListener('click', closeFilters);
+  $('showResults').addEventListener('click', closeFilters);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeFilters(); });
+
+  $('promoBtn').addEventListener('click', () => showToast('Promo applied at checkout!'));
+
+  // ───────── FILTER + SORT ─────────
+  function apply() {
+    const q = state.q;
+    filtered = products.filter((p) => {
+      if (state.brands.size && !state.brands.has(p.brand || 'Other')) return false;
+      if (state.size && !sizesOf(p).includes(state.size)) return false;
+      if (state.min !== null && p.price < state.min) return false;
+      if (state.max !== null && p.price > state.max) return false;
+      if (q && !(String(p.name).toLowerCase().includes(q) || String(p.brand || '').toLowerCase().includes(q))) return false;
+      return true;
+    });
+    if (state.sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+    else if (state.sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+    else if (state.sort === 'name-asc') filtered.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+    render();
+  }
+
+  // ───────── RENDER ─────────
+  function card(p) {
+    const fav = wishlist.some((x) => x.id === p.id);
+    const sizes = sizesOf(p);
+    const off = p.origPrice && p.origPrice > p.price ? Math.round((1 - p.price / p.origPrice) * 100) : 0;
+    const badge = BADGES[p.badge];
+    const name = esc(p.name);
+    return `
+      <article class="product-card" data-id="${esc(p.id)}">
+        <div class="product-img">
+          <img src="${esc(IMAGES_PATH + encodeURI(p.image || ''))}" alt="${name}" loading="lazy" width="400" height="500">
+          ${badge ? `<span class="product-badge ${badge[0]}">${badge[1]}</span>` : ''}
+          <button type="button" class="heart-btn${fav ? ' is-fav' : ''}" data-action="wish" aria-pressed="${fav}" aria-label="Favorite ${name}">
+            <svg class="ico"><use href="#i-heart"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <div class="product-sub">${esc(p.brand || '')}</div>
+          <h3 class="product-name">${name}</h3>
+          ${sizes.length ? `<div class="product-sizes">${esc(sizes.join(' · '))}</div>` : ''}
+          <div class="product-bottom">
+            <span class="product-price">${peso(p.price)}</span>
+            ${off ? `<span class="product-price-original">${peso(p.origPrice)}</span><span class="product-off">−${off}%</span>` : ''}
+          </div>
+          <div class="card-actions">
+            <button type="button" class="btn-cart" data-action="cart"><svg class="ico"><use href="#i-cart"/></svg><span>Add to cart</span></button>
+            <button type="button" class="btn-edit admin-only" data-action="edit">Edit</button>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function renderTags() {
+    const tags = [];
+    state.brands.forEach((b) => tags.push(['brand', b, b]));
+    if (state.size) tags.push(['size', '', 'Size ' + state.size]);
+    if (state.min !== null || state.max !== null) {
+      tags.push(['price', '', state.min !== null && state.max !== null ? `${peso(state.min)} – ${peso(state.max)}` : state.min !== null ? `${peso(state.min)}+` : `Up to ${peso(state.max)}`]);
+    }
+    if (state.q) tags.push(['q', '', '“' + state.q + '”']);
+    const bar = $('activeFilters');
+    bar.hidden = tags.length === 0;
+    bar.innerHTML = tags.map((t) =>
+      `<span class="tag">${esc(t[2])}<button type="button" data-remove="${t[0]}" data-value="${esc(t[1])}" aria-label="Remove filter ${esc(t[2])}"><svg class="ico"><use href="#i-x"/></svg></button></span>`
+    ).join('') + (tags.length ? '<button type="button" class="clear-all" data-remove="all">Clear all</button>' : '');
+  }
+
+  function renderPager(pages, start, shown, total) {
+    let html = '';
+    if (pages > 1) {
+      const btn = (n, label, extra) => `<button type="button" class="page-btn${extra || ''}" data-page="${n}" aria-label="${label}"`;
+      html += btn(state.page - 1, 'Previous page') + `${state.page === 1 ? ' disabled' : ''}><svg class="ico"><use href="#i-left"/></svg></button>`;
+      const nums = [...new Set([1, pages, state.page - 1, state.page, state.page + 1])].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
+      let prev = 0;
+      nums.forEach((n) => {
+        if (n - prev > 1) html += '<span class="page-gap" aria-hidden="true">…</span>';
+        html += btn(n, 'Page ' + n, n === state.page ? ' active' : '') + `${n === state.page ? ' aria-current="page"' : ''}>${n}</button>`;
+        prev = n;
       });
+      html += btn(state.page + 1, 'Next page') + `${state.page === pages ? ' disabled' : ''}><svg class="ico"><use href="#i-right"/></svg></button>`;
+    }
+    $('pagination').innerHTML = html;
+    $('pageInfo').textContent = total ? `Showing ${start + 1}–${start + shown} of ${total}` : '';
+  }
 
-      document
-        .getElementById("modalDeleteBtn")
-        .addEventListener("click", () => {
-          if (!editDocId.value) return;
-          if (confirm("Are you sure you want to delete this product?")) {
-            allProducts = allProducts.filter((x) => x.id !== editDocId.value);
-            saveProducts();
-            applyAndRender();
-            closeModal();
-            showToast("Product deleted");
-          }
-        });
+  function render() {
+    const total = filtered.length;
+    const pages = Math.max(1, Math.ceil(total / PER_PAGE));
+    if (state.page > pages) state.page = pages;
+    const start = (state.page - 1) * PER_PAGE;
+    const items = filtered.slice(start, start + PER_PAGE);
 
-      // ---- INIT ----
-      applyAndRender();
-    </script>
+    $('itemCount').textContent = `${total} product${total !== 1 ? 's' : ''}`;
+    $('showResults').textContent = total ? `Show ${total} result${total !== 1 ? 's' : ''}` : 'No results';
 
-    <script src="../js/script.js"></script>
-    <script>
-      syncNavBadges();
-    </script>
-  </body>
+    $('productGrid').innerHTML = items.length
+      ? items.map(card).join('')
+      : `<div class="empty"><svg class="ico"><use href="#i-search"/></svg><h3>No shirts found</h3><p>Try changing or clearing your filters.</p><button type="button" class="btn btn-primary btn-sm" data-action="reset">Clear all filters</button></div>`;
+
+    renderTags();
+    renderPager(pages, start, items.length, total);
+  }
+
+  // Missing image → neutral placeholder (error events don't bubble, so use capture)
+  $('productGrid').addEventListener('error', function (e) {
+    if (e.target.tagName === 'IMG') { e.target.parentElement.classList.add('no-img'); e.target.remove(); }
+  }, true);
+
+  $('pagination').addEventListener('click', function (e) {
+    const b = e.target.closest('[data-page]');
+    if (!b || b.disabled) return;
+    state.page = Number(b.dataset.page);
+    render();
+    $('shopMain').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // ───────── CART + WISHLIST ─────────
+  function addToCart(id, btn) {
+    const p = products.find((x) => x.id === id);
+    if (!p) return;
+    const ex = cart.find((x) => x.id === p.id);
+    if (ex) ex.qty = (ex.qty || 1) + 1;
+    else cart.push({ id: p.id, name: p.name, price: p.price, image: IMAGES_PATH + p.image, qty: 1 });
+    write('auringph_cart', cart);
+    updateCounts();
+    showToast('Added to cart!');
+    if (btn) {
+      const label = btn.querySelector('span');
+      btn.classList.add('is-done'); label.textContent = 'Added';
+      setTimeout(() => { btn.classList.remove('is-done'); label.textContent = 'Add to cart'; }, 1200);
+    }
+  }
+
+  function toggleWish(id, btn) {
+    const i = wishlist.findIndex((x) => x.id === id);
+    const p = products.find((x) => x.id === id);
+    const on = i === -1;
+    if (on) { wishlist.push({ id, name: p ? p.name : '' }); showToast('Added to favorites!'); }
+    else { wishlist.splice(i, 1); showToast('Removed from favorites'); }
+    write('auringph_wishlist', wishlist);
+    btn.classList.toggle('is-fav', on);          // update only this button (no grid re-render)
+    btn.setAttribute('aria-pressed', String(on));
+    updateCounts();
+  }
+
+  $('productGrid').addEventListener('click', function (e) {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const cardEl = btn.closest('.product-card');
+    const id = cardEl ? cardEl.dataset.id : null;
+    const act = btn.dataset.action;
+    if (act === 'wish') toggleWish(id, btn);
+    else if (act === 'cart') addToCart(id, btn);
+    else if (act === 'edit') openModal(id);
+    else if (act === 'reset') resetFilters();
+  });
+
+  // ───────── ADMIN MODAL ─────────
+  const modal = $('productModal');
+  const FIELDS = { name: ['fName', 'eName'], brand: ['fBrand', 'eBrand'], price: ['fPrice', 'ePrice'], orig: ['fOrigPrice', 'eOrig'], image: ['fImage', 'eImage'] };
+
+  function setErrors(errs) {
+    let first = null;
+    Object.keys(FIELDS).forEach((k) => {
+      const f = FIELDS[k];
+      $(f[1]).textContent = errs[k] || '';
+      $(f[0]).classList.toggle('is-invalid', !!errs[k]);
+      if (errs[k] && !first) first = $(f[0]);
+    });
+    if (first) first.focus();
+    return !first;
+  }
+
+  function openModal(id) {
+    const p = id ? products.find((x) => x.id === id) : null;
+    $('editDocId').value = p ? p.id : '';
+    $('modalTitle').textContent = p ? 'Edit shirt' : 'Add shirt';
+    $('fName').value = p ? p.name : '';
+    $('fBrand').value = p ? (p.brand || '') : '';
+    $('fPrice').value = p ? p.price : '';
+    $('fOrigPrice').value = p && p.origPrice ? p.origPrice : '';
+    $('fSize').value = p ? (p.sizes || '') : '';
+    $('fBadge').value = p ? (p.badge || '') : '';
+    $('fImage').value = p ? (p.image || '') : '';
+    $('modalDeleteBtn').hidden = !p;
+    setErrors({});
+    modal.showModal();
+    $('fName').focus();
+  }
+
+  $('addProductBtn').addEventListener('click', () => openModal(null));
+  $('modalCancelBtn').addEventListener('click', () => modal.close());
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); }); // click on backdrop
+
+  $('productForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const data = {
+      name: $('fName').value.trim(),
+      brand: $('fBrand').value,
+      price: Number($('fPrice').value),
+      origPrice: Number($('fOrigPrice').value) || null,
+      sizes: $('fSize').value.split(',').map((s) => s.trim().toUpperCase()).filter(Boolean).join(','),
+      badge: $('fBadge').value,
+      image: $('fImage').value.trim()
+    };
+    const errs = {};
+    if (!data.name) errs.name = 'Product name is required.';
+    if (!data.brand) errs.brand = 'Please select a brand.';
+    if (!(data.price > 0)) errs.price = 'Enter a valid price.';
+    if (data.origPrice && data.origPrice <= data.price) errs.orig = 'Must be higher than the price.';
+    if (!data.image) errs.image = 'Image filename is required.';
+    if (!setErrors(errs)) return;
+
+    const id = $('editDocId').value;
+    if (id) {
+      const idx = products.findIndex((x) => x.id === id);
+      if (idx > -1) products[idx] = Object.assign({}, products[idx], data);
+    } else {
+      products.push(Object.assign({ id: Date.now().toString() }, data));
+    }
+    write(STORAGE_KEY, products);
+    renderBrands();
+    apply();
+    modal.close();
+    showToast('Saved successfully!');
+  });
+
+  $('modalDeleteBtn').addEventListener('click', function () {
+    const id = $('editDocId').value;
+    if (!id || !confirm('Are you sure you want to delete this product?')) return;
+    products = products.filter((x) => x.id !== id);
+    write(STORAGE_KEY, products);
+    renderBrands();
+    apply();
+    modal.close();
+    showToast('Product deleted');
+  });
+
+  // ───────── INIT ─────────
+  renderBrands();
+  syncSizeChips();
+  apply();
+  updateCounts();
+  if (typeof syncNavBadges === 'function') syncNavBadges();
+})();
+</script>
+</body>
 </html>
