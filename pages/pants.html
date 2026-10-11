@@ -3,217 +3,341 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pants - AuringPh</title>
+    <title>Pants — AuringPH</title>
+    <meta
+      name="description"
+      content="Shop jeans, trousers, and joggers from Bershka, Levi's, A.P.C. and LEE at AuringPH."
+    />
+    <meta name="theme-color" content="#1a1208" />
+    <link rel="icon" href="../images/logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/category.css" />
+    <link rel="stylesheet" href="../css/home-pro.css" />
+    <link rel="stylesheet" href="../css/shop.css" />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to main content</a>
 
-    <!-- ============ TOP NAVBAR ============ -->
+    <!-- Icon sprite -->
+    <svg
+      width="0"
+      height="0"
+      style="position: absolute"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </symbol>
+      <symbol id="i-cart" viewBox="0 0 24 24">
+        <circle cx="9" cy="21" r="1" />
+        <circle cx="20" cy="21" r="1" />
+        <path
+          d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+        />
+      </symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+        />
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24">
+        <path
+          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+        />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </symbol>
+      <symbol id="i-box" viewBox="0 0 24 24">
+        <path
+          d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+        />
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+        <line x1="12" y1="22.08" x2="12" y2="12" />
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <path
+          d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+        />
+        <polyline points="22,6 12,13 2,6" />
+      </symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24">
+        <path
+          d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+        />
+        <circle cx="7" cy="7" r="1.5" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </symbol>
+      <symbol id="i-left" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </symbol>
+      <symbol id="i-right" viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6" />
+      </symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24">
+        <line x1="4" y1="21" x2="4" y2="14" />
+        <line x1="4" y1="10" x2="4" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12" y2="3" />
+        <line x1="20" y1="21" x2="20" y2="16" />
+        <line x1="20" y1="12" x2="20" y2="3" />
+        <line x1="1" y1="14" x2="7" y2="14" />
+        <line x1="9" y1="8" x2="15" y2="8" />
+        <line x1="17" y1="16" x2="23" y2="16" />
+      </symbol>
+      <symbol id="i-facebook" viewBox="0 0 24 24">
+        <path
+          d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
+        />
+      </symbol>
+    </svg>
+
+    <!-- ============ ANNOUNCEMENT BAR ============ -->
+    <div class="topbar">
+      Free shipping on orders over <strong>₱500</strong> &middot; Nationwide
+      delivery
+    </div>
+
+    <!-- ============ NAVBAR ============ -->
     <header class="navbar">
-      <div class="container">
-        <a href="home.html" class="nav-logo">
+      <div class="container nav-inner">
+        <a href="home.html" class="nav-logo" aria-label="AuringPH home">
           <img
             src="../images/logo.png"
-            alt="AuringPh Logo"
+            alt=""
             class="nav-logo-img"
+            width="36"
+            height="36"
+            onerror="this.style.display = 'none'"
           />
+          <span class="nav-logo-text">AuringPH</span>
         </a>
-        <nav class="nav-links">
+
+        <nav class="nav-links" aria-label="Main">
           <a href="home.html" class="nav-link">Home</a>
           <a href="shirts.html" class="nav-link">Shirts</a>
           <a href="shoes.html" class="nav-link">Shoes</a>
-          <a href="pants.html" class="nav-link active">Pants</a>
+          <a href="pants.html" class="nav-link active" aria-current="page"
+            >Pants</a
+          >
           <a href="others.html" class="nav-link">Others</a>
         </nav>
-        <div class="nav-search">
-          <span aria-hidden="true">🔍</span>
+
+        <div class="nav-search" role="search">
+          <svg class="ico" aria-hidden="true"><use href="#i-search" /></svg>
           <input
-            type="text"
+            type="search"
             id="searchInput"
-            placeholder="Search pants..."
+            placeholder="Search pants…"
             aria-label="Search pants"
+            autocomplete="off"
           />
         </div>
+
         <div class="nav-actions">
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'cart.html'"
-            aria-label="Shopping cart"
+          <a href="cart.html" class="nav-icon-btn" aria-label="Shopping cart"
+            ><svg class="ico"><use href="#i-cart" /></svg
+            ><span class="badge-count" id="cartCount">0</span></a
           >
-            🛒<span class="badge-count" id="cartCount">2</span>
-          </button>
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'favorites.html'"
+          <a
+            href="favorites.html"
+            class="nav-icon-btn hide-sm"
             aria-label="Favorites"
+            ><svg class="ico"><use href="#i-heart" /></svg
+            ><span class="badge-count" id="favCount">0</span></a
           >
-            ♡<span class="badge-count">6</span>
-          </button>
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'messages.html'"
-            aria-label="Messages"
+          <a href="messages.html" class="nav-icon-btn" aria-label="Messages"
+            ><svg class="ico"><use href="#i-message" /></svg
+            ><span class="badge-count" id="msgCount">0</span></a
           >
-            💬<span class="badge-count" id="msgCount">0</span>
-          </button>
-          <button
-            class="nav-icon-btn"
-            onclick="window.location.href = 'notifications.html'"
+          <a
+            href="notifications.html"
+            class="nav-icon-btn hide-sm"
             aria-label="Notifications"
+            ><svg class="ico"><use href="#i-bell" /></svg
+            ><span class="badge-count" id="notifCount">0</span></a
           >
-            🔔<span class="badge-count">3</span>
-          </button>
-          <div
-            class="nav-avatar"
-            onclick="window.location.href = 'profile.html'"
-            aria-label="My Profile"
-          >
-            AB
-          </div>
+          <a
+            href="profile.html"
+            class="nav-avatar hide-sm"
+            id="navAvatar"
+            aria-label="My profile"
+            ><svg class="ico"><use href="#i-user" /></svg
+          ></a>
         </div>
       </div>
     </header>
 
-    <main id="main">
-      <div class="container page-section">
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-          <a href="home.html">Home</a> / <span class="current">Pants</span>
-        </div>
+    <main id="main" class="shop">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="home.html">Home</a
+          ><span class="sep" aria-hidden="true">/</span
+          ><span aria-current="page">Pants</span>
+        </nav>
 
-        <!-- Page title + sort -->
-        <div class="category-header">
+        <div class="shop-head">
           <div>
-            <h1>Pants</h1>
-            <div class="item-count" id="itemCount">24 items</div>
+            <h1 class="shop-title">Pants</h1>
+            <p class="shop-count" id="itemCount" aria-live="polite">Loading…</p>
           </div>
-          <select class="sort-select" id="sortSelect">
-            <option value="featured">Sort by: Featured</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="newest">Newest</option>
-          </select>
+          <div class="shop-tools">
+            <button
+              type="button"
+              class="btn btn-outline btn-sm btn-filter"
+              id="openFilters"
+            >
+              <svg class="ico"><use href="#i-sliders" /></svg>Filters
+            </button>
+            <label class="sr-only" for="sortSelect">Sort products</label>
+            <select class="select" id="sortSelect">
+              <option value="default">Sort by: Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-asc">Name: A–Z</option>
+            </select>
+            <!-- Admin only (hidden for customers) -->
+            <button
+              type="button"
+              class="btn btn-primary btn-sm admin-only"
+              id="addProductBtn"
+            >
+              <svg class="ico"><use href="#i-plus" /></svg>Add pants
+            </button>
+          </div>
         </div>
 
-        <!-- Mobile-only filter toggle -->
-        <button
-          class="mobile-filter-toggle"
-          onclick="
-            document.querySelector('.filter-sidebar').classList.toggle('open')
-          "
-        >
-          ⚙️ Filters
-        </button>
-
-        <div class="category-layout">
-          <!-- ===== SIDEBAR FILTERS ===== -->
-          <aside class="filter-sidebar">
-            <div class="filter-group">
-              <div class="filter-group-title">Brand</div>
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  id="brand-all"
-                  checked
-                  onchange="onBrandAllChange(this)"
-                />
-                All Brands</label
+        <div class="shop-layout">
+          <!-- ===== FILTERS ===== -->
+          <aside class="filters" id="filters" aria-label="Product filters">
+            <div class="filters-head">
+              <h2 class="filters-title">Filters</h2>
+              <button
+                type="button"
+                class="icon-btn"
+                id="filtersClose"
+                aria-label="Close filters"
               >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-cb"
-                  value="Bershka"
-                  onchange="onBrandChange()"
-                />
-                Bershka</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-cb"
-                  value="Levi's"
-                  onchange="onBrandChange()"
-                />
-                Levi's</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-cb"
-                  value="A.P.C."
-                  onchange="onBrandChange()"
-                />
-                A.P.C.</label
-              >
-              <label class="filter-checkbox-row"
-                ><input
-                  type="checkbox"
-                  class="brand-cb"
-                  value="LEE"
-                  onchange="onBrandChange()"
-                />
-                LEE</label
-              >
+                <svg class="ico"><use href="#i-x" /></svg>
+              </button>
             </div>
 
-            <div class="filter-group">
-              <div class="filter-group-title">Size</div>
-              <div class="size-grid">
-                <div class="size-chip" onclick="setActiveSize(this)">XS</div>
-                <div class="size-chip" onclick="setActiveSize(this)">S</div>
-                <div class="size-chip" onclick="setActiveSize(this)">M</div>
-                <div class="size-chip active" onclick="setActiveSize(this)">
-                  L
+            <div class="filters-body">
+              <div class="filter-group">
+                <h2 class="filter-title">Brand</h2>
+                <div id="brandList"></div>
+              </div>
+
+              <div class="filter-group">
+                <h2 class="filter-title">Size</h2>
+                <div
+                  class="size-grid"
+                  id="sizeGrid"
+                  role="group"
+                  aria-label="Filter by size"
+                ></div>
+              </div>
+
+              <div class="filter-group">
+                <h2 class="filter-title">Price range (₱)</h2>
+                <div class="price-row">
+                  <input
+                    type="number"
+                    id="minPrice"
+                    placeholder="Min"
+                    min="0"
+                    inputmode="numeric"
+                    aria-label="Minimum price"
+                  />
+                  <span aria-hidden="true">–</span>
+                  <input
+                    type="number"
+                    id="maxPrice"
+                    placeholder="Max"
+                    min="0"
+                    inputmode="numeric"
+                    aria-label="Maximum price"
+                  />
                 </div>
-                <div class="size-chip" onclick="setActiveSize(this)">XL</div>
-                <div class="size-chip" onclick="setActiveSize(this)">XXL</div>
+                <button
+                  type="button"
+                  class="btn btn-outline btn-sm btn-block"
+                  id="applyPriceBtn"
+                >
+                  Apply price
+                </button>
               </div>
+
+              <button type="button" class="filters-reset" id="resetFilters">
+                Reset all filters
+              </button>
             </div>
 
-            <div class="filter-group">
-              <div class="filter-group-title">Price Range</div>
-              <div class="price-range-row">
-                <input type="number" id="priceMin" placeholder="Min" />
-                <span>-</span>
-                <input type="number" id="priceMax" placeholder="Max" />
-              </div>
-              <button class="filter-apply-btn" onclick="applyFilters()">
-                Apply Filters
+            <div class="filters-foot">
+              <button
+                type="button"
+                class="btn btn-primary btn-block"
+                id="showResults"
+              >
+                Show results
               </button>
             </div>
           </aside>
+          <div class="filter-backdrop" id="filterBackdrop"></div>
 
-          <!-- ===== MAIN CONTENT ===== -->
-          <div>
-            <!-- Promo strip -->
-            <div class="promo-strip">
-              <div>
-                <div class="promo-strip-text">New Denim Drop!</div>
-                <div class="promo-strip-sub">
-                  Fresh fits just arrived this week
+          <!-- ===== PRODUCTS ===== -->
+          <div class="shop-main" id="shopMain">
+            <div class="promo">
+              <div class="promo-main">
+                <span class="promo-icon"
+                  ><svg class="ico"><use href="#i-tag" /></svg
+                ></span>
+                <div>
+                  <strong>New denim drop!</strong
+                  ><span class="sub">Fresh fits just arrived this week</span>
                 </div>
               </div>
-              <button
-                class="promo-strip-btn"
-                onclick="showToast('Promo applied at checkout!')"
-              >
-                Shop
+              <button type="button" class="btn btn-light btn-sm" id="promoBtn">
+                Shop now
               </button>
             </div>
 
-            <!-- Product grid -->
+            <div class="result-bar" id="activeFilters" hidden></div>
+
             <div class="product-grid" id="productGrid"></div>
 
-            <!-- Pagination -->
-            <div class="pagination" id="pagination"></div>
+            <nav
+              class="pagination"
+              id="pagination"
+              aria-label="Pagination"
+            ></nav>
+            <p class="page-info" id="pageInfo"></p>
           </div>
         </div>
       </div>
@@ -221,595 +345,447 @@
 
     <!-- ============ FOOTER ============ -->
     <footer class="site-footer">
-      <div class="container">
+      <div class="container footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">
             <img
               src="../images/logo.png"
-              alt="AuringPh Logo"
-              class="footer-logo-img"
+              alt=""
+              width="36"
+              height="36"
+              onerror="this.style.display = 'none'"
             />
-            AuringPh
+            AuringPH
           </div>
           <p>
             Your go-to online boutique for trendy shirts, shoes, pants, and
-            accessories — proudly Filipino, made for every budget. Follow our
-            Facebook page for the latest drops, restocks, and deals!
+            accessories — proudly Filipino, made for every budget.
           </p>
         </div>
-        <div class="footer-col">
+        <div>
           <div class="footer-heading">Shop</div>
           <nav class="footer-links" aria-label="Shop categories">
-            <a href="home.html">Home</a>
-            <a href="shirts.html">Shirts</a>
-            <a href="shoes.html">Shoes</a>
-            <a href="pants.html">Pants</a>
-            <a href="others.html">Others</a>
+            <a href="home.html">Home</a><a href="shirts.html">Shirts</a
+            ><a href="shoes.html">Shoes</a><a href="pants.html">Pants</a
+            ><a href="others.html">Others</a>
           </nav>
         </div>
-        <div class="footer-col">
-          <div class="footer-heading">My Account</div>
+        <div>
+          <div class="footer-heading">My account</div>
           <nav class="footer-links" aria-label="My account">
-            <a href="profile.html">My Profile</a>
-            <a href="orders.html">My Orders</a>
-            <a href="favorites.html">My Favorites</a>
-            <a href="cart.html">My Cart</a>
+            <a href="profile.html">My Profile</a
+            ><a href="orders.html">My Orders</a
+            ><a href="favorites.html">My Favorites</a
+            ><a href="cart.html">My Cart</a>
           </nav>
         </div>
-        <div class="footer-col">
-          <div class="footer-heading">Connect with Us</div>
-          <div class="footer-social">
-            <a
-              href="https://www.facebook.com/auringph"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="AuringPh on Facebook (opens in a new tab)"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.91h-2.33V22c4.78-.78 8.44-4.94 8.44-9.94z"
-                />
-              </svg>
-            </a>
-          </div>
-          <div class="footer-contact">
-            📍 Paranaque, Philippines<br />
-            ✉️ hello@auringph.com
-          </div>
+        <div>
+          <div class="footer-heading">Connect with us</div>
+          <a
+            href="https://www.facebook.com/auringph"
+            class="social"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="AuringPH on Facebook (opens in a new tab)"
+          >
+            <svg class="ico ico-fill"><use href="#i-facebook" /></svg>
+          </a>
+          <ul class="footer-contact">
+            <li>
+              <svg class="ico"><use href="#i-pin" /></svg>Parañaque, Philippines
+            </li>
+            <li>
+              <svg class="ico"><use href="#i-mail" /></svg
+              ><a href="mailto:hello@auringph.com">hello@auringph.com</a>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        © 2026 AuringPh. All rights reserved. | A student project prototype.
+        <div class="container">
+          <span
+            >© 2026 AuringPH. All rights reserved. &middot; A student project
+            prototype.</span
+          >
+          <nav aria-label="Legal">
+            <a href="#">Privacy</a><a href="#">Terms</a>
+          </nav>
+        </div>
       </div>
     </footer>
 
-    <!-- ============ BOTTOM NAV (Mobile Only) ============ -->
-    <nav class="bottom-nav">
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'home.html'"
+    <!-- ============ BOTTOM NAV (mobile only) ============ -->
+    <nav class="bottom-nav" aria-label="Mobile">
+      <a href="home.html" class="bottom-nav-item"
+        ><svg class="ico"><use href="#i-home" /></svg>Home</a
       >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Home
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'favorites.html'"
+      <a href="favorites.html" class="bottom-nav-item"
+        ><svg class="ico"><use href="#i-heart" /></svg>Favorites</a
       >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Favorites
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'orders.html'"
+      <a href="orders.html" class="bottom-nav-item"
+        ><svg class="ico"><use href="#i-box" /></svg>Orders</a
       >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <line
-            x1="3"
-            y1="6"
-            x2="21"
-            y2="6"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Orders
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'notifications.html'"
+      <a href="notifications.html" class="bottom-nav-item"
+        ><svg class="ico"><use href="#i-bell" /></svg>Notif</a
       >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-        Notif
-      </button>
-      <button
-        class="bottom-nav-item"
-        onclick="window.location.href = 'profile.html'"
+      <a href="profile.html" class="bottom-nav-item"
+        ><svg class="ico"><use href="#i-user" /></svg>Profile</a
       >
-        <svg viewBox="0 0 24 24" fill="none">
-          <path
-            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
-        </svg>
-        Profile
-      </button>
     </nav>
 
-    <div class="toast" id="toast"></div>
+    <!-- ============ ADD / EDIT MODAL (admin only) ============ -->
+    <dialog class="modal" id="productModal" aria-labelledby="modalTitle">
+      <form class="modal-box" id="productForm" novalidate>
+        <h3 id="modalTitle">Add pants</h3>
+        <input type="hidden" id="editDocId" />
+
+        <div class="m-field">
+          <label for="fName">Product name *</label>
+          <input
+            type="text"
+            id="fName"
+            placeholder="e.g. Baggy Cargo Jeans"
+            autocomplete="off"
+          />
+          <span class="m-error" id="eName"></span>
+        </div>
+
+        <div class="m-field">
+          <label for="fBrand">Brand *</label>
+          <select id="fBrand"></select>
+          <span class="m-error" id="eBrand"></span>
+        </div>
+
+        <div class="m-row">
+          <div class="m-field">
+            <label for="fPrice">Price (₱) *</label>
+            <input type="number" id="fPrice" placeholder="650" min="0" />
+            <span class="m-error" id="ePrice"></span>
+          </div>
+          <div class="m-field">
+            <label for="fOrigPrice"
+              >Original price <span class="opt">(optional)</span></label
+            >
+            <input type="number" id="fOrigPrice" placeholder="800" min="0" />
+            <span class="m-error" id="eOrig"></span>
+          </div>
+        </div>
+
+        <div class="m-field">
+          <label for="fSize"
+            >Available sizes <span class="opt">(e.g. S,M,L,XL)</span></label
+          >
+          <input
+            type="text"
+            id="fSize"
+            placeholder="S,M,L,XL"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="m-field">
+          <label for="fBadge">Badge</label>
+          <select id="fBadge">
+            <option value="">None</option>
+            <option value="NEW">NEW</option>
+            <option value="SALE">SALE</option>
+            <option value="BESTSELLER">BESTSELLER</option>
+          </select>
+        </div>
+
+        <div class="m-field">
+          <label for="fImage"
+            >Image filename *
+            <span class="opt">(e.g. baggy-cargo-jeans.jpg)</span></label
+          >
+          <input
+            type="text"
+            id="fImage"
+            placeholder="baggy-cargo-jeans.jpg"
+            autocomplete="off"
+          />
+          <span class="m-error" id="eImage"></span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="modalCancelBtn">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            id="modalDeleteBtn"
+            hidden
+          >
+            Delete
+          </button>
+          <button type="submit" class="btn btn-primary" id="modalSaveBtn">
+            Save
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="../js/script.js"></script>
     <script>
-      // ============================================================
-      //  ALL PRODUCTS DATA — 24 items across 4 pages (6 per page)
-      //  Image filenames are under: ../images/products/pants/
-      // ============================================================
-      const ALL_PRODUCTS = [
-        // PAGE 1
-        {
-          id: 1,
-          name: "Baggy Cargo Jeans",
-          brand: "Bershka",
-          price: 650,
-          img: "baggy-cargo-jeans.jpg",
-          isNew: false,
-        },
-        {
-          id: 2,
-          name: "Levi's Vintage Clothing 501 XX Denim",
-          brand: "Levi's",
-          price: 650,
-          img: "levis-501.jpg",
-          isNew: false,
-        },
-        {
-          id: 3,
-          name: "Veronica Trousers Camel Wide-Leg",
-          brand: "A.P.C.",
-          price: 450,
-          img: "veronica-trousers.jpg",
-          isNew: false,
-        },
-        {
-          id: 4,
-          name: "LEE Men's 101+ Denim Pants Austin Fit",
-          brand: "LEE",
-          price: 500,
-          img: "lee-101.jpg",
-          isNew: false,
-        },
-        {
-          id: 5,
-          name: "Bershka Straight-Fit Wide-Leg Trousers",
-          brand: "Bershka",
-          price: 550,
-          img: "bershka-wideleg.jpg",
-          isNew: false,
-        },
-        {
-          id: 6,
-          name: "A.P.C. Petit New Standard Jeans",
-          brand: "A.P.C.",
-          price: 750,
-          img: "apc-petit-new-standard.jpg",
-          isNew: false,
-        },
-
-        // PAGE 2
-        {
-          id: 7,
-          name: "Levi's Wedgie Icon Fit Jeans",
-          brand: "Levi's",
-          price: 700,
-          img: "levis-wedgie.jpg",
-          isNew: true,
-        },
-        {
-          id: 8,
-          name: "Bershka Jogger Pants",
-          brand: "Bershka",
-          price: 420,
-          img: "bershka-jogger.jpg",
-          isNew: true,
-        },
-        {
-          id: 9,
-          name: "A.P.C. Jean de Travail",
-          brand: "A.P.C.",
-          price: 800,
-          img: "apc-jean-de-travail.jpg",
-          isNew: true,
-        },
-        {
-          id: 10,
-          name: "LEE Slim Fit Chino",
-          brand: "LEE",
-          price: 480,
-          img: "lee-slim.jpg",
-          isNew: false,
-        },
-        {
-          id: 11,
-          name: "Bershka Check Tailored Trousers",
-          brand: "Bershka",
-          price: 580,
-          img: "bershka-check-trousers.jpg",
-          isNew: true,
-        },
-        {
-          id: 12,
-          name: "Levi's 512 Slim Taper Jeans",
-          brand: "Levi's",
-          price: 620,
-          img: "levis-512.jpg",
-          isNew: false,
-        },
-
-        // PAGE 3
-        {
-          id: 13,
-          name: "A.P.C. Martin Jeans",
-          brand: "A.P.C.",
-          price: 760,
-          img: "apc-martin.jpg",
-          isNew: false,
-        },
-        {
-          id: 14,
-          name: "LEE Rider Slim Jeans",
-          brand: "LEE",
-          price: 520,
-          img: "lee-rider.jpg",
-          isNew: false,
-        },
-        {
-          id: 15,
-          name: "Bershka Linen Wide-Leg Pants",
-          brand: "Bershka",
-          price: 490,
-          img: "bershka-linen.jpg",
-          isNew: true,
-        },
-        {
-          id: 16,
-          name: "Levi's Ribcage Straight Ankle Jeans",
-          brand: "Levi's",
-          price: 680,
-          img: "levis-ribcage.jpg",
-          isNew: false,
-        },
-        {
-          id: 17,
-          name: "A.P.C. New Cure Jeans",
-          brand: "A.P.C.",
-          price: 820,
-          img: "apc-new-cure.jpg",
-          isNew: true,
-        },
-        {
-          id: 18,
-          name: "LEE Brooklyn Straight Fit",
-          brand: "LEE",
-          price: 510,
-          img: "lee-brooklyn.jpg",
-          isNew: false,
-        },
-
-        // PAGE 4
-        {
-          id: 19,
-          name: "Bershka Paperbag Waist Trousers",
-          brand: "Bershka",
-          price: 460,
-          img: "bershka-paperbag.jpg",
-          isNew: true,
-        },
-        {
-          id: 20,
-          name: "Levi's 724 High Rise Straight Jeans",
-          brand: "Levi's",
-          price: 710,
-          img: "levis-724.jpg",
-          isNew: false,
-        },
-        {
-          id: 21,
-          name: "A.P.C. Sailor Trousers",
-          brand: "A.P.C.",
-          price: 870,
-          img: "apc-sailor.jpg",
-          isNew: true,
-        },
-        {
-          id: 22,
-          name: "LEE Straight Fit Jeans",
-          brand: "LEE",
-          price: 530,
-          img: "lee-straight.jpg",
-          isNew: false,
-        },
-        {
-          id: 23,
-          name: "Bershka Velvet Wide-Leg Trousers",
-          brand: "Bershka",
-          price: 610,
-          img: "bershka-velvet.jpg",
-          isNew: true,
-        },
-        {
-          id: 24,
-          name: "Levi's Wedgie Straight Jeans",
-          brand: "Levi's",
-          price: 690,
-          img: "levis-wedgie-straight.jpg",
-          isNew: false,
-        },
-      ];
-
-      const ITEMS_PER_PAGE = 6;
-      let currentPage = 1;
-      let favorites = new Set();
-      let activeFilters = { brands: [], minPrice: null, maxPrice: null };
-
-      // ---- CART ----
-      let cart = JSON.parse(localStorage.getItem("auringph_cart")) || [];
-
-      function saveCart() {
-        localStorage.setItem("auringph_cart", JSON.stringify(cart));
-        if (typeof syncNavBadges === "function") syncNavBadges();
-      }
-
-      function addToCart(product) {
-        const existing = cart.find((x) => x.id === product.id);
-        if (existing) {
-          existing.qty++;
-        } else {
-          cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            image: `../images/products/pants/${product.img}`,
-            category: "Pants",
-            qty: 1,
-          });
-        }
-        saveCart();
-        showToast("Added to cart!");
-      }
-      window._addToCart = function (id) {
-        const p = ALL_PRODUCTS.find((x) => x.id === id);
-        if (p) addToCart(p);
+      window.SHOP_CONFIG = {
+        singular: "pants",
+        plural: "pants",
+        storageKey: "auringph_pants",
+        imagesPath: "../images/products/pants/",
+        perPage: 12,
+        // contain: true,   // ← i-uncomment kung nagka-crop yung pants photos
+        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        brandOptions: ["Bershka", "Levi's", "A.P.C.", "LEE", "Other"],
+        // [id, name, brand, price, origPrice, sizes, badge, image]
+        // IDs are prefixed ("pants-…") so they never clash with shirts/shoes in the cart.
+        // ⚠ Sizes are PLACEHOLDERS — palitan ng totoong sizes (admin modal: ?admin=1).
+        defaults: [
+          [
+            "pants-1",
+            "Baggy Cargo Jeans",
+            "Bershka",
+            650,
+            null,
+            "S,M,L,XL",
+            "",
+            "baggy-cargo-jeans.jpg",
+          ],
+          [
+            "pants-2",
+            "Levi's Vintage Clothing 501 XX Denim",
+            "Levi's",
+            650,
+            null,
+            "S,M,L,XL,XXL",
+            "",
+            "levis-501.jpg",
+          ],
+          [
+            "pants-3",
+            "Veronica Trousers Camel Wide-Leg",
+            "A.P.C.",
+            450,
+            null,
+            "XS,S,M,L",
+            "",
+            "veronica-trousers.jpg",
+          ],
+          [
+            "pants-4",
+            "LEE Men's 101+ Denim Pants Austin Fit",
+            "LEE",
+            500,
+            null,
+            "M,L,XL,XXL",
+            "",
+            "lee-101.jpg",
+          ],
+          [
+            "pants-5",
+            "Bershka Straight-Fit Wide-Leg Trousers",
+            "Bershka",
+            550,
+            null,
+            "XS,S,M,L,XL",
+            "",
+            "bershka-wideleg.jpg",
+          ],
+          [
+            "pants-6",
+            "A.P.C. Petit New Standard Jeans",
+            "A.P.C.",
+            750,
+            null,
+            "S,M,L,XL",
+            "",
+            "apc-petit-new-standard.jpg",
+          ],
+          [
+            "pants-7",
+            "Levi's Wedgie Icon Fit Jeans",
+            "Levi's",
+            700,
+            null,
+            "XS,S,M,L",
+            "NEW",
+            "levis-wedgie.jpg",
+          ],
+          [
+            "pants-8",
+            "Bershka Jogger Pants",
+            "Bershka",
+            420,
+            null,
+            "S,M,L,XL,XXL",
+            "NEW",
+            "bershka-jogger.jpg",
+          ],
+          [
+            "pants-9",
+            "A.P.C. Jean de Travail",
+            "A.P.C.",
+            800,
+            null,
+            "M,L,XL",
+            "NEW",
+            "apc-jean-de-travail.jpg",
+          ],
+          [
+            "pants-10",
+            "LEE Slim Fit Chino",
+            "LEE",
+            480,
+            null,
+            "S,M,L,XL,XXL",
+            "",
+            "lee-slim.jpg",
+          ],
+          [
+            "pants-11",
+            "Bershka Check Tailored Trousers",
+            "Bershka",
+            580,
+            null,
+            "XS,S,M,L",
+            "NEW",
+            "bershka-check-trousers.jpg",
+          ],
+          [
+            "pants-12",
+            "Levi's 512 Slim Taper Jeans",
+            "Levi's",
+            620,
+            null,
+            "S,M,L,XL,XXL",
+            "",
+            "levis-512.jpg",
+          ],
+          [
+            "pants-13",
+            "A.P.C. Martin Jeans",
+            "A.P.C.",
+            760,
+            null,
+            "S,M,L,XL",
+            "",
+            "apc-martin.jpg",
+          ],
+          [
+            "pants-14",
+            "LEE Rider Slim Jeans",
+            "LEE",
+            520,
+            null,
+            "M,L,XL,XXL",
+            "",
+            "lee-rider.jpg",
+          ],
+          [
+            "pants-15",
+            "Bershka Linen Wide-Leg Pants",
+            "Bershka",
+            490,
+            null,
+            "XS,S,M,L,XL",
+            "NEW",
+            "bershka-linen.jpg",
+          ],
+          [
+            "pants-16",
+            "Levi's Ribcage Straight Ankle Jeans",
+            "Levi's",
+            680,
+            null,
+            "XS,S,M,L",
+            "",
+            "levis-ribcage.jpg",
+          ],
+          [
+            "pants-17",
+            "A.P.C. New Cure Jeans",
+            "A.P.C.",
+            820,
+            null,
+            "S,M,L,XL",
+            "NEW",
+            "apc-new-cure.jpg",
+          ],
+          [
+            "pants-18",
+            "LEE Brooklyn Straight Fit",
+            "LEE",
+            510,
+            null,
+            "M,L,XL,XXL",
+            "",
+            "lee-brooklyn.jpg",
+          ],
+          [
+            "pants-19",
+            "Bershka Paperbag Waist Trousers",
+            "Bershka",
+            460,
+            null,
+            "XS,S,M,L",
+            "NEW",
+            "bershka-paperbag.jpg",
+          ],
+          [
+            "pants-20",
+            "Levi's 724 High Rise Straight Jeans",
+            "Levi's",
+            710,
+            null,
+            "XS,S,M,L,XL",
+            "",
+            "levis-724.jpg",
+          ],
+          [
+            "pants-21",
+            "A.P.C. Sailor Trousers",
+            "A.P.C.",
+            870,
+            null,
+            "S,M,L",
+            "NEW",
+            "apc-sailor.jpg",
+          ],
+          [
+            "pants-22",
+            "LEE Straight Fit Jeans",
+            "LEE",
+            530,
+            null,
+            "M,L,XL,XXL",
+            "",
+            "lee-straight.jpg",
+          ],
+          [
+            "pants-23",
+            "Bershka Velvet Wide-Leg Trousers",
+            "Bershka",
+            610,
+            null,
+            "XS,S,M,L,XL",
+            "NEW",
+            "bershka-velvet.jpg",
+          ],
+          [
+            "pants-24",
+            "Levi's Wedgie Straight Jeans",
+            "Levi's",
+            690,
+            null,
+            "S,M,L,XL",
+            "",
+            "levis-wedgie-straight.jpg",
+          ],
+        ],
       };
-
-      // ---- FILTER LOGIC ----
-      function getFilteredProducts() {
-        let products = [...ALL_PRODUCTS];
-
-        // Brand filter
-        if (activeFilters.brands.length > 0) {
-          products = products.filter((p) =>
-            activeFilters.brands.includes(p.brand),
-          );
-        }
-
-        // Price filter
-        if (activeFilters.minPrice !== null) {
-          products = products.filter((p) => p.price >= activeFilters.minPrice);
-        }
-        if (activeFilters.maxPrice !== null) {
-          products = products.filter((p) => p.price <= activeFilters.maxPrice);
-        }
-
-        // Sort
-        const sort = document.getElementById("sortSelect").value;
-        if (sort === "price-asc") products.sort((a, b) => a.price - b.price);
-        if (sort === "price-desc") products.sort((a, b) => b.price - a.price);
-        if (sort === "newest") products.sort((a, b) => b.isNew - a.isNew);
-
-        return products;
-      }
-
-      function applyFilters() {
-        // Read brand checkboxes
-        const brandCbs = document.querySelectorAll(".brand-cb:checked");
-        activeFilters.brands = Array.from(brandCbs).map((cb) => cb.value);
-
-        // Read price
-        const minVal = document.getElementById("priceMin").value;
-        const maxVal = document.getElementById("priceMax").value;
-        activeFilters.minPrice = minVal ? parseInt(minVal) : null;
-        activeFilters.maxPrice = maxVal ? parseInt(maxVal) : null;
-
-        currentPage = 1;
-        renderPage();
-        showToast("Filters applied!");
-      }
-
-      // ---- BRAND CHECKBOX LOGIC ----
-      function onBrandAllChange(cb) {
-        if (cb.checked) {
-          document
-            .querySelectorAll(".brand-cb")
-            .forEach((c) => (c.checked = false));
-          activeFilters.brands = [];
-        }
-        applyFiltersQuiet();
-      }
-
-      function onBrandChange() {
-        const anyChecked =
-          document.querySelectorAll(".brand-cb:checked").length > 0;
-        document.getElementById("brand-all").checked = !anyChecked;
-        activeFilters.brands = Array.from(
-          document.querySelectorAll(".brand-cb:checked"),
-        ).map((cb) => cb.value);
-        currentPage = 1;
-        renderPage();
-      }
-
-      function applyFiltersQuiet() {
-        currentPage = 1;
-        renderPage();
-      }
-
-      // ---- SIZE CHIP ----
-      function setActiveSize(el) {
-        document
-          .querySelectorAll(".size-chip")
-          .forEach((c) => c.classList.remove("active"));
-        el.classList.add("active");
-      }
-
-      // ---- HEART TOGGLE ----
-      function toggleHeart(btn, id) {
-        if (favorites.has(id)) {
-          favorites.delete(id);
-          btn.textContent = "♡";
-          btn.classList.remove("active");
-          showToast("Removed from favorites");
-        } else {
-          favorites.add(id);
-          btn.textContent = "♥";
-          btn.classList.add("active");
-          showToast("Added to favorites!");
-        }
-      }
-
-      // ---- SEARCH ----
-      document
-        .getElementById("searchInput")
-        .addEventListener("input", function () {
-          currentPage = 1;
-          renderPage();
-        });
-
-      function getSearchedProducts(products) {
-        const q = document
-          .getElementById("searchInput")
-          .value.trim()
-          .toLowerCase();
-        if (!q) return products;
-        return products.filter(
-          (p) =>
-            p.name.toLowerCase().includes(q) ||
-            p.brand.toLowerCase().includes(q),
-        );
-      }
-
-      // ---- RENDER ----
-      function renderPage() {
-        let products = getFilteredProducts();
-        products = getSearchedProducts(products);
-
-        const total = products.length;
-        const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
-        if (currentPage > totalPages) currentPage = totalPages;
-
-        const start = (currentPage - 1) * ITEMS_PER_PAGE;
-        const pageItems = products.slice(start, start + ITEMS_PER_PAGE);
-
-        // Update count
-        document.getElementById("itemCount").textContent =
-          `${total} item${total !== 1 ? "s" : ""}`;
-
-        // Render cards
-        const grid = document.getElementById("productGrid");
-        if (pageItems.length === 0) {
-          grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#999;">No products found. Try adjusting your filters.</div>`;
-        } else {
-          grid.innerHTML = pageItems
-            .map(
-              (p) => `
-      <div class="product-card" onclick="showToast('Product detail page coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/pants/${p.img}" alt="${p.name}"
-               onerror="this.parentElement.style.background='#f0ebe5';this.style.display='none'">
-        </div>
-        <div class="product-info">
-          <div class="product-name">${p.name}</div>
-          <div class="product-sub">${p.brand}</div>
-          <div class="product-bottom">
-            <span class="product-price">₱${p.price.toLocaleString()}</span>
-            <button class="heart-btn ${favorites.has(p.id) ? "active" : ""}"
-              onclick="event.stopPropagation(); toggleHeart(this, ${p.id})"
-              aria-label="Add to favorites">${favorites.has(p.id) ? "♥" : "♡"}</button>
-          </div>
-          <button class="btn-add-cart" onclick="event.stopPropagation(); window._addToCart(${p.id})">Add to Cart</button>
-        </div>
-      </div>
-    `,
-            )
-            .join("");
-        }
-
-        // Render pagination
-        renderPagination(totalPages);
-      }
-
-      function renderPagination(totalPages) {
-        const pg = document.getElementById("pagination");
-
-        let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>←</button>`;
-
-        for (let i = 1; i <= totalPages; i++) {
-          html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="goToPage(${i})">${i}</button>`;
-        }
-
-        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>→</button>`;
-
-        pg.innerHTML = html;
-      }
-
-      function goToPage(page) {
-        const products = getSearchedProducts(getFilteredProducts());
-        const totalPages = Math.max(
-          1,
-          Math.ceil(products.length / ITEMS_PER_PAGE),
-        );
-        if (page < 1 || page > totalPages) return;
-        currentPage = page;
-        renderPage();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      // Sort change
-      document
-        .getElementById("sortSelect")
-        .addEventListener("change", function () {
-          currentPage = 1;
-          renderPage();
-        });
-
-      // ---- INIT ----
-      renderPage();
     </script>
-    <script>
-      syncNavBadges();
-    </script>
+    <script src="../js/shop.js"></script>
   </body>
 </html>
