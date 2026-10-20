@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Favorites - AuringPh</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/category.css">
@@ -20,7 +21,7 @@
       <img src="../images/logo.png" alt="AuringPh Logo" class="nav-logo-img">
     </a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Main">
       <a href="home.html" class="nav-link">Home</a>
       <a href="shirts.html" class="nav-link">Shirts</a>
       <a href="shoes.html" class="nav-link">Shoes</a>
@@ -30,15 +31,15 @@
 
     <div class="nav-search">
       <span aria-hidden="true">🔍</span>
-      <input type="text" placeholder="Search favorites..." id="favSearch" aria-label="Search favorites" oninput="searchFavorites(this.value)">
+      <input type="search" placeholder="Search favorites..." id="favSearch" aria-label="Search favorites" autocomplete="off">
     </div>
 
     <div class="nav-actions">
       <button class="nav-icon-btn" onclick="window.location.href='cart.html'" aria-label="Shopping cart">
-        🛒<span class="badge-count">2</span>
+        🛒<span class="badge-count" id="cartCount">0</span>
       </button>
-      <button class="nav-icon-btn active-nav-icon" aria-label="Favorites (current page)">
-        ♡<span class="badge-count" id="favCount">6</span>
+      <button class="nav-icon-btn active-nav-icon" aria-label="Favorites (current page)" aria-current="page">
+        ♡<span class="badge-count" id="favCount">0</span>
       </button>
       <button class="nav-icon-btn" onclick="window.location.href='messages.html'" aria-label="Messages">
         💬<span class="badge-count" id="msgCount">0</span>
@@ -46,7 +47,7 @@
       <button class="nav-icon-btn" onclick="window.location.href='notifications.html'" aria-label="Notifications">
         🔔<span class="badge-count">3</span>
       </button>
-      <div class="nav-avatar" onclick="window.location.href='profile.html'" aria-label="My Profile">AB</div>
+      <div class="nav-avatar" onclick="window.location.href='profile.html'" role="link" tabindex="0" aria-label="My Profile">AB</div>
     </div>
   </div>
 </header>
@@ -55,166 +56,44 @@
   <div class="container page-section">
 
     <!-- Breadcrumb -->
-    <div class="breadcrumb">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="home.html">Home</a> / <span class="current">My Favorites</span>
-    </div>
+    </nav>
 
     <!-- Page header -->
     <div class="fav-page-header">
       <div>
-        <h1 class="fav-title">My Favorites <span class="fav-heart-icon">♡</span></h1>
-        <div class="item-count" id="itemCountLabel">6 saved items</div>
+        <h1 class="fav-title">My Favorites <span class="fav-heart-icon" aria-hidden="true">♡</span></h1>
+        <div class="item-count" id="itemCountLabel" aria-live="polite">0 saved items</div>
       </div>
-      <button class="clear-all-btn" onclick="confirmClearAll()">🗑️ Clear All</button>
+      <div class="fav-header-actions">
+        <button class="add-all-btn" id="addAllBtn" type="button">🛒 Add all to cart</button>
+        <button class="clear-all-btn" id="clearAllBtn" type="button">🗑️ Clear All</button>
+      </div>
     </div>
 
-    <!-- Category filter tabs -->
-    <div class="fav-tabs">
-      <button class="fav-tab active" onclick="filterByCategory('all', this)">All <span class="fav-tab-count">6</span></button>
-      <button class="fav-tab" onclick="filterByCategory('shirts', this)">Shirts <span class="fav-tab-count">2</span></button>
-      <button class="fav-tab" onclick="filterByCategory('shoes', this)">Shoes <span class="fav-tab-count">2</span></button>
-      <button class="fav-tab" onclick="filterByCategory('pants', this)">Pants <span class="fav-tab-count">1</span></button>
-      <button class="fav-tab" onclick="filterByCategory('others', this)">Others <span class="fav-tab-count">1</span></button>
+    <!-- Toolbar: category tabs + sort -->
+    <div class="fav-toolbar">
+      <div class="fav-tabs" id="favTabs" role="group" aria-label="Filter favorites by category">
+        <button class="fav-tab active" data-cat="all" type="button">All <span class="fav-tab-count">0</span></button>
+        <button class="fav-tab" data-cat="shirts" type="button">Shirts <span class="fav-tab-count">0</span></button>
+        <button class="fav-tab" data-cat="shoes" type="button">Shoes <span class="fav-tab-count">0</span></button>
+        <button class="fav-tab" data-cat="pants" type="button">Pants <span class="fav-tab-count">0</span></button>
+        <button class="fav-tab" data-cat="others" type="button">Others <span class="fav-tab-count">0</span></button>
+      </div>
+      <select class="fav-sort" id="favSort" aria-label="Sort favorites">
+        <option value="recent">Sort: Recently added</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name">Name: A–Z</option>
+      </select>
     </div>
 
-    <!-- Favorites grid -->
-    <div class="product-grid" id="favGrid">
+    <!-- Favorites grid (rendered by JS) -->
+    <div class="product-grid" id="favGrid"></div>
 
-      <!-- Item 1 — Shirt -->
-      <div class="product-card fav-item" data-category="shirts" data-name="classic tee white" onclick="showToast('Product detail coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/shirts/classic-tee.jpg" alt="Classic Tee White">
-          <span class="product-badge">BESTSELLER</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Classic Tee White</div>
-          <div class="product-sub">Shirts</div>
-          <div class="product-bottom">
-            <span class="product-price">₱499</span>
-            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
-              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
-          </div>
-        </div>
-        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
-          Add to Cart
-        </button>
-      </div>
-
-      <!-- Item 2 — Shoes -->
-      <div class="product-card fav-item" data-category="shoes" data-name="nike air force 1 white" onclick="showToast('Product detail coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/shoes/nike-air-force-1.jpg" alt="Nike Air Force 1">
-        </div>
-        <div class="product-info">
-          <div class="product-name">Nike Air Force 1 '07 White</div>
-          <div class="product-sub">Shoes</div>
-          <div class="product-bottom">
-            <span class="product-price">₱4,995</span>
-            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
-              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
-          </div>
-        </div>
-        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
-          Add to Cart
-        </button>
-      </div>
-
-      <!-- Item 3 — Pants -->
-      <div class="product-card fav-item" data-category="pants" data-name="straight jeans indigo" onclick="showToast('Product detail coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/pants/straight-jeans.jpg" alt="Straight Jeans Indigo">
-          <span class="product-badge sale-badge">SALE</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Straight Cut Jeans Indigo</div>
-          <div class="product-sub">Pants</div>
-          <div class="product-bottom">
-            <div class="price-group">
-              <span class="product-price">₱1,299</span>
-              <span class="product-price-original">₱1,799</span>
-            </div>
-            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
-              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
-          </div>
-        </div>
-        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
-          Add to Cart
-        </button>
-      </div>
-
-      <!-- Item 4 — Shirt -->
-      <div class="product-card fav-item" data-category="shirts" data-name="oversized polo brown" onclick="showToast('Product detail coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/shirts/oversized-polo.jpg" alt="Oversized Polo Brown">
-          <span class="product-badge">NEW</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Oversized Polo Brown</div>
-          <div class="product-sub">Shirts</div>
-          <div class="product-bottom">
-            <span class="product-price">₱699</span>
-            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
-              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
-          </div>
-        </div>
-        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
-          Add to Cart
-        </button>
-      </div>
-
-      <!-- Item 5 — Shoes -->
-      <div class="product-card fav-item" data-category="shoes" data-name="vans old skool black white" onclick="showToast('Product detail coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/shoes/vans-old-skool.jpg" alt="Vans Old Skool">
-          <span class="product-badge sale-badge">SALE</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">Vans Old Skool Black/White</div>
-          <div class="product-sub">Shoes</div>
-          <div class="product-bottom">
-            <div class="price-group">
-              <span class="product-price">₱2,499</span>
-              <span class="product-price-original">₱3,200</span>
-            </div>
-            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
-              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
-          </div>
-        </div>
-        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
-          Add to Cart
-        </button>
-      </div>
-
-      <!-- Item 6 — Others -->
-      <div class="product-card fav-item" data-category="others" data-name="nike heritage backpack black" onclick="showToast('Product detail coming soon!')">
-        <div class="product-img">
-          <img src="../images/products/others/nike-heritage-bag.jpg" alt="Nike Heritage Backpack">
-        </div>
-        <div class="product-info">
-          <div class="product-name">Nike Heritage Eugene Backpack</div>
-          <div class="product-sub">Others · Bags</div>
-          <div class="product-bottom">
-            <span class="product-price">₱2,495</span>
-            <button class="heart-btn active" title="Remove from favorites" aria-label="Remove from favorites"
-              onclick="event.stopPropagation(); removeFavorite(this)">♥</button>
-          </div>
-        </div>
-        <button class="fav-add-to-cart" onclick="event.stopPropagation(); addToCart(this)">
-          Add to Cart
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Empty state — hidden by default, shown when no items -->
-    <div class="fav-empty" id="favEmpty" style="display:none">
-      <div class="fav-empty-icon">♡</div>
-      <div class="fav-empty-title">No favorites yet</div>
-      <div class="fav-empty-text">Items you heart will appear here. Start browsing!</div>
-      <a href="home.html" class="btn-primary" style="display:inline-block; margin-top:20px; text-decoration:none; padding: 12px 28px;">
-        Browse Products
-      </a>
-    </div>
+    <!-- Empty state (rendered by JS) -->
+    <div class="fav-empty" id="favEmpty" hidden></div>
 
   </div>
 </main>
@@ -260,7 +139,7 @@
         </a>
       </div>
       <div class="footer-contact">
-        📍 Paranaque, Philippines<br>
+        📍 Calauan, Laguna, Philippines<br>
         ✉️ hello@auringph.com
       </div>
     </div>
@@ -273,12 +152,12 @@
 </footer>
 
 <!-- ============ BOTTOM NAV ============ -->
-<nav class="bottom-nav">
+<nav class="bottom-nav" aria-label="Mobile navigation">
   <button class="bottom-nav-item" onclick="window.location.href='home.html'">
     <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z" stroke="currentColor" stroke-width="2"/></svg>
     Home
   </button>
-  <button class="bottom-nav-item active">
+  <button class="bottom-nav-item active" aria-current="page">
     <svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
     Favorites
   </button>
@@ -297,118 +176,357 @@
 </nav>
 
 <!-- Clear All Confirmation Modal -->
-<div class="modal-overlay" id="clearModal">
-  <div class="modal-box">
-    <div class="modal-icon">🗑️</div>
-    <div class="modal-title">Clear All Favorites?</div>
-    <div class="modal-text">This will remove all <strong id="clearCount">6</strong> saved items. This cannot be undone.</div>
+<div class="modal-overlay" id="clearModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+    <div class="modal-icon" aria-hidden="true">🗑️</div>
+    <div class="modal-title" id="clearTitle">Clear All Favorites?</div>
+    <div class="modal-text">This will remove all <strong id="clearCount">0</strong> saved items. Pwede mo pa itong i-undo pagkatapos.</div>
     <div class="modal-actions">
-      <button class="btn-outline" onclick="closeClearModal()">Cancel</button>
-      <button class="btn-primary" onclick="clearAllFavorites()">Yes, Clear All</button>
+      <button class="btn-outline" id="cancelClear" type="button">Cancel</button>
+      <button class="btn-primary" id="confirmClear" type="button">Yes, Clear All</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="../js/script.js"></script>
 <script>
-  // ── Remove single favorite ──
-  function removeFavorite(btn) {
-    const card = btn.closest('.product-card');
-    card.style.transition = 'opacity 0.3s, transform 0.3s';
-    card.style.opacity = '0';
-    card.style.transform = 'scale(0.9)';
-    setTimeout(() => {
-      card.remove();
-      updateCount();
-      checkEmpty();
-    }, 300);
-    showToast('Removed from favorites');
+  // ============================================================
+  //  FAVORITES PAGE — improved logic
+  //  - favorites live in localStorage ("auringph_favorites") so every
+  //    page (shirts / shoes / pants / others) can share one list
+  //  - search + category tab + sort work TOGETHER
+  //  - Undo for remove / clear all, add-all-to-cart, live counts
+  // ============================================================
+
+  const KEY_FAVS = "auringph_favorites";
+  const KEY_CART = "auringph_cart";
+  const IMG = "../images/products/";
+  const SECTIONS = { shirts: "Shirts", shoes: "Shoes", pants: "Pants", others: "Others" };
+  const FIT = { shirts: "cover", shoes: "contain", pants: "contain", others: "contain" };
+
+  // Demo data — ginagamit lang kung wala pang naka-save na favorites sa browser
+  const NOW = Date.now();
+  const DEFAULT_FAVS = [
+    { section: "shirts", id: 1, cat: "Shirts", name: "Classic Tee White", price: 499, origPrice: null, badge: "BESTSELLER", img: "shirts/classic-tee.jpg" },
+    { section: "shoes", id: 1, cat: "Shoes", name: "Nike Air Force 1 '07 White", price: 4995, origPrice: null, badge: "", img: "shoes/nike-air-force-1.jpg" },
+    { section: "pants", id: 1, cat: "Pants", name: "Straight Cut Jeans Indigo", price: 1299, origPrice: 1799, badge: "SALE", img: "pants/straight-jeans.jpg" },
+    { section: "shirts", id: 2, cat: "Shirts", name: "Oversized Polo Brown", price: 699, origPrice: null, badge: "NEW", img: "shirts/oversized-polo.jpg" },
+    { section: "shoes", id: 2, cat: "Shoes", name: "Vans Old Skool Black/White", price: 2499, origPrice: 3200, badge: "SALE", img: "shoes/vans-old-skool.jpg" },
+    { section: "others", id: 1, cat: "Bags", name: "Nike Heritage Eugene Backpack", price: 2495, origPrice: null, badge: "", img: "others/nike-heritage-bag.jpg" },
+  ].map((f, i) => ({ ...f, addedAt: NOW - i * 1000 }));
+
+  // ---------- Helpers ----------
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const peso = (n) => "₱" + Number(n).toLocaleString("en-PH");
+  const keyOf = (f) => `${f.section}-${f.id}`;
+  const esc = (s) =>
+    String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+  function readStore(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch { return fallback; }
+  }
+  function writeStore(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* ignore */ }
   }
 
-  // ── Add to cart ──
-  function addToCart(btn) {
-    const name = btn.closest('.product-card').querySelector('.product-name').textContent;
-    showToast(name + ' added to cart! 🛒');
-    btn.textContent = '✅ Added';
-    btn.style.background = 'var(--green)';
-    btn.style.color = 'var(--white)';
-    setTimeout(() => {
-      btn.textContent = 'Add to Cart';
-      btn.style.background = '';
-      btn.style.color = '';
-    }, 2000);
-  }
+  // ---------- State ----------
+  let favs = loadFavs();
+  const ui = { cat: "all", query: "", sort: "recent" };
 
-  // ── Filter by category tab ──
-  function filterByCategory(cat, btn) {
-    document.querySelectorAll('.fav-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-
-    document.querySelectorAll('.fav-item').forEach(card => {
-      if (cat === 'all' || card.dataset.category === cat) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-    checkEmpty();
-  }
-
-  // ── Search inside favorites ──
-  function searchFavorites(query) {
-    const q = query.toLowerCase().trim();
-    document.querySelectorAll('.fav-item').forEach(card => {
-      const name = card.dataset.name || '';
-      card.style.display = name.includes(q) ? '' : 'none';
-    });
-    checkEmpty();
-  }
-
-  // ── Update count badge and label ──
-  function updateCount() {
-    const visible = document.querySelectorAll('.fav-item').length;
-    document.getElementById('favCount').textContent = visible;
-    document.getElementById('itemCountLabel').textContent = visible + ' saved item' + (visible !== 1 ? 's' : '');
-  }
-
-  // ── Show empty state if no items left ──
-  function checkEmpty() {
-    const visibleCards = [...document.querySelectorAll('.fav-item')].filter(c => c.style.display !== 'none');
-    const grid = document.getElementById('favGrid');
-    const empty = document.getElementById('favEmpty');
-    if (visibleCards.length === 0) {
-      grid.style.display = 'none';
-      empty.style.display = 'flex';
-    } else {
-      grid.style.display = '';
-      empty.style.display = 'none';
+  function loadFavs() {
+    let raw = null;
+    try { raw = localStorage.getItem(KEY_FAVS); } catch { /* blocked */ }
+    if (raw === null) {                      // first visit → seed demo items
+      writeStore(KEY_FAVS, DEFAULT_FAVS);
+      return [...DEFAULT_FAVS];
     }
+    const data = readStore(KEY_FAVS, []);
+    return Array.isArray(data) ? data : [];
+  }
+  const saveFavs = () => writeStore(KEY_FAVS, favs);
+
+  // ---------- Toast (supports Undo) ----------
+  let toastTimer;
+  function showToast(msg, undoFn) {
+    const t = $("#toast");
+    t.innerHTML = "";
+    const span = document.createElement("span");
+    span.textContent = msg;
+    t.appendChild(span);
+    if (undoFn) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "toast-action";
+      b.textContent = "Undo";
+      b.addEventListener("click", () => { undoFn(); t.classList.remove("show"); });
+      t.appendChild(b);
+    }
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), undoFn ? 5000 : 2500);
   }
 
-  // ── Clear all modal ──
-  function confirmClearAll() {
-    const count = document.querySelectorAll('.fav-item').length;
-    document.getElementById('clearCount').textContent = count;
-    document.getElementById('clearModal').classList.add('open');
+  // ---------- Badges ----------
+  function updateBadges() {
+    if (typeof syncNavBadges === "function") syncNavBadges();
+    $("#favCount").textContent = favs.length;
+    const cart = readStore(KEY_CART, []);
+    $("#cartCount").textContent = cart.reduce((n, i) => n + (i.qty || 0), 0);
   }
 
+  // ---------- Cart ----------
+  function pushToCart(f) {
+    const cart = readStore(KEY_CART, []);
+    const existing = cart.find((x) => x.id === f.id && x.category === f.cat);
+    if (existing) existing.qty++;
+    else cart.push({ id: f.id, name: f.name, price: f.price, image: IMG + f.img, category: f.cat, qty: 1 });
+    writeStore(KEY_CART, cart);
+  }
+
+  // ---------- Filtering / sorting ----------
+  function getVisible() {
+    let list = [...favs];
+    if (ui.cat !== "all") list = list.filter((f) => f.section === ui.cat);
+    if (ui.query) {
+      const words = ui.query.split(/\s+/).filter(Boolean);
+      list = list.filter((f) => {
+        const hay = `${f.name} ${f.cat} ${SECTIONS[f.section] || ""}`.toLowerCase();
+        return words.every((w) => hay.includes(w));
+      });
+    }
+    if (ui.sort === "price-asc") list.sort((a, b) => a.price - b.price);
+    else if (ui.sort === "price-desc") list.sort((a, b) => b.price - a.price);
+    else if (ui.sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
+    else list.sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
+    return list;
+  }
+
+  // ---------- Render ----------
+  function cardHTML(f) {
+    const saving = f.origPrice && f.origPrice > f.price ? f.origPrice - f.price : 0;
+    const sub = f.section === "others" ? `Others · ${f.cat}` : SECTIONS[f.section] || f.cat;
+    return `
+      <div class="product-card fav-item" data-key="${esc(keyOf(f))}" role="link" tabindex="0"
+           aria-label="${esc(f.name)}, ${peso(f.price)}">
+        <div class="product-img ${FIT[f.section] === "contain" ? "fit-contain" : ""}">
+          <img src="${IMG}${esc(f.img)}" alt="${esc(f.name)}" loading="lazy">
+          ${f.badge ? `<span class="product-badge ${f.badge === "SALE" ? "sale-badge" : ""}">${esc(f.badge)}</span>` : ""}
+        </div>
+        <div class="product-info">
+          <div class="product-name">${esc(f.name)}</div>
+          <div class="product-sub">${esc(sub)}</div>
+          <div class="product-bottom">
+            <div class="price-group">
+              <span class="product-price">${peso(f.price)}</span>
+              ${f.origPrice ? `<span class="product-price-original">${peso(f.origPrice)}</span>` : ""}
+              ${saving ? `<span class="fav-save">Save ${peso(saving)}</span>` : ""}
+            </div>
+            <button class="heart-btn active" type="button" data-action="remove"
+              title="Remove from favorites" aria-label="Remove ${esc(f.name)} from favorites">♥</button>
+          </div>
+        </div>
+        <button class="fav-add-to-cart" type="button" data-action="cart">Add to Cart</button>
+      </div>`;
+  }
+
+  function render() {
+    // Tabs: live counts; fall back to "All" if the active tab became empty
+    const counts = { all: favs.length };
+    Object.keys(SECTIONS).forEach((s) => (counts[s] = favs.filter((f) => f.section === s).length));
+    if (ui.cat !== "all" && counts[ui.cat] === 0) ui.cat = "all";
+    $$(".fav-tab").forEach((t) => {
+      const c = t.dataset.cat;
+      t.classList.toggle("active", c === ui.cat);
+      t.classList.toggle("is-empty", counts[c] === 0);
+      t.setAttribute("aria-pressed", c === ui.cat ? "true" : "false");
+      $(".fav-tab-count", t).textContent = counts[c];
+    });
+
+    // Header label
+    const total = favs.reduce((sum, f) => sum + f.price, 0);
+    $("#itemCountLabel").textContent =
+      `${favs.length} saved item${favs.length !== 1 ? "s" : ""}` + (favs.length ? ` · ${peso(total)} total` : "");
+
+    const list = getVisible();
+    const grid = $("#favGrid");
+    const empty = $("#favEmpty");
+
+    $("#clearAllBtn").disabled = favs.length === 0;
+    $("#addAllBtn").disabled = list.length === 0;
+
+    if (list.length === 0) {
+      grid.hidden = true;
+      empty.hidden = false;
+      if (favs.length === 0) {
+        empty.innerHTML = `
+          <div class="fav-empty-icon" aria-hidden="true">♡</div>
+          <div class="fav-empty-title">No favorites yet</div>
+          <div class="fav-empty-text">Items you heart will appear here. Start browsing!</div>
+          <a href="home.html" class="fav-empty-btn">Browse Products</a>`;
+      } else {
+        empty.innerHTML = `
+          <div class="fav-empty-icon" aria-hidden="true">🔍</div>
+          <div class="fav-empty-title">Walang nahanap</div>
+          <div class="fav-empty-text">Walang favorite na tumutugma sa search o category na ito.</div>
+          <button type="button" class="fav-empty-btn" data-action="reset">Reset search &amp; filters</button>`;
+      }
+    } else {
+      grid.hidden = false;
+      empty.hidden = true;
+      grid.innerHTML = list.map(cardHTML).join("");
+      $$(".product-img img", grid).forEach((img) => {
+        const miss = () => img.parentElement.classList.add("img-missing");
+        img.addEventListener("error", miss, { once: true });
+        if (img.complete && img.naturalWidth === 0) miss();
+      });
+    }
+    updateBadges();
+  }
+
+  // ---------- Actions ----------
+  function removeFavorite(key, cardEl) {
+    const idx = favs.findIndex((f) => keyOf(f) === key);
+    if (idx === -1) return;
+    const removed = favs[idx];
+    const doRemove = () => {
+      favs = favs.filter((f) => keyOf(f) !== key);
+      saveFavs();
+      render();
+    };
+    if (cardEl) { cardEl.classList.add("is-removing"); setTimeout(doRemove, 250); }
+    else doRemove();
+    showToast("Removed from favorites", () => {
+      if (favs.some((f) => keyOf(f) === key)) return;
+      favs.splice(Math.min(idx, favs.length), 0, removed);
+      saveFavs();
+      render();
+    });
+  }
+
+  function addToCart(key, btn) {
+    const f = favs.find((x) => keyOf(x) === key);
+    if (!f) return;
+    pushToCart(f);
+    updateBadges();
+    showToast(`${f.name} added to cart! 🛒`);
+    btn.textContent = "✅ Added";
+    btn.classList.add("added");
+    setTimeout(() => {
+      if (!btn.isConnected) return;
+      btn.textContent = "Add to Cart";
+      btn.classList.remove("added");
+    }, 1800);
+  }
+
+  function addAllToCart() {
+    const list = getVisible();
+    if (!list.length) return;
+    list.forEach(pushToCart);
+    updateBadges();
+    showToast(`${list.length} item${list.length !== 1 ? "s" : ""} added to cart! 🛒`);
+  }
+
+  function resetView() {
+    ui.cat = "all";
+    ui.query = "";
+    ui.sort = "recent";
+    $("#favSearch").value = "";
+    $("#favSort").value = "recent";
+    render();
+  }
+
+  // ---------- Clear-all modal ----------
+  let lastFocus = null;
+  function openClearModal() {
+    if (!favs.length) return;
+    $("#clearCount").textContent = favs.length;
+    lastFocus = document.activeElement;
+    const m = $("#clearModal");
+    m.classList.add("open");
+    m.setAttribute("aria-hidden", "false");
+    $("#cancelClear").focus();
+  }
   function closeClearModal() {
-    document.getElementById('clearModal').classList.remove('open');
+    const m = $("#clearModal");
+    m.classList.remove("open");
+    m.setAttribute("aria-hidden", "true");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function clearAllFavorites() {
+    const backup = [...favs];
+    favs = [];
+    saveFavs();
+    closeClearModal();
+    render();
+    showToast("All favorites cleared", () => {
+      if (favs.length) return;
+      favs = backup;
+      saveFavs();
+      render();
+    });
   }
 
-  function clearAllFavorites() {
-    document.querySelectorAll('.fav-item').forEach(card => card.remove());
-    document.getElementById('favCount').textContent = '0';
-    document.getElementById('itemCountLabel').textContent = '0 saved items';
-    closeClearModal();
-    checkEmpty();
-    showToast('All favorites cleared');
-  }
-</script>
-<script>
-  syncNavBadges();
+  // ---------- Events ----------
+  $("#favTabs").addEventListener("click", (e) => {
+    const tab = e.target.closest(".fav-tab");
+    if (!tab) return;
+    ui.cat = tab.dataset.cat;
+    render();
+  });
+
+  let searchTimer;
+  $("#favSearch").addEventListener("input", function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { ui.query = this.value.trim().toLowerCase(); render(); }, 150);
+  });
+
+  $("#favSort").addEventListener("change", function () { ui.sort = this.value; render(); });
+  $("#addAllBtn").addEventListener("click", addAllToCart);
+  $("#clearAllBtn").addEventListener("click", openClearModal);
+  $("#cancelClear").addEventListener("click", closeClearModal);
+  $("#confirmClear").addEventListener("click", clearAllFavorites);
+  $("#clearModal").addEventListener("click", (e) => { if (e.target.id === "clearModal") closeClearModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && $("#clearModal").classList.contains("open")) closeClearModal();
+  });
+
+  $("#favGrid").addEventListener("click", (e) => {
+    const card = e.target.closest(".fav-item");
+    if (!card) return;
+    const action = e.target.closest("[data-action]");
+    if (action && action.dataset.action === "remove") return removeFavorite(card.dataset.key, card);
+    if (action && action.dataset.action === "cart") return addToCart(card.dataset.key, action);
+    showToast("Product detail coming soon!");
+  });
+  $("#favGrid").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.classList.contains("fav-item")) showToast("Product detail coming soon!");
+  });
+  $("#favEmpty").addEventListener("click", (e) => {
+    if (e.target.closest("[data-action='reset']")) resetView();
+  });
+
+  $(".nav-avatar").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") window.location.href = "profile.html";
+  });
+
+  // Sync with other tabs / pages (e.g. you heart something on others.html)
+  window.addEventListener("storage", (e) => {
+    if (e.key === KEY_FAVS) { favs = readStore(KEY_FAVS, []); render(); }
+    if (e.key === KEY_CART) updateBadges();
+  });
+  // Also refresh when coming back via the browser's back button (bfcache)
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) { favs = readStore(KEY_FAVS, []); render(); }
+  });
+
+  // ---------- Init ----------
+  render();
 </script>
 </body>
 </html>
