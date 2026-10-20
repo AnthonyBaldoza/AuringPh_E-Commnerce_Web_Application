@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#8B5E3C" />
     <title>Messages – AuringPh</title>
     <link rel="icon" href="../images/logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -20,31 +22,70 @@
     <!-- ============ TOP NAVBAR ============ -->
     <header class="navbar">
       <div class="container">
-        <a href="home.html" class="nav-logo">
-          <img src="../images/logo.png" alt="AuringPh Logo" class="nav-logo-img" />
+        <a href="home.html" class="nav-logo" aria-label="AuringPh home">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            class="nav-logo-img"
+          />
         </a>
-        <nav class="nav-links">
+        <nav class="nav-links" aria-label="Primary">
           <a href="home.html" class="nav-link">Home</a>
           <a href="shirts.html" class="nav-link">Shirts</a>
           <a href="shoes.html" class="nav-link">Shoes</a>
           <a href="pants.html" class="nav-link">Pants</a>
           <a href="others.html" class="nav-link">Others</a>
         </nav>
-        <div class="nav-search">
+        <div class="nav-search" role="search">
           <span aria-hidden="true">🔍</span>
-          <input type="text" placeholder="Search..." aria-label="Search products" />
+          <input
+            type="text"
+            placeholder="Search..."
+            aria-label="Search products"
+          />
         </div>
         <div class="nav-actions">
-          <button class="nav-icon-btn" onclick="window.location.href='cart.html'" aria-label="Shopping cart">
-            🛒<span class="badge-count" id="cartCount">0</span>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'cart.html'"
+            aria-label="Shopping cart, 0 items"
+          >
+            🛒<span class="badge-count" id="cartCount" aria-hidden="true"
+              >0</span
+            >
           </button>
-          <button class="nav-icon-btn" onclick="window.location.href='favorites.html'" aria-label="Favorites">
-            ♡<span class="badge-count" id="favCount">0</span>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'favorites.html'"
+            aria-label="Favorites"
+          >
+            ♡<span class="badge-count" id="favCount" aria-hidden="true">0</span>
           </button>
-          <button class="nav-icon-btn" onclick="window.location.href='notifications.html'" aria-label="Notifications">
-            🔔<span class="badge-count" id="notifCount">0</span>
+          <button
+            class="nav-icon-btn"
+            onclick="window.location.href = 'notifications.html'"
+            aria-label="Notifications"
+          >
+            🔔<span class="badge-count" id="notifCount" aria-hidden="true"
+              >0</span
+            >
           </button>
-          <div class="nav-avatar active-avatar" id="navAvatar" onclick="window.location.href='profile.html'" aria-label="My Profile">AC</div>
+          <div
+            class="nav-avatar active-avatar"
+            id="navAvatar"
+            onclick="window.location.href = 'profile.html'"
+            role="button"
+            tabindex="0"
+            aria-label="My Profile"
+            onkeydown="
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                window.location.href = 'profile.html';
+              }
+            "
+          >
+            AC
+          </div>
         </div>
       </div>
     </header>
@@ -52,59 +93,151 @@
     <main id="main">
       <div class="container page-section">
         <!-- Breadcrumb -->
-        <div class="breadcrumb">
-          <a href="home.html">Home</a> / <a href="profile.html">My Profile</a> / <span class="current">Messages</span>
-        </div>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="home.html">Home</a> / <a href="profile.html">My Profile</a> /
+          <span class="current" aria-current="page">Messages</span>
+        </nav>
 
         <div class="chat-page-header">
-          <div class="chat-page-title">💬 Messages</div>
-          <span style="font-size:13px;color:var(--text-light)">Chat with AuringPh support</span>
+          <div>
+            <h1 class="chat-page-title">💬 Messages</h1>
+            <p class="chat-page-subtitle">
+              Chat with AuringPh support — we reply within a few minutes.
+            </p>
+          </div>
         </div>
 
         <!-- Chat layout (single thread for user) -->
-        <div class="chat-page-layout" style="grid-template-columns: 1fr; max-height: 580px;">
-          <div class="chat-main">
+        <div
+          class="chat-page-layout"
+          style="grid-template-columns: 1fr; max-height: 640px"
+        >
+          <section
+            class="chat-main"
+            aria-label="Conversation with AuringPh Support"
+          >
             <!-- Header -->
             <div class="chat-header">
-              <div class="chat-header-avatar">AD</div>
+              <div class="chat-header-avatar" aria-hidden="true">
+                AD
+                <span class="online-dot" title="Online"></span>
+              </div>
               <div class="chat-header-info">
                 <div class="chat-header-name">AuringPh Support</div>
-                <div class="chat-header-sub" id="adminStatus">🟢 Online · Usually replies within a few minutes</div>
+                <div class="chat-header-sub" id="adminStatus" role="status">
+                  🟢 Online · Usually replies within a few minutes
+                </div>
               </div>
               <div class="chat-header-actions">
-                <button class="chat-icon-btn" onclick="openInvoiceRequest()">📄 Request Invoice</button>
+                <button
+                  type="button"
+                  class="chat-icon-btn"
+                  onclick="openInvoiceRequest()"
+                  aria-label="Request an invoice"
+                >
+                  📄 Request Invoice
+                </button>
               </div>
             </div>
 
             <!-- Messages -->
-            <div class="chat-messages" id="chatMessages">
+            <div
+              class="chat-messages"
+              id="chatMessages"
+              role="log"
+              aria-live="polite"
+              aria-relevant="additions"
+              aria-label="Chat history"
+              tabindex="0"
+            >
               <!-- rendered by JS -->
             </div>
 
+            <!-- Scroll to bottom -->
+            <button
+              type="button"
+              class="chat-scroll-btn"
+              id="scrollBtn"
+              aria-label="Scroll to latest message"
+              hidden
+              onclick="scrollToBottom()"
+            >
+              ↓
+            </button>
+
             <!-- Input -->
-            <div class="chat-input-area">
+            <form
+              class="chat-input-area"
+              id="chatForm"
+              onsubmit="
+                event.preventDefault();
+                sendMessage();
+              "
+            >
               <div class="chat-input-wrap">
-                <div class="chat-quick-actions">
-                  <button class="quick-action-btn" onclick="insertQuick('Hi! I have a question about my order.')">Order question</button>
-                  <button class="quick-action-btn" onclick="insertQuick('Can I get an invoice for my recent order?')">Request invoice</button>
-                  <button class="quick-action-btn" onclick="insertQuick('I need help with my payment.')">Payment concern</button>
+                <div class="chat-quick-actions" aria-label="Quick replies">
+                  <button
+                    type="button"
+                    class="quick-action-btn"
+                    onclick="
+                      insertQuick('Hi! I have a question about my order.')
+                    "
+                  >
+                    Order question
+                  </button>
+                  <button
+                    type="button"
+                    class="quick-action-btn"
+                    onclick="
+                      insertQuick('Can I get an invoice for my recent order?')
+                    "
+                  >
+                    Request invoice
+                  </button>
+                  <button
+                    type="button"
+                    class="quick-action-btn"
+                    onclick="insertQuick('I need help with my payment.')"
+                  >
+                    Payment concern
+                  </button>
                 </div>
                 <div class="chat-input-row">
                   <textarea
                     class="chat-textarea"
                     id="messageInput"
-                    placeholder="Type a message..."
+                    placeholder="Type a message…"
                     rows="1"
+                    maxlength="2000"
+                    aria-label="Message text"
                     onkeydown="handleKey(event)"
-                    oninput="autoResize(this)"
+                    oninput="
+                      autoResize(this);
+                      updateSendState(this);
+                    "
                   ></textarea>
-                  <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()" title="Send">
+                  <button
+                    class="chat-send-btn"
+                    id="sendBtn"
+                    type="submit"
+                    title="Send message (Enter)"
+                    aria-label="Send message"
+                    disabled
+                  >
                     ➤
                   </button>
                 </div>
+                <div class="chat-input-meta">
+                  <span class="chat-input-hint"
+                    >Enter to send · Shift + Enter for new line</span
+                  >
+                  <span class="chat-char-count" id="charCount" aria-live="off"
+                    >0 / 2000</span
+                  >
+                </div>
               </div>
-            </div>
-          </div>
+            </form>
+          </section>
         </div>
       </div>
     </main>
@@ -114,14 +247,21 @@
       <div class="container">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img src="../images/logo.png" alt="AuringPh Logo" class="footer-logo-img" />
+            <img
+              src="../images/logo.png"
+              alt="AuringPh Logo"
+              class="footer-logo-img"
+            />
             AuringPh
           </div>
-          <p>Your go-to online boutique for trendy shirts, shoes, pants, and accessories — proudly Filipino, made for every budget.</p>
+          <p>
+            Your go-to online boutique for trendy shirts, shoes, pants, and
+            accessories — proudly Filipino, made for every budget.
+          </p>
         </div>
         <div class="footer-col">
           <div class="footer-heading">Shop</div>
-          <nav class="footer-links">
+          <nav class="footer-links" aria-label="Shop links">
             <a href="home.html">Home</a>
             <a href="shirts.html">Shirts</a>
             <a href="shoes.html">Shoes</a>
@@ -131,10 +271,10 @@
         </div>
         <div class="footer-col">
           <div class="footer-heading">My Account</div>
-          <nav class="footer-links">
+          <nav class="footer-links" aria-label="Account links">
             <a href="profile.html">My Profile</a>
             <a href="orders.html">My Orders</a>
-            <a href="messages.html">Messages</a>
+            <a href="messages.html" aria-current="page">Messages</a>
           </nav>
         </div>
         <div class="footer-col">
@@ -145,43 +285,111 @@
           </div>
         </div>
       </div>
-      <div class="footer-bottom">© 2026 AuringPh. All rights reserved. | A student project prototype.</div>
+      <div class="footer-bottom">
+        © 2026 AuringPh. All rights reserved. | A student project prototype.
+      </div>
     </footer>
 
     <!-- Bottom nav (mobile) -->
-    <nav class="bottom-nav">
-      <button class="bottom-nav-item" onclick="window.location.href='home.html'">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z" stroke="currentColor" stroke-width="2"/></svg>
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'home.html'"
+        aria-label="Home"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M3 12L12 4L21 12V20H15V14H9V20H3V12Z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
         Home
       </button>
-      <button class="bottom-nav-item" onclick="window.location.href='favorites.html'">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'favorites.html'"
+        aria-label="Favorites"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
         Favorites
       </button>
-      <button class="bottom-nav-item active" onclick="window.location.href='messages.html'">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2"/></svg>
+      <button
+        class="bottom-nav-item active"
+        onclick="window.location.href = 'messages.html'"
+        aria-current="page"
+        aria-label="Messages"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
         Messages
       </button>
-      <button class="bottom-nav-item" onclick="window.location.href='notifications.html'">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2"/></svg>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'notifications.html'"
+        aria-label="Notifications"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
         Notif
       </button>
-      <button class="bottom-nav-item" onclick="window.location.href='profile.html'">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+      <button
+        class="bottom-nav-item"
+        onclick="window.location.href = 'profile.html'"
+        aria-label="Profile"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        </svg>
         Profile
       </button>
     </nav>
 
     <!-- Invoice Request Modal -->
-    <div class="invoice-modal-overlay" id="invoiceModal">
+    <div
+      class="invoice-modal-overlay"
+      id="invoiceModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="invoiceModalTitle"
+      onclick="if (event.target === this) closeInvoiceModal();"
+    >
       <div class="invoice-modal">
-        <div class="invoice-modal-title">📄 Request Invoice</div>
-        <div class="form-group">
-          <label>Order ID</label>
-          <input type="text" id="invOrderId" placeholder="e.g. #ORD-20241015" />
+        <div class="invoice-modal-title" id="invoiceModalTitle">
+          📄 Request Invoice
         </div>
         <div class="form-group">
-          <label>Reason</label>
+          <label for="invOrderId">Order ID</label>
+          <input
+            type="text"
+            id="invOrderId"
+            placeholder="e.g. #ORD-20241015"
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="invReason">Reason</label>
           <select id="invReason">
             <option value="Reimbursement">Reimbursement</option>
             <option value="Tax purposes">Tax purposes</option>
@@ -190,153 +398,298 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Additional Notes</label>
-          <textarea id="invNotes" placeholder="Any other details..."></textarea>
+          <label for="invNotes"
+            >Additional Notes <span class="optional">(optional)</span></label
+          >
+          <textarea
+            id="invNotes"
+            placeholder="Any other details..."
+            maxlength="500"
+          ></textarea>
         </div>
         <div class="invoice-modal-actions">
-          <button class="btn-outline" onclick="closeInvoiceModal()">Cancel</button>
-          <button class="btn-primary" onclick="submitInvoiceRequest()">Send Request</button>
+          <button
+            type="button"
+            class="btn-outline"
+            onclick="closeInvoiceModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn-primary"
+            id="submitInvoiceBtn"
+            onclick="submitInvoiceRequest()"
+          >
+            Send Request
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="toast" id="toast"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <div
+        style="
+          padding: 16px;
+          text-align: center;
+          background: #fff3cd;
+          color: #664d03;
+        "
+      >
+        Messages require JavaScript to be enabled.
+      </div>
+    </noscript>
 
     <script src="../js/script.js"></script>
     <script src="../js/messaging.js"></script>
     <script>
-      // ── State ──
-      // Build USER_ID and USER_NAME from the actual logged-in account
-      // stored by auth.js (localStorage key "user"), instead of a
-      // hardcoded demo user. Falls back to a guest placeholder only if
-      // no one is logged in yet.
-      const storedUser = JSON.parse(localStorage.getItem('user')) || null;
+      // ────────────────────────────────────────────────
+      // State: resolve the logged-in user from localStorage
+      // ────────────────────────────────────────────────
+      const storedUser = safeParse(localStorage.getItem("user"));
 
-      const USER_NAME = storedUser
-        ? `${storedUser.firstName || ''} ${storedUser.lastName || ''}`.trim() || 'Guest User'
-        : 'Guest User';
+      const USER_NAME =
+        (storedUser &&
+          (`${storedUser.firstName || ""} ${storedUser.lastName || ""}`.trim() ||
+            storedUser.email)) ||
+        "Guest User";
 
-      // Use the user's email as their unique chat ID (stable, unique per
-      // account). Fallback to a generic guest ID if not logged in.
-      const USER_ID = storedUser && storedUser.email
-        ? 'user_' + storedUser.email.toLowerCase().replace(/[^a-z0-9]/g, '_')
-        : 'user_guest';
+      const USER_ID =
+        storedUser && storedUser.email
+          ? "user_" + storedUser.email.toLowerCase().replace(/[^a-z0-9]/g, "_")
+          : "user_guest";
 
-      const ROLE = 'user';
+      const ROLE = "user";
 
-      // Seed demo messages on first visit
+      // ── Boot ──
       seedDemoIfEmpty(USER_ID, USER_NAME);
-      markRead(USER_ID, 'user');
+      markRead(USER_ID, "user");
+
+      const chatMessagesEl = document.getElementById("chatMessages");
+      const inputEl = document.getElementById("messageInput");
+      const sendBtn = document.getElementById("sendBtn");
+      const charCountEl = document.getElementById("charCount");
+      const scrollBtn = document.getElementById("scrollBtn");
 
       // ── Render ──
-      function renderChat() {
+      function renderChat({ preserveScroll = true } = {}) {
+        const shouldStick = !preserveScroll || isNearBottom(chatMessagesEl);
         const thread = getThread(USER_ID);
-        const container = document.getElementById('chatMessages');
-        renderThread(thread.messages, ROLE, container);
+        renderThread(thread.messages, ROLE, chatMessagesEl, {
+          stickToBottom: shouldStick,
+        });
+        if (shouldStick) hideScrollBtn();
       }
 
-      renderChat();
+      renderChat({ preserveScroll: false });
 
-      // ── Polling (simulate real-time, checks every 2s) ──
+      // ── Polling (2s) — only re-render on change ──
       let lastCount = getThread(USER_ID).messages.length;
       setInterval(() => {
         const thread = getThread(USER_ID);
         if (thread.messages.length !== lastCount) {
           lastCount = thread.messages.length;
-          markRead(USER_ID, 'user');
+          markRead(USER_ID, "user");
           renderChat();
         }
       }, 2000);
 
-      // ── Send message ──
+      // ── Scroll behavior ──
+      chatMessagesEl.addEventListener("scroll", () => {
+        if (isNearBottom(chatMessagesEl)) hideScrollBtn();
+        else showScrollBtn();
+      });
+
+      function showScrollBtn() {
+        if (scrollBtn) scrollBtn.hidden = false;
+      }
+      function hideScrollBtn() {
+        if (scrollBtn) scrollBtn.hidden = true;
+      }
+      function scrollToBottom() {
+        chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+        hideScrollBtn();
+      }
+
+      // ── Send ──
       function sendMessage() {
-        const input = document.getElementById('messageInput');
-        const text = input.value.trim();
+        const text = inputEl.value.trim();
         if (!text) return;
-        postMessage(USER_ID, 'user', text);
-        input.value = '';
-        autoResize(input);
+        postMessage(USER_ID, "user", text);
+        inputEl.value = "";
+        autoResize(inputEl);
+        updateSendState(inputEl);
         renderChat();
 
-        // Simulate admin reply after delay
-        setTimeout(() => simulateAdminReply(text), 1500 + Math.random() * 2000);
+        // Simulate typing + reply
+        showTypingIndicator();
+        setTimeout(
+          () => {
+            hideTypingIndicator();
+            simulateAdminReply(text);
+          },
+          1200 + Math.random() * 1800,
+        );
       }
 
       function simulateAdminReply(userText) {
         const lower = userText.toLowerCase();
         let reply;
-        if (lower.includes('invoice')) {
-          reply = "Sure! You can use the 📄 Request Invoice button above, or tell me the order number and I'll send it right away.";
-        } else if (lower.includes('order') || lower.includes('ord-')) {
-          reply = "Let me check that order for you! Can you share the order number (e.g. #ORD-20241015)?";
-        } else if (lower.includes('payment') || lower.includes('bayad')) {
-          reply = "I'll help with your payment concern. What specific issue are you experiencing?";
-        } else if (lower.includes('hi') || lower.includes('hello') || lower.includes('kumusta')) {
-          reply = "Hi there! 👋 Welcome to AuringPh Support. How can I help you today?";
-        } else if (lower.includes('thank')) {
-          reply = "You're welcome! Is there anything else I can help you with? 😊";
+
+        if (lower.includes("invoice")) {
+          reply =
+            "Sure! Tap the 📄 Request Invoice button above — or share the order number and I'll send it right away.";
+        } else if (lower.includes("ord-") || lower.includes("order")) {
+          reply =
+            "Let me check that order for you! Could you share the order number (e.g. #ORD-20241015)?";
+        } else if (lower.includes("payment") || lower.includes("bayad")) {
+          reply =
+            "I'll help with your payment concern. What specific issue are you experiencing?";
+        } else if (
+          lower.includes("hi") ||
+          lower.includes("hello") ||
+          lower.includes("kumusta") ||
+          lower.includes("hey")
+        ) {
+          reply =
+            "Hi there! 👋 Welcome to AuringPh Support. How can I help you today?";
+        } else if (lower.includes("thank") || lower.includes("salamat")) {
+          reply =
+            "You're welcome! Is there anything else I can help you with? 😊";
         } else {
           const replies = [
             "Thanks for reaching out! Let me look into that for you.",
-            "Got it! I'll check on that right away. 😊",
+            "Got it — I'll check on that right away. 😊",
             "Thanks for your message! Our team will assist you shortly.",
-            "I understand. Let me help you with that!"
+            "I understand. Let me help you with that!",
           ];
           reply = replies[Math.floor(Math.random() * replies.length)];
         }
-        postMessage(USER_ID, 'admin', reply);
+
+        postMessage(USER_ID, "admin", reply);
         renderChat();
       }
 
+      // ── Typing indicator ──
+      function showTypingIndicator() {
+        if (document.getElementById("typingRow")) return;
+        const row = document.createElement("div");
+        row.id = "typingRow";
+        row.className = "msg-row typing-row";
+        row.innerHTML = `
+          <div class="msg-avatar-sm" aria-hidden="true">AD</div>
+          <div class="msg-bubble-wrap">
+            <div class="msg-bubble typing-bubble">
+              <span class="typing-dots" aria-label="Support is typing">
+                <span></span><span></span><span></span>
+              </span>
+            </div>
+          </div>`;
+        chatMessagesEl.appendChild(row);
+        chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+      }
+
+      function hideTypingIndicator() {
+        const row = document.getElementById("typingRow");
+        if (row) row.remove();
+      }
+
+      // ── Input helpers ──
       function handleKey(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           sendMessage();
         }
       }
 
       function autoResize(el) {
-        el.style.height = 'auto';
-        el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+        el.style.height = "auto";
+        el.style.height = Math.min(el.scrollHeight, 120) + "px";
+      }
+
+      function updateSendState(el) {
+        const len = el.value.trim().length;
+        sendBtn.disabled = len === 0;
+        if (charCountEl) charCountEl.textContent = `${el.value.length} / 2000`;
       }
 
       function insertQuick(text) {
-        const input = document.getElementById('messageInput');
-        input.value = text;
-        input.focus();
-        autoResize(input);
+        inputEl.value = text;
+        inputEl.focus();
+        autoResize(inputEl);
+        updateSendState(inputEl);
       }
 
-      // ── Invoice request ──
+      // ── Invoice modal ──
+      let lastFocused = null;
       function openInvoiceRequest() {
-        document.getElementById('invoiceModal').classList.add('open');
+        lastFocused = document.activeElement;
+        document.getElementById("invoiceModal").classList.add("open");
+        setTimeout(() => document.getElementById("invOrderId").focus(), 50);
       }
 
       function closeInvoiceModal() {
-        document.getElementById('invoiceModal').classList.remove('open');
+        document.getElementById("invoiceModal").classList.remove("open");
+        if (lastFocused && typeof lastFocused.focus === "function")
+          lastFocused.focus();
       }
 
       function submitInvoiceRequest() {
-        const orderId = document.getElementById('invOrderId').value.trim() || 'not specified';
-        const reason  = document.getElementById('invReason').value;
-        const notes   = document.getElementById('invNotes').value.trim();
-        const text    = `📄 Invoice Request\nOrder: ${orderId}\nReason: ${reason}${notes ? '\nNotes: ' + notes : ''}`;
-        postMessage(USER_ID, 'user', text);
+        const btn = document.getElementById("submitInvoiceBtn");
+        const orderId =
+          document.getElementById("invOrderId").value.trim() || "not specified";
+        const reason = document.getElementById("invReason").value;
+        const notes = document.getElementById("invNotes").value.trim();
+        const text = `📄 Invoice Request\nOrder: ${orderId}\nReason: ${reason}${
+          notes ? "\nNotes: " + notes : ""
+        }`;
+
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+
+        postMessage(USER_ID, "user", text);
         closeInvoiceModal();
         renderChat();
+
+        showTypingIndicator();
         setTimeout(() => {
-          postMessage(USER_ID, 'admin', `Thank you for your invoice request for order ${orderId}! We'll process it and send the invoice shortly. ✅`);
+          hideTypingIndicator();
+          postMessage(
+            USER_ID,
+            "admin",
+            `Thank you for your invoice request for order ${orderId}! We'll process it and send the invoice shortly. ✅`,
+          );
           renderChat();
-        }, 2000);
-        document.getElementById('invOrderId').value = '';
-        document.getElementById('invNotes').value = '';
+          btn.disabled = false;
+          btn.textContent = "Send Request";
+        }, 1800);
+
+        document.getElementById("invOrderId").value = "";
+        document.getElementById("invNotes").value = "";
       }
 
+      // ── Focus trap for modal + Esc to close ──
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeInvoiceModal();
+      });
+
+      // ── Toast ──
       function showToast(msg) {
-        const t = document.getElementById('toast');
+        const t = document.getElementById("toast");
         t.textContent = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 3000);
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+      }
+
+      // ── Fallback parse ──
+      function safeParse(json) {
+        try {
+          return JSON.parse(json);
+        } catch {
+          return null;
+        }
       }
     </script>
   </body>
