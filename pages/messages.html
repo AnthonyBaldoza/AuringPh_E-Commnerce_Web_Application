@@ -108,10 +108,8 @@
         </div>
 
         <!-- Chat layout (single thread for user) -->
-        <div
-          class="chat-page-layout"
-          style="grid-template-columns: 1fr; max-height: 640px"
-        >
+        <!-- FIX: Tinanggal ang inline style at pinalitan ng class="single-column" -->
+        <div class="chat-page-layout single-column">
           <section
             class="chat-main"
             aria-label="Conversation with AuringPh Support"
@@ -568,6 +566,7 @@
           reply = replies[Math.floor(Math.random() * replies.length)];
         }
 
+        hideTypingIndicator(); // Ensure hidden before render
         postMessage(USER_ID, "admin", reply);
         renderChat();
       }

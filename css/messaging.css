@@ -8,14 +8,21 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 0;
-  height: calc(100vh - var(--navbar-height) - 60px);
-  max-height: 700px;
+  /* Inayos ang height para umangkop sa screen */
+  height: calc(100vh - 220px);
+  min-height: 500px;
+  max-height: 800px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--card-bg);
   box-shadow: var(--shadow-md);
   position: relative;
+}
+
+/* Idinagdag para sa user view na walang sidebar */
+.chat-page-layout.single-column {
+  grid-template-columns: 1fr;
 }
 
 .chat-page-subtitle {
