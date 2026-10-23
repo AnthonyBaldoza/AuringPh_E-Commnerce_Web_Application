@@ -1,237 +1,218 @@
 // ============================================
-// profile.js — LocalStorage Version
+// profile.js — Senior Dev Edition
 // ============================================
 
-let currentUser = JSON.parse(localStorage.getItem("user"));
+let currentUser = null;
+
+try {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) currentUser = JSON.parse(storedUser);
+} catch (e) {
+  console.error("Failed to parse user data", e);
+}
 
 if (!localStorage.getItem("isLoggedIn") || !currentUser) {
-    window.location.href = "../index.html";
+  window.location.href = "../index.html";
 } else {
-    // Load profile (only if actually logged in — otherwise we'd call
-    // renderProfile(null) and throw before the redirect finishes)
-    renderProfile(currentUser);
+  renderProfile(currentUser);
 }
 
 // ============================================
 // RENDER PROFILE
 // ============================================
-
 function renderProfile(profile) {
+  if (!profile) return;
 
-    const initials = getInitials(
-        profile.firstName,
-        profile.lastName,
-        profile.email
-    );
+  // 1. Handle Name Formatting
+  const formatName = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
 
-    document.querySelectorAll('.nav-avatar, .profile-avatar').forEach(el => {
-        if (profile.photo) {
-            el.style.backgroundImage = `url(${profile.photo})`;
-            el.style.backgroundSize = 'cover';
-            el.style.backgroundPosition = 'center';
-            el.textContent = '';
-        } else {
-            el.style.backgroundImage = '';
-            el.textContent = initials;
-        }
+  const firstName = formatName(profile.firstName);
+  const lastName = formatName(profile.lastName);
+  const fullName = `${firstName} ${lastName}`.trim() || "User";
+
+  // 2. Setup Avatars
+  const initials = getInitials(
+    profile.firstName,
+    profile.lastName,
+    profile.email,
+  );
+  document.querySelectorAll(".nav-avatar, .profile-avatar").forEach((el) => {
+    if (profile.photo) {
+      el.style.backgroundImage = `url(${profile.photo})`;
+      el.style.backgroundSize = "cover";
+      el.style.backgroundPosition = "center";
+      el.textContent = "";
+    } else {
+      el.style.backgroundImage = "";
+      el.textContent = initials;
     }
-);
-    const fullName =
-        `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
+  });
 
-    setVal('.profile-name', fullName);
-    setVal('.profile-email', profile.email);
+  // 3. Update Display Text
+  setVal("displayName", fullName);
+  setVal("displayEmail", profile.email || "No email provided");
 
-    setInput('firstName', profile.firstName || '');
-    setInput('lastName', profile.lastName || '');
-    setInput('email', profile.email || '');
-    setInput('phone', profile.phone || '');
-    setInput('birthday', profile.birthday || '');
+  if (profile.createdAt) {
+    const date = new Date(profile.createdAt);
+    setVal("memberSince", `🌸 Member since ${date.getFullYear()}`);
+  } else {
+    setVal("memberSince", "🌸 Member");
+  }
 
-    const gender = document.getElementById('gender');
-    if (gender) gender.value = profile.gender || '';
+  // 4. Populate Form Fields
+  setInput("firstName", firstName);
+  setInput("lastName", lastName);
+  setInput("email", profile.email || "");
+  setInput("phone", profile.phone || "");
+  setInput("birthday", profile.birthday || "");
 
-    if (profile.createdAt) {
-        const date = new Date(profile.createdAt);
-
-        setVal(
-            '.profile-member-badge',
-            `🌸 Member since ${date.toLocaleDateString()}`
-        );
-    }
+  const genderSelect = document.getElementById("gender");
+  if (genderSelect) genderSelect.value = profile.gender || "";
 }
 
 // ============================================
-// EDIT
+// EDIT MODE TOGGLE
 // ============================================
-
 let editing = false;
 
 window.toggleEdit = function () {
+  editing = !editing;
 
-    editing = !editing;
+  const inputs = document.querySelectorAll(".profile-form .form-input");
+  const actions = document.getElementById("formActions");
+  const editBtn = document.getElementById("editBtn");
 
-    const inputs =
-        document.querySelectorAll('.profile-form .form-input');
+  inputs.forEach((i) => {
+    // Don't enable the email field if it's used as primary ID
+    if (i.id === "email") return;
+    i.disabled = !editing;
+  });
 
-    const actions =
-        document.getElementById('formActions');
+  actions.style.display = editing ? "flex" : "none";
+  editBtn.style.display = editing ? "none" : "flex";
 
-    const editBtn =
-        document.getElementById('editBtn');
-
-    inputs.forEach(i => i.disabled = !editing);
-
-    actions.style.display = editing ? 'flex' : 'none';
-
-    editBtn.textContent =
-        editing ? '✕ Cancel' : '✏️ Edit';
-
-    if (!editing) {
-        renderProfile(currentUser);
-    }
+  if (!editing) {
+    renderProfile(currentUser);
+  }
 };
 
 window.cancelEdit = function () {
-
-    editing = false;
-
-    document
-        .querySelectorAll('.profile-form .form-input')
-        .forEach(i => i.disabled = true);
-
-    document.getElementById('formActions').style.display = 'none';
-
-    document.getElementById('editBtn').textContent =
-        '✏️ Edit';
-
-    renderProfile(currentUser);
+  editing = false;
+  document
+    .querySelectorAll(".profile-form .form-input")
+    .forEach((i) => (i.disabled = true));
+  document.getElementById("formActions").style.display = "none";
+  document.getElementById("editBtn").style.display = "flex";
+  renderProfile(currentUser);
 };
 
 // ============================================
 // SAVE PROFILE
 // ============================================
-
 window.saveProfile = function (e) {
+  e.preventDefault();
 
-    e.preventDefault();
+  if (!currentUser) return;
 
-    currentUser.firstName =
-        document.getElementById('firstName').value.trim();
+  // Update local object
+  currentUser.firstName = document.getElementById("firstName").value.trim();
+  currentUser.lastName = document.getElementById("lastName").value.trim();
+  currentUser.phone = document.getElementById("phone").value.trim();
+  currentUser.birthday = document.getElementById("birthday").value;
+  currentUser.gender = document.getElementById("gender").value;
 
-    currentUser.lastName =
-        document.getElementById('lastName').value.trim();
-
-    currentUser.phone =
-        document.getElementById('phone').value.trim();
-
-    currentUser.birthday =
-        document.getElementById('birthday').value;
-
-    currentUser.gender =
-        document.getElementById('gender').value;
-
-    localStorage.setItem(
-        "user",
-        JSON.stringify(currentUser)
-    );
-
+  // Save to LocalStorage
+  try {
+    localStorage.setItem("user", JSON.stringify(currentUser));
     renderProfile(currentUser);
-
     window.cancelEdit();
 
-    alert("Profile updated successfully!");
+    // Use toast if available, otherwise alert
+    if (typeof showToast === "function") {
+      showToast("Profile updated successfully! ✨");
+    } else {
+      alert("Profile updated successfully!");
+    }
+  } catch (err) {
+    console.error("Failed to save profile", err);
+    alert("Failed to save changes. Storage might be full.");
+  }
 };
 
 // ============================================
-// LOGOUT
+// LOGOUT & MODALS
 // ============================================
-
 window.confirmLogout = function () {
-    document
-        .getElementById('logoutModal')
-        ?.classList.add('open');
+  document.getElementById("logoutModal")?.classList.add("open");
 };
 
 window.closeModal = function () {
-    document
-        .getElementById('logoutModal')
-        ?.classList.remove('open');
+  document.getElementById("logoutModal")?.classList.remove("open");
 };
 
 window.doLogout = function () {
-
-    localStorage.removeItem("isLoggedIn");
-
-    window.location.href =
-        "../index.html";
+  localStorage.removeItem("isLoggedIn");
+  // Optionally keep user data, or remove it: localStorage.removeItem("user");
+  window.location.href = "../index.html";
 };
 
 // ============================================
 // CHANGE PASSWORD
 // ============================================
-
 window.changePassword = function (e) {
+  e.preventDefault();
 
-    e.preventDefault();
+  const currentPass = document.getElementById("currentPass").value;
+  const newPass = document.getElementById("newPass").value;
+  const confirmPass = document.getElementById("confirmPass").value;
 
-    const currentPass =
-        document.getElementById('currentPass').value;
+  if (currentPass !== currentUser.password) {
+    alert("Current password is incorrect.");
+    return;
+  }
 
-    const newPass =
-        document.getElementById('newPass').value;
+  if (newPass !== confirmPass) {
+    alert("New passwords do not match.");
+    return;
+  }
 
-    const confirmPass =
-        document.getElementById('confirmPass').value;
+  if (newPass.length < 8) {
+    alert("Password must be at least 8 characters.");
+    return;
+  }
 
-    if (currentPass !== currentUser.password) {
-        alert("Current password is incorrect.");
-        return;
-    }
+  currentUser.password = newPass;
+  localStorage.setItem("user", JSON.stringify(currentUser));
 
-    if (newPass !== confirmPass) {
-        alert("Passwords do not match.");
-        return;
-    }
-
-    if (newPass.length < 8) {
-        alert("Password must be at least 8 characters.");
-        return;
-    }
-
-    currentUser.password = newPass;
-
-    localStorage.setItem(
-        "user",
-        JSON.stringify(currentUser)
-    );
-
+  if (typeof showToast === "function") {
+    showToast("Password updated successfully! 🔒");
+  } else {
     alert("Password updated successfully.");
+  }
 
-    e.target.reset();
+  e.target.reset();
+  document.getElementById("passStrength").textContent = "";
 };
 
 // ============================================
 // HELPERS
 // ============================================
-
 function getInitials(firstName, lastName, email) {
-
-    if (firstName && lastName)
-        return (firstName[0] + lastName[0]).toUpperCase();
-
-    if (firstName)
-        return firstName[0].toUpperCase();
-
-    return email[0].toUpperCase();
+  if (firstName && lastName) return (firstName[0] + lastName[0]).toUpperCase();
+  if (firstName) return firstName[0].toUpperCase();
+  if (email) return email[0].toUpperCase();
+  return "?";
 }
 
-function setVal(selector, value) {
-    const el = document.querySelector(selector);
-    if (el) el.textContent = value;
+function setVal(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
 }
 
 function setInput(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.value = value;
+  const el = document.getElementById(id);
+  if (el) el.value = value;
 }
