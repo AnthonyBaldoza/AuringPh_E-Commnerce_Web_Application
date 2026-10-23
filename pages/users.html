@@ -17,7 +17,7 @@
 
     <div class="admin-layout">
       <!-- ============ SIDEBAR ============ -->
-      <aside class="admin-sidebar" id="adminSidebar">
+      <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
         <div class="admin-sidebar-brand">
           <img
             src="../images/logo.png"
@@ -54,7 +54,15 @@
       <main class="admin-main">
         <div class="admin-topbar">
           <div style="display: flex; align-items: center; gap: 14px">
-            <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+            <button
+              class="admin-mobile-toggle"
+              id="sidebarToggle"
+              aria-label="Open menu"
+              aria-controls="adminSidebar"
+              aria-expanded="false"
+            >
+              ☰
+            </button>
             <div>
               <h1>Manage Users</h1>
               <div class="admin-sub">
@@ -73,21 +81,22 @@
           <div class="admin-search-box">
             <span aria-hidden="true">🔍</span>
             <input
-              type="text"
+              type="search"
               id="searchInput"
               placeholder="Search by name or email..."
+              aria-label="Search users"
             />
           </div>
           <div class="admin-filter-chips" id="statusChips">
-            <div class="admin-chip active" data-status="all">All</div>
-            <div class="admin-chip" data-status="active">Active</div>
-            <div class="admin-chip" data-status="blocked">Blocked</div>
+            <div class="admin-chip active" data-status="all" tabindex="0" role="button">All</div>
+            <div class="admin-chip" data-status="active" tabindex="0" role="button">Active</div>
+            <div class="admin-chip" data-status="blocked" tabindex="0" role="button">Blocked</div>
           </div>
         </div>
 
         <!-- ============ TABLE ============ -->
         <div class="admin-table-wrap">
-          <table class="admin-table">
+          <table class="admin-table is-stacked">
             <thead>
               <tr>
                 <th>Customer</th>
@@ -108,11 +117,9 @@
 
     <!-- ============ BLOCK/UNBLOCK CONFIRM MODAL ============ -->
     <div class="admin-modal-overlay" id="blockModal">
-      <div class="admin-modal-box modal-sm">
+      <div class="admin-modal-box modal-sm" role="dialog" aria-modal="true" aria-labelledby="blockModalTitle">
         <div class="modal-warning-icon" id="blockModalIcon">🚫</div>
-        <h3 style="text-align: center" id="blockModalTitle">
-          Block this user?
-        </h3>
+        <h3 class="modal-center" id="blockModalTitle">Block this user?</h3>
         <p class="modal-text" id="blockModalText"></p>
         <div class="admin-modal-actions">
           <button type="button" class="modal-btn-cancel" id="blockModalCancel">
@@ -127,9 +134,9 @@
 
     <!-- ============ DELETE CONFIRM MODAL ============ -->
     <div class="admin-modal-overlay" id="deleteUserModal">
-      <div class="admin-modal-box modal-sm">
+      <div class="admin-modal-box modal-sm" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
         <div class="modal-warning-icon">🗑️</div>
-        <h3 style="text-align: center">Delete this account?</h3>
+        <h3 class="modal-center" id="deleteModalTitle">Delete this account?</h3>
         <p class="modal-text">
           This will permanently delete <strong id="deleteUserName"></strong>'s
           account. This action cannot be undone.
@@ -145,7 +152,7 @@
       </div>
     </div>
 
-    <div class="admin-toast" id="adminToast"></div>
+    <div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
 
     <script src="../js/admin.js"></script>
     <script>
@@ -160,6 +167,8 @@
       let blockTargetId = null;
       let deleteTargetId = null;
 
+      const tbody = document.getElementById("usersTableBody");
+
       function saveUsers() {
         localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(users));
       }
@@ -173,8 +182,8 @@
           const q = searchQuery.toLowerCase();
           list = list.filter(
             (u) =>
-              u.name.toLowerCase().includes(q) ||
-              u.email.toLowerCase().includes(q),
+              String(u.name || "").toLowerCase().includes(q) ||
+              String(u.email || "").toLowerCase().includes(q),
           );
         }
         return list;
@@ -182,10 +191,7 @@
 
       function renderTable() {
         const filtered = getFiltered();
-        const totalPages = Math.max(
-          1,
-          Math.ceil(filtered.length / ITEMS_PER_PAGE),
-        );
+        const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
         if (currentPage > totalPages) currentPage = totalPages;
 
         const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -194,61 +200,43 @@
         document.getElementById("userCountLabel").textContent =
           filtered.length + " user" + (filtered.length !== 1 ? "s" : "");
 
-        const tbody = document.getElementById("usersTableBody");
-
         if (pageItems.length === 0) {
           tbody.innerHTML =
             '<tr><td colspan="6"><div class="empty-row-msg"><div class="empty-icon">👥</div>No users found.</div></td></tr>';
         } else {
           tbody.innerHTML = pageItems
-            .map(
-              (u) =>
-                "<tr>" +
-                "<td>" +
-                '<div class="cell-product">' +
-                '<div class="avatar-circle" style="background:var(--peach); color:var(--brown-dark); width:38px; height:38px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:700; font-size:13px;">' +
-                getInitialsFromName(u.name) +
-                "</div>" +
-                "<div>" +
-                '<div class="p-name">' +
-                u.name +
-                "</div>" +
-                '<div class="p-sub">' +
-                u.email +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</td>" +
-                "<td>" +
-                u.phone +
-                "</td>" +
-                "<td>" +
-                u.joined +
-                "</td>" +
-                "<td>" +
-                u.orders +
-                "</td>" +
-                '<td><span class="status-pill ' +
-                (u.status === "active" ? "active-pill" : "blocked-pill") +
-                '">' +
-                u.status +
-                "</span></td>" +
-                "<td>" +
-                '<div class="row-actions">' +
-                (u.status === "active"
-                  ? '<button class="btn-admin-sm danger" onclick="openBlockModal(\'' +
-                    u.id +
-                    "')\">Block</button>"
-                  : '<button class="btn-admin-sm edit" onclick="openBlockModal(\'' +
-                    u.id +
-                    "')\">Unblock</button>") +
-                '<button class="btn-admin-sm danger" onclick="openDeleteModal(\'' +
-                u.id +
-                "')\">Delete</button>" +
-                "</div>" +
-                "</td>" +
-                "</tr>",
-            )
+            .map((u) => {
+              const id = escapeHtml(u.id);
+              const isActive = u.status === "active";
+              return `
+                <tr>
+                  <td data-label="Customer">
+                    <div class="cell-product">
+                      <div class="avatar-sm">${escapeHtml(getInitialsFromName(u.name))}</div>
+                      <div>
+                        <div class="p-name">${escapeHtml(u.name)}</div>
+                        <div class="p-sub">${escapeHtml(u.email)}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Phone">${escapeHtml(u.phone)}</td>
+                  <td data-label="Joined">${escapeHtml(u.joined)}</td>
+                  <td data-label="Orders">${Number(u.orders) || 0}</td>
+                  <td data-label="Status">
+                    <span class="status-pill ${isActive ? "active-pill" : "blocked-pill"}">${escapeHtml(u.status)}</span>
+                  </td>
+                  <td data-label="Actions">
+                    <div class="row-actions">
+                      ${
+                        isActive
+                          ? `<button class="btn-admin-sm danger" data-action="block" data-id="${id}">Block</button>`
+                          : `<button class="btn-admin-sm edit" data-action="block" data-id="${id}">Unblock</button>`
+                      }
+                      <button class="btn-admin-sm danger" data-action="delete" data-id="${id}">Delete</button>
+                    </div>
+                  </td>
+                </tr>`;
+            })
             .join("");
         }
 
@@ -261,125 +249,114 @@
           el.innerHTML = "";
           return;
         }
-        let html =
-          "<button " +
-          (currentPage === 1 ? "disabled" : "") +
-          ' onclick="goToPage(' +
-          (currentPage - 1) +
-          ')">←</button>';
+        let html = `<button ${currentPage === 1 ? "disabled" : ""} data-page="${currentPage - 1}" aria-label="Previous page">←</button>`;
         for (let i = 1; i <= totalPages; i++) {
-          html +=
-            '<button class="' +
-            (i === currentPage ? "active" : "") +
-            '" onclick="goToPage(' +
-            i +
-            ')">' +
-            i +
-            "</button>";
+          html += `<button class="${i === currentPage ? "active" : ""}" data-page="${i}">${i}</button>`;
         }
-        html +=
-          "<button " +
-          (currentPage === totalPages ? "disabled" : "") +
-          ' onclick="goToPage(' +
-          (currentPage + 1) +
-          ')">→</button>';
+        html += `<button ${currentPage === totalPages ? "disabled" : ""} data-page="${currentPage + 1}" aria-label="Next page">→</button>`;
         el.innerHTML = html;
       }
 
-      window.goToPage = function (page) {
-        currentPage = page;
+      document.getElementById("usersPagination").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-page]");
+        if (!btn || btn.disabled) return;
+        currentPage = Number(btn.dataset.page);
         renderTable();
-      };
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // ---- CHIPS ----
+      function selectChip(chip) {
+        document
+          .querySelectorAll("#statusChips .admin-chip")
+          .forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeStatus = chip.dataset.status;
+        currentPage = 1;
+        renderTable();
+      }
 
       document.querySelectorAll("#statusChips .admin-chip").forEach((chip) => {
-        chip.addEventListener("click", () => {
-          document
-            .querySelectorAll("#statusChips .admin-chip")
-            .forEach((c) => c.classList.remove("active"));
-          chip.classList.add("active");
-          activeStatus = chip.dataset.status;
-          currentPage = 1;
-          renderTable();
+        chip.addEventListener("click", () => selectChip(chip));
+        chip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            selectChip(chip);
+          }
         });
       });
 
-      document
-        .getElementById("searchInput")
-        .addEventListener("input", function () {
-          searchQuery = this.value.trim();
-          currentPage = 1;
-          renderTable();
-        });
+      // ---- SEARCH ----
+      document.getElementById("searchInput").addEventListener("input", function () {
+        searchQuery = this.value.trim();
+        currentPage = 1;
+        renderTable();
+      });
 
+      // ---- TABLE ACTIONS (event delegation) ----
+      tbody.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-action]");
+        if (!btn) return;
+        if (btn.dataset.action === "block") openBlockModal(btn.dataset.id);
+        if (btn.dataset.action === "delete") openDeleteModal(btn.dataset.id);
+      });
+
+      // ---- BLOCK / UNBLOCK ----
       const blockModal = document.getElementById("blockModal");
 
-      window.openBlockModal = function (id) {
+      function openBlockModal(id) {
         const u = users.find((x) => x.id === id);
         if (!u) return;
         blockTargetId = id;
         const willBlock = u.status === "active";
-        document.getElementById("blockModalIcon").textContent = willBlock
-          ? "🚫"
-          : "✅";
+        document.getElementById("blockModalIcon").textContent = willBlock ? "🚫" : "✅";
         document.getElementById("blockModalTitle").textContent = willBlock
           ? "Block this user?"
           : "Unblock this user?";
         document.getElementById("blockModalText").innerHTML = willBlock
-          ? "<strong>" +
-            u.name +
-            "</strong> will no longer be able to log in or place orders."
-          : "<strong>" +
-            u.name +
-            "</strong> will regain access to their account.";
+          ? `<strong>${escapeHtml(u.name)}</strong> will no longer be able to log in or place orders.`
+          : `<strong>${escapeHtml(u.name)}</strong> will regain access to their account.`;
         blockModal.classList.add("open");
-      };
+      }
 
       document
         .getElementById("blockModalCancel")
         .addEventListener("click", () => blockModal.classList.remove("open"));
 
-      document
-        .getElementById("blockModalConfirm")
-        .addEventListener("click", () => {
-          const u = users.find((x) => x.id === blockTargetId);
-          if (!u) return;
-          u.status = u.status === "active" ? "blocked" : "active";
-          saveUsers();
-          blockModal.classList.remove("open");
-          showAdminToast(
-            u.name +
-              " has been " +
-              (u.status === "blocked" ? "blocked" : "unblocked") +
-              ".",
-          );
-          renderTable();
-        });
+      document.getElementById("blockModalConfirm").addEventListener("click", () => {
+        const u = users.find((x) => x.id === blockTargetId);
+        if (!u) return;
+        u.status = u.status === "active" ? "blocked" : "active";
+        saveUsers();
+        blockModal.classList.remove("open");
+        showAdminToast(
+          u.name + " has been " + (u.status === "blocked" ? "blocked" : "unblocked") + ".",
+        );
+        renderTable();
+      });
 
+      // ---- DELETE ----
       const deleteUserModal = document.getElementById("deleteUserModal");
 
-      window.openDeleteModal = function (id) {
+      function openDeleteModal(id) {
         const u = users.find((x) => x.id === id);
         if (!u) return;
         deleteTargetId = id;
         document.getElementById("deleteUserName").textContent = u.name;
         deleteUserModal.classList.add("open");
-      };
+      }
 
       document
         .getElementById("deleteUserCancel")
-        .addEventListener("click", () =>
-          deleteUserModal.classList.remove("open"),
-        );
+        .addEventListener("click", () => deleteUserModal.classList.remove("open"));
 
-      document
-        .getElementById("deleteUserConfirm")
-        .addEventListener("click", () => {
-          users = users.filter((x) => x.id !== deleteTargetId);
-          saveUsers();
-          deleteUserModal.classList.remove("open");
-          showAdminToast("Account deleted.");
-          renderTable();
-        });
+      document.getElementById("deleteUserConfirm").addEventListener("click", () => {
+        users = users.filter((x) => x.id !== deleteTargetId);
+        saveUsers();
+        deleteUserModal.classList.remove("open");
+        showAdminToast("Account deleted.");
+        renderTable();
+      });
 
       renderTable();
     </script>

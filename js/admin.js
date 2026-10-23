@@ -1082,40 +1082,78 @@ function getInitialsFromName(name) {
 }
 
 /* ============================================
-   SIDEBAR — mobile toggle + active link highlight
+   SHARED: safe HTML escaping
+============================================ */
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }[c]));
+}
+
+/* ============================================
+   SIDEBAR — mobile toggle, active link, modal dismiss
 ============================================ */
 function initAdminSidebar() {
   const sidebar = document.getElementById("adminSidebar");
   const backdrop = document.getElementById("sidebarBackdrop");
   const toggle = document.getElementById("sidebarToggle");
+  const MOBILE_MAX = 900;
+
+  function setSidebar(open) {
+    if (!sidebar || !backdrop) return;
+    sidebar.classList.toggle("open", open);
+    backdrop.classList.toggle("show", open);
+    document.body.classList.toggle("no-scroll", open);
+    if (toggle) toggle.setAttribute("aria-expanded", String(open));
+  }
 
   if (toggle && sidebar && backdrop) {
-    toggle.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-      backdrop.classList.toggle("show");
-    });
-    backdrop.addEventListener("click", () => {
-      sidebar.classList.remove("open");
-      backdrop.classList.remove("show");
+    toggle.addEventListener("click", () =>
+      setSidebar(!sidebar.classList.contains("open")),
+    );
+    backdrop.addEventListener("click", () => setSidebar(false));
+    sidebar.querySelectorAll(".admin-nav-link").forEach((link) =>
+      link.addEventListener("click", () => setSidebar(false)),
+    );
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > MOBILE_MAX) setSidebar(false);
     });
   }
+
+  // Close modals: click on dark overlay or press Esc
+  document.querySelectorAll(".admin-modal-overlay").forEach((overlay) => {
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.classList.remove("open");
+    });
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    document
+      .querySelectorAll(".admin-modal-overlay.open")
+      .forEach((m) => m.classList.remove("open"));
+    setSidebar(false);
+  });
 
   // Highlight current page in nav
   const current = window.location.pathname.split("/").pop();
   document.querySelectorAll(".admin-nav-link").forEach((link) => {
-    const href = link.getAttribute("href");
-    if (href === current) link.classList.add("active");
+    if (link.getAttribute("href") === current) {
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
+    }
   });
 
   // Fill in admin "who am I" badge if present
   const info = getAdminInfo();
+  const displayName = info.name || info.username || "Admin";
   const nameEl = document.getElementById("adminWhoamiName");
   const avatarEl = document.getElementById("adminWhoamiAvatar");
-  if (nameEl) nameEl.textContent = info.name || info.username || "Admin";
-  if (avatarEl)
-    avatarEl.textContent = getInitialsFromName(
-      info.name || info.username || "Admin",
-    );
+  if (nameEl) nameEl.textContent = displayName;
+  if (avatarEl) avatarEl.textContent = getInitialsFromName(displayName);
 
   // Logout button(s)
   document.querySelectorAll("[data-admin-logout]").forEach((btn) => {
