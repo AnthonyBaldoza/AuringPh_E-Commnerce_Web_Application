@@ -1,180 +1,210 @@
-# 🛍️ AuringPh — E-Commerce Web Application
+# AuringPH — E-Commerce Web Application
 
-> *"Dress the way you want to be seen."*
+> “Dress the way you want to be seen.”
 
-A frontend e-commerce web application for online clothing and footwear shopping — built with vanilla HTML, CSS, and JavaScript.
+AuringPH is a frontend e-commerce web application designed for browsing, selecting, and ordering clothing and footwear products. The project simulates a modern online fashion store with user authentication, product browsing, cart management, order tracking, and administrative controls.
+
+This project was built as a frontend prototype for an academic course and focuses on user experience, interaction flow, and a complete storefront interface using plain HTML, CSS, and JavaScript.
 
 ---
 
-## 👥 Developers
+## Developers
 
 | Name | Role |
 |------|------|
 | Baldoza, Anthony F. | Developer |
 | Nidea, Aron L. | Developer |
 
-**Course:** COMP 013 — Human Computer Interaction
-**School:** Polytechnic University of the Philippines — Calauan, Laguna Campus
-**Section:** BSIT 2-1
-**Instructor:** Reynan Ragmac Baclle, LPT
+- Course: COMP 013 — Human Computer Interaction
+- School: Polytechnic University of the Philippines — Calauan, Laguna Campus
+- Section: BSIT 2-1
+- Instructor: Reynan Ragmac Baclle, LPT
 
 ---
 
-## 📌 About the Project
+## About the Project
 
-**AuringPh** was developed to address the limitations of Facebook Live selling, where products are showcased in real time but customers may miss out due to scheduling conflicts, unstable internet, or the fast pace of live broadcasts.
+AuringPH was created to address the challenges of live selling through Facebook, where customers may miss product announcements due to timing conflicts, internet instability, or the fast pace of live broadcasts.
 
-AuringPh provides a structured, web-based platform where:
-- 🕒 Products are available for browsing **anytime** — no need to attend a live session
-- 📦 Customers can **track orders** and **message the admin** directly
-- 🖥️ Admin can **manage products, orders, and users** through a single dashboard
+The application provides a structured web-based shopping experience where users can:
 
----
+- browse products anytime without attending a live session
+- view product categories and details in a clean storefront layout
+- add favorites and manage a shopping cart
+- place and track orders
+- communicate with admin through a message system
+- manage account information and notifications
 
-## ✨ Features
+Admins can also use the system to:
 
-### 👤 User Features
-- ✅ Sign up, log in, OTP verification, and password recovery
-- 🛍️ Browse products by category — Shirts, Pants, Shoes, Others
-- ❤️ Add and manage favorite products
-- 🛒 Shopping cart with quantity controls and checkout
-- 📦 Place orders and view full order history
-- 💬 Direct messaging with admin (with invoice card support)
-- 🔔 Notifications for orders and system updates
-- 👤 View and edit personal profile
-
-### 🔧 Admin Features
-- 📊 Dashboard overview — total products, orders, users, revenue
-- 📦 Manage all customer orders (view, update status, cancel)
-- 👥 Manage registered user accounts (block/unblock/delete)
-- 💬 View and respond to customer messages
-- ➕ Add, edit, and delete products across all categories (price, stock, brand)
+- monitor the overall store activity from a dashboard
+- manage customers, products, and orders
+- respond to customer messages
+- update product catalog information and stock
 
 ---
 
-## 🛠️ Tech Stack
+## Features
 
-| Technology | Usage |
-|-----------|-------|
-| HTML5 | Page structure and content |
-| CSS3 | Styling, layout, and responsive design |
-| JavaScript (Vanilla) | App logic, DOM manipulation, event handling |
-| Browser localStorage | Client-side data persistence |
+### User Features
+
+- sign up, login, OTP verification, and password recovery
+- browse products by category: Shirts, Pants, Shoes, and Others
+- filter and view product listings
+- add products to favorites and cart
+- update cart quantities and checkout items
+- view order history and order status
+- receive notifications and account updates
+- send messages to the admin
+- edit profile details
+
+### Admin Features
+
+- dashboard summary for products, orders, users, and revenue
+- manage customer orders and status updates
+- manage registered users
+- view and reply to customer messages
+- add, update, and delete products
+- manage product details such as price, stock, and brand
 
 ---
 
-## 📁 Project Structure
+## Tech Stack
 
-```
+| Technology | Purpose |
+|-----------|---------|
+| HTML5 | Structure and UI layout |
+| CSS3 | Styling, responsiveness, and visual design |
+| JavaScript (Vanilla) | Interactions, state changes, and client-side logic |
+| localStorage | Browser-side persistence for demo data |
+
+---
+
+## Project Structure
+
+```text
 AURINGPH/
-├── index.html                  # Login page
-├── login.html
-├── signup.html
-├── otp.html
-├── forgot-password.html
+├── README.md
+├── index.html                    # Login page
+├── login.html                    # Sign-in page
+├── signup.html                   # Registration page
+├── otp.html                      # OTP verification
+├── forgot-password.html          # Password recovery page
+├── reset-password.html          # Password reset page
 ├── pages/
-│   ├── home.html               # Main landing page
-│   ├── shirts.html             # Shirts category
-│   ├── shoes.html              # Shoes category
-│   ├── pants.html              # Pants category
-│   ├── others.html             # Accessories category
-│   ├── cart.html               # Shopping cart
-│   ├── favorites.html          # Saved favorites
-│   ├── orders.html             # Order history
-│   ├── messages.html           # User-admin messaging
-│   ├── profile.html            # User profile
-│   ├── notifications.html      # Notifications
-│   ├── dashboard.html          # Admin dashboard
-│   ├── products.html           # Admin product management
-│   ├── admin-orders.html       # Admin order management
-│   ├── admin-messages.html     # Admin messaging
-│   └── users.html              # Admin user management
+│   ├── home.html                 # Main storefront/homepage
+│   ├── shirts.html               # Shirt catalog
+│   ├── pants.html                # Pant catalog
+│   ├── shoes.html                # Shoe catalog
+│   ├── others.html               # Other categories/accessories
+│   ├── cart.html                 # Shopping cart
+│   ├── favorites.html            # Saved items
+│   ├── orders.html               # Customer order history
+│   ├── messages.html             # User messaging
+│   ├── notifications.html       # Notifications
+│   ├── profile.html              # User profile management
+│   ├── dashboard.html            # Admin dashboard
+│   ├── products.html             # Product management
+│   ├── admin-orders.html         # Admin order management
+│   ├── admin-messages.html       # Admin messaging
+│   ├── users.html                # User management
+│   └── admin-login.html          # Admin login page
 ├── css/
-│   ├── style.css
-│   ├── auth.css
-│   ├── home.css
-│   ├── cart.css
-│   ├── favorites.css
-│   ├── orders.css
-│   ├── messaging.css
-│   ├── profile.css
+│   ├── admin-login.css
 │   ├── admin.css
+│   ├── auth.css
+│   ├── cart.css
 │   ├── category.css
-│   └── notifications.css
+│   ├── favorites.css
+│   ├── home-pro.css
+│   ├── home.css
+│   ├── messaging.css
+│   ├── notifications.css
+│   ├── orders.css
+│   ├── profile.css
+│   ├── shop.css
+│   ├── style.css
+│   └── ...
 ├── js/
-│   ├── script.js
+│   ├── admin.js
 │   ├── auth.js
 │   ├── messaging.js
 │   ├── profile.js
-│   └── admin.js
-└── images/
-    ├── logo.png
-    ├── category-*.jpg
-    └── products/
-        ├── shirts/
-        ├── shoes/
-        ├── pants/
-        └── others/
+│   ├── script.js
+│   ├── shop.js
+│   ├── smoke_test.js
+│   └── ...
+├── images/
+│   ├── logo.png
+│   ├── category-others.jpg
+│   ├── category-pants.jpg
+│   ├── category-shirts.jpg
+│   ├── category-shoes.jpg
+│   └── products/
+│       ├── shirts/
+│       ├── pants/
+│       ├── shoes/
+│       └── others/
+└── ...
 ```
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
-1. **Clone the repository:**
+### Option 1: Open directly in a browser
+
+1. Clone the repository:
+
 ```bash
 git clone https://github.com/AnthonyBaldoza/AuringPh_E-Commnerce_Web_Application.git
 ```
 
-2. **Open the project folder:**
+2. Navigate to the project folder:
+
 ```bash
 cd AuringPh_E-Commnerce_Web_Application
 ```
 
-3. **Open `index.html` in your browser** — no server setup needed!
+3. Open `index.html` in your preferred browser.
 
-> ⚠️ Since the app uses `localStorage`, data is stored per browser only. Clearing browser data will reset all stored information.
+### Option 2: Start a simple local server
 
----
+```bash
+python -m http.server 8000
+```
 
-## 📸 Screenshots
+Then visit:
 
-| Page | Description |
-|------|-------------|
-| Login / Signup | User authentication with OTP verification |
-| Home | Product categories and featured items |
-| Shirts / Shoes / Pants / Others | Category browsing with brand and size filters |
-| Cart | Manage items before checkout |
-| Favorites | Saved products for later |
-| Orders | Order history and tracking |
-| Messages | Direct chat with admin + invoice cards |
-| Profile | Personal account management |
-| Admin Dashboard | Overview of orders, users, revenue |
-| Manage Products | Add, edit, delete products |
-| Admin Orders | View and update all customer orders |
-| Admin Messages | Respond to customer inquiries |
-| Users Management | Block, unblock, delete accounts |
+```text
+http://localhost:8000
+```
+
+> Note: Since the app uses `localStorage`, the data is stored in the browser only. Clearing browser storage or using a different browser will reset the demo data.
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
-- Data is stored in `localStorage` only — not shared across devices or browsers
-- No real backend or database (academic prototype)
-- No real payment processing
-
----
-
-## 🔮 Future Improvements
-
-- Integrate a real backend (Node.js, PHP, or similar)
-- Add a real database (MySQL, MongoDB)
-- Implement actual payment gateway (GCash, Maya, Card)
-- Mobile responsive improvements
-- Deploy to a live server via GitHub Pages or Netlify
+- This is a frontend-only prototype, not a full-stack application.
+- Data is stored locally in the browser (`localStorage`) rather than a real database.
+- No real payment gateway, backend API, or live authentication system is implemented.
+- The project is intended for academic demonstration and prototype testing.
 
 ---
 
-## 📄 License
+## Future Improvements
 
-This project was developed as an academic requirement for **COMP 013 — Human Computer Interaction** at **PUP Calauan, Laguna Campus**.
+- integrate a real backend (Node.js, PHP, or similar)
+- connect to a database such as MySQL or MongoDB
+- add secure authentication and authorization
+- implement online payment processing
+- deploy the site to a hosting platform
+- improve admin analytics and reporting
+- make the experience more mobile and accessibility-friendly
+
+---
+
+## License
+
+This project was developed as an academic requirement for COMP 013 — Human Computer Interaction at the Polytechnic University of the Philippines, Calauan Laguna Campus.
