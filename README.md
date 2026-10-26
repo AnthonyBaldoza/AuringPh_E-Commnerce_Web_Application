@@ -90,7 +90,6 @@ AURINGPH/
 ├── signup.html                   # Registration page
 ├── otp.html                      # OTP verification
 ├── forgot-password.html          # Password recovery page
-├── reset-password.html          # Password reset page
 ├── pages/
 │   ├── home.html                 # Main storefront/homepage
 │   ├── shirts.html               # Shirt catalog
@@ -103,6 +102,7 @@ AURINGPH/
 │   ├── messages.html             # User messaging
 │   ├── notifications.html       # Notifications
 │   ├── profile.html              # User profile management
+│   ├── reset-password.html       # Password reset page
 │   ├── dashboard.html            # Admin dashboard
 │   ├── products.html             # Product management
 │   ├── admin-orders.html         # Admin order management
