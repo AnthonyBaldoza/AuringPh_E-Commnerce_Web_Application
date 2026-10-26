@@ -238,6 +238,17 @@
     80%       { transform: translateX(4px); }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .otp-digit:focus {
+      transform: none;
+    }
+  }
+
   /* Verify button */
   .otp-verify-btn {
     width: 100%;
@@ -355,7 +366,7 @@
   <!-- LEFT: Branding -->
   <div class="otp-left">
     <div class="otp-left-overlay"></div>
-    <img src="images/auth-banner.jpg" alt="AuringPh Collection" class="otp-left-img">
+    <img src="images/category-others.jpg" alt="AuringPh Collection" class="otp-left-img">
     <div class="otp-left-content">
       <div class="otp-brand">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
@@ -506,7 +517,7 @@
     verifyBtn.textContent = 'Verified ✓';
     verifyBtn.style.background = 'var(--green, #2a7a4a)';
     setTimeout(() => {
-      window.location.href = 'reset-password.html';
+      window.location.href = 'pages/reset-password.html';
     }, 600);
   });
 
