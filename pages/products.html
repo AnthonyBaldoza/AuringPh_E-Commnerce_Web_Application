@@ -3,20 +3,236 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Products - AuringPh Admin</title>
+    <title>Manage Products · AuringPh Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="stylesheet" href="../css/products.css" />
   </head>
-  <body class="admin-body">
+  <body class="admin-body products-page">
+    <!-- ===== SVG Icon Sprite ===== -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style="position: absolute; width: 0; height: 0; overflow: hidden"
+      aria-hidden="true"
+    >
+      <defs>
+        <symbol
+          id="i-grid"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </symbol>
+        <symbol
+          id="i-package"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+          />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </symbol>
+        <symbol
+          id="i-bag"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </symbol>
+        <symbol
+          id="i-users"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </symbol>
+        <symbol
+          id="i-msg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+          />
+        </symbol>
+        <symbol
+          id="i-logout"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </symbol>
+        <symbol
+          id="i-search"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </symbol>
+        <symbol
+          id="i-bell"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </symbol>
+        <symbol
+          id="i-plus"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </symbol>
+        <symbol
+          id="i-edit"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+        </symbol>
+        <symbol
+          id="i-trash"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </symbol>
+        <symbol
+          id="i-alert"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+          />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </symbol>
+        <symbol
+          id="i-x-circle"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="15" y1="9" x2="9" y2="15" />
+          <line x1="9" y1="9" x2="15" y2="15" />
+        </symbol>
+        <symbol
+          id="i-tag"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+          />
+          <line x1="7" y1="7" x2="7.01" y2="7" />
+        </symbol>
+        <symbol
+          id="i-image"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <path d="M21 15l-5-5L5 21" />
+        </symbol>
+      </defs>
+    </svg>
+
     <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <div class="admin-layout">
-      <aside class="admin-sidebar" id="adminSidebar">
+      <!-- ============ SIDEBAR ============ -->
+      <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+        aria-label="Admin navigation"
+      >
         <div class="admin-sidebar-brand">
           <img
             src="../images/logo.png"
@@ -25,68 +241,153 @@
           />
           <div class="brand-text">AuringPh<small>Admin Panel</small></div>
         </div>
+
         <nav class="admin-nav">
-          <a href="dashboard.html" class="admin-nav-link"
-            ><span class="nav-ico">📊</span> Dashboard</a
+          <a href="dashboard.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon"><use href="#i-grid" /></svg
+            ></span>
+            Dashboard
+          </a>
+          <a
+            href="products.html"
+            class="admin-nav-link active"
+            aria-current="page"
           >
-          <a href="products.html" class="admin-nav-link"
-            ><span class="nav-ico">👕</span> Manage Products</a
-          >
-          <a href="admin-orders.html" class="admin-nav-link"
-            ><span class="nav-ico">📦</span> Manage Orders</a
-          >
-          <a href="users.html" class="admin-nav-link"
-            ><span class="nav-ico">👥</span> Manage Users</a
-          >
-          <a href="admin-messages.html" class="admin-nav-link"
-            ><span class="nav-ico">💬</span> Messages</a
-          >
+            <span class="nav-ico"
+              ><svg class="icon"><use href="#i-package" /></svg
+            ></span>
+            Products
+          </a>
+          <a href="admin-orders.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon"><use href="#i-bag" /></svg
+            ></span>
+            Orders
+          </a>
+          <a href="users.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon"><use href="#i-users" /></svg
+            ></span>
+            Customers
+          </a>
+          <a href="admin-messages.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon"><use href="#i-msg" /></svg
+            ></span>
+            Messages
+          </a>
         </nav>
+
         <div class="admin-sidebar-footer">
-          <button class="admin-logout-btn" data-admin-logout>🚪 Logout</button>
+          <button class="admin-logout-btn" data-admin-logout>
+            <svg class="icon icon-sm"><use href="#i-logout" /></svg> Logout
+          </button>
         </div>
       </aside>
 
+      <!-- ============ MAIN ============ -->
       <main class="admin-main">
-        <div class="admin-topbar">
-          <div style="display: flex; align-items: center; gap: 14px">
-            <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+        <header class="page-topbar">
+          <div class="page-topbar-left">
+            <button
+              class="admin-mobile-toggle"
+              id="sidebarToggle"
+              aria-label="Open menu"
+              aria-controls="adminSidebar"
+              aria-expanded="false"
+            >
+              ☰
+            </button>
             <div>
-              <h1>Manage Products</h1>
-              <div class="admin-sub">
-                <span id="productCountLabel">0 products</span>
+              <div class="page-eyebrow">Catalog</div>
+              <h1 class="page-title">Manage Products</h1>
+              <div class="page-sub">
+                <span id="productCountLabel">0 products</span> ·
+                <span id="productFilterLabel">All categories</span>
               </div>
             </div>
           </div>
-          <div class="admin-whoami">
-            <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
-            <span id="adminWhoamiName">Admin</span>
-          </div>
-        </div>
 
-        <div class="admin-toolbar">
-          <div class="admin-search-box">
-            <span aria-hidden="true">🔍</span>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Search products..."
-            />
+          <div class="page-topbar-right">
+            <label class="page-search">
+              <svg class="icon"><use href="#i-search" /></svg>
+              <input
+                type="search"
+                id="searchInput"
+                placeholder="Search by name or brand…"
+                aria-label="Search products"
+              />
+            </label>
+            <button class="page-icon-btn" aria-label="Notifications">
+              <svg class="icon"><use href="#i-bell" /></svg>
+              <span class="page-badge-dot" aria-hidden="true"></span>
+            </button>
+            <div class="admin-whoami">
+              <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+              <span id="adminWhoamiName">Admin</span>
+            </div>
           </div>
-          <div class="admin-filter-chips" id="categoryChips">
-            <div class="admin-chip active" data-cat="All">All</div>
-            <div class="admin-chip" data-cat="Shirts">Shirts</div>
-            <div class="admin-chip" data-cat="Shoes">Shoes</div>
-            <div class="admin-chip" data-cat="Pants">Pants</div>
-            <div class="admin-chip" data-cat="Others">Others</div>
+        </header>
+
+        <!-- ============ SUMMARY STRIP ============ -->
+        <section class="summary-strip" aria-label="Inventory summary">
+          <div class="summary-tile">
+            <div class="tile-icon brand">
+              <svg class="icon"><use href="#i-package" /></svg>
+            </div>
+            <div>
+              <div class="tile-label">Total Products</div>
+              <div class="tile-value" id="tileTotal">0</div>
+            </div>
           </div>
-          <button class="btn-admin-primary" id="addProductBtn">
-            + Add Product
+          <div class="summary-tile">
+            <div class="tile-icon warn">
+              <svg class="icon"><use href="#i-alert" /></svg>
+            </div>
+            <div>
+              <div class="tile-label">Low Stock (≤ 10)</div>
+              <div class="tile-value" id="tileLow">0</div>
+            </div>
+          </div>
+          <div class="summary-tile">
+            <div class="tile-icon bad">
+              <svg class="icon"><use href="#i-x-circle" /></svg>
+            </div>
+            <div>
+              <div class="tile-label">Out of Stock</div>
+              <div class="tile-value" id="tileOut">0</div>
+            </div>
+          </div>
+          <div class="summary-tile">
+            <div class="tile-icon info">
+              <svg class="icon"><use href="#i-tag" /></svg>
+            </div>
+            <div>
+              <div class="tile-label">Categories</div>
+              <div class="tile-value" id="tileCats">0</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ TOOLBAR ============ -->
+        <div class="page-toolbar">
+          <div class="toolbar-chips" id="categoryChips">
+            <button class="filter-chip active" data-cat="All">All</button>
+            <button class="filter-chip" data-cat="Shirts">Shirts</button>
+            <button class="filter-chip" data-cat="Shoes">Shoes</button>
+            <button class="filter-chip" data-cat="Pants">Pants</button>
+            <button class="filter-chip" data-cat="Others">Others</button>
+          </div>
+          <button class="btn-primary-brand" id="addProductBtn">
+            <svg class="icon icon-sm"><use href="#i-plus" /></svg>
+            Add Product
           </button>
         </div>
 
-        <div class="admin-table-wrap">
-          <table class="admin-table">
+        <!-- ============ TABLE ============ -->
+        <div class="data-card">
+          <table class="pro-table">
             <thead>
               <tr>
                 <th>Product</th>
@@ -101,11 +402,11 @@
           </table>
         </div>
 
-        <div class="admin-pagination" id="productsPagination"></div>
+        <div class="page-pagination" id="productsPagination"></div>
       </main>
     </div>
 
-    <!-- ADD/EDIT MODAL -->
+    <!-- ============ ADD / EDIT MODAL ============ -->
     <div class="admin-modal-overlay" id="productModal">
       <div class="admin-modal-box">
         <h3 id="productModalTitle">Add Product</h3>
@@ -160,7 +461,7 @@
             </div>
           </div>
           <div class="admin-form-group">
-            <label for="productImage">Image filename (optional)</label>
+            <label for="productImage">Image Path (optional)</label>
             <input
               type="text"
               id="productImage"
@@ -181,10 +482,30 @@
       </div>
     </div>
 
-    <!-- DELETE MODAL -->
+    <!-- ============ DELETE MODAL ============ -->
     <div class="admin-modal-overlay" id="deleteModal">
       <div class="admin-modal-box modal-sm">
-        <div class="modal-warning-icon">🗑️</div>
+        <div
+          class="modal-warning-icon"
+          style="display: flex; justify-content: center; margin-bottom: 8px"
+        >
+          <div
+            style="
+              width: 52px;
+              height: 52px;
+              border-radius: 50%;
+              background: #fee2e2;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #b91c1c;
+            "
+          >
+            <svg class="icon" style="width: 24px; height: 24px">
+              <use href="#i-trash" />
+            </svg>
+          </div>
+        </div>
         <h3 style="text-align: center">Delete this product?</h3>
         <p class="modal-text">
           This will permanently remove
@@ -206,7 +527,12 @@
       </div>
     </div>
 
-    <div class="admin-toast" id="adminToast"></div>
+    <div
+      class="admin-toast"
+      id="adminToast"
+      role="status"
+      aria-live="polite"
+    ></div>
 
     <script src="../js/admin.js"></script>
     <script>
@@ -233,10 +559,29 @@
           list = list.filter(
             (p) =>
               p.name.toLowerCase().includes(q) ||
-              (p.brand || "").toLowerCase().includes(q),
+              (p.brand || "").toLowerCase().includes(q) ||
+              (p.id || "").toLowerCase().includes(q),
           );
         }
         return list;
+      }
+
+      function stockBadgeHTML(stock) {
+        if (stock === 0)
+          return `<span class="stock-badge bad">Out of stock</span>`;
+        if (stock <= 10)
+          return `<span class="stock-badge warn">${stock} left</span>`;
+        return `<span class="stock-badge ok">${stock} in stock</span>`;
+      }
+
+      function renderSummary() {
+        const low = products.filter((p) => p.stock > 0 && p.stock <= 10).length;
+        const out = products.filter((p) => p.stock === 0).length;
+        const cats = new Set(products.map((p) => p.category)).size;
+        document.getElementById("tileTotal").textContent = products.length;
+        document.getElementById("tileLow").textContent = low;
+        document.getElementById("tileOut").textContent = out;
+        document.getElementById("tileCats").textContent = cats;
       }
 
       function renderTable() {
@@ -253,56 +598,63 @@
 
         document.getElementById("productCountLabel").textContent =
           filtered.length + " product" + (filtered.length !== 1 ? "s" : "");
+        document.getElementById("productFilterLabel").textContent =
+          activeCategory === "All" ? "All categories" : activeCategory;
+
+        renderSummary();
 
         const tbody = document.getElementById("productsTableBody");
         if (pageItems.length === 0) {
-          tbody.innerHTML =
-            '<tr><td colspan="6"><div class="empty-row-msg"><div class="empty-icon">🔍</div>No products found.</div></td></tr>';
-        } else {
-          tbody.innerHTML = pageItems
-            .map(
-              (p) =>
-                "<tr>" +
-                '<td><div class="cell-product">' +
-                '<img src="' +
-                (p.image || "../images/logo.png") +
-                '" alt="' +
-                p.name +
-                '" onerror="this.src=\'../images/logo.png\'">' +
-                '<div><div class="p-name">' +
-                p.name +
-                '</div><div class="p-sub">ID: ' +
-                p.id +
-                "</div></div>" +
-                "</div></td>" +
-                "<td>" +
-                p.category +
-                "</td>" +
-                "<td>" +
-                (p.brand || "—") +
-                "</td>" +
-                "<td>" +
-                pesos(p.price) +
-                "</td>" +
-                '<td style="color:' +
-                (p.stock <= 5 ? "var(--red)" : "var(--text-dark)") +
-                "; font-weight:" +
-                (p.stock <= 5 ? "700" : "400") +
-                '">' +
-                p.stock +
-                "</td>" +
-                '<td><div class="row-actions">' +
-                '<button class="btn-admin-sm edit" onclick="openEditModal(\'' +
-                p.id +
-                "')\">Edit</button>" +
-                '<button class="btn-admin-sm danger" onclick="openDeleteModal(\'' +
-                p.id +
-                "')\">Delete</button>" +
-                "</div></td>" +
-                "</tr>",
-            )
-            .join("");
+          tbody.innerHTML = `<tr><td colspan="6">
+        <div class="empty-row">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <div>No products match your filters.</div>
+        </div>
+      </td></tr>`;
+          renderPagination(0);
+          return;
         }
+
+        tbody.innerHTML = pageItems
+          .map((p) => {
+            const imgSrc = (p.image || "").trim();
+            const thumb = imgSrc
+              ? `<div class="thumb-wrap">
+             <img class="thumb" src="${escapeHtml(imgSrc)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+             <div class="thumb-ph"><svg class="icon"><use href="#i-image"/></svg></div>
+           </div>`
+              : `<div class="thumb-wrap">
+             <div class="thumb-ph" style="display:flex"><svg class="icon"><use href="#i-image"/></svg></div>
+           </div>`;
+
+            return `<tr>
+        <td>
+          <div class="cell-prod">
+            ${thumb}
+            <div>
+              <div class="prod-name">${escapeHtml(p.name)}</div>
+              <div class="prod-id">ID: ${escapeHtml(p.id)}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="cat-badge">${escapeHtml(p.category)}</span></td>
+        <td>${escapeHtml(p.brand || "—")}</td>
+        <td class="price-cell">${pesos(p.price)}</td>
+        <td>${stockBadgeHTML(Number(p.stock) || 0)}</td>
+        <td>
+          <div class="action-group">
+            <button class="btn-icon-action edit" onclick="openEditModal('${p.id}')">
+              <svg class="icon icon-sm"><use href="#i-edit"/></svg> Edit
+            </button>
+            <button class="btn-icon-action delete" onclick="openDeleteModal('${p.id}')">
+              <svg class="icon icon-sm"><use href="#i-trash"/></svg> Delete
+            </button>
+          </div>
+        </td>
+      </tr>`;
+          })
+          .join("");
+
         renderPagination(totalPages);
       }
 
@@ -312,27 +664,30 @@
           el.innerHTML = "";
           return;
         }
-        let html =
-          "<button " +
-          (currentPage === 1 ? "disabled" : "") +
-          ' onclick="goToPage(' +
-          (currentPage - 1) +
-          ')">←</button>';
-        for (let i = 1; i <= totalPages; i++)
-          html +=
-            '<button class="' +
-            (i === currentPage ? "active" : "") +
-            '" onclick="goToPage(' +
-            i +
-            ')">' +
-            i +
-            "</button>";
-        html +=
-          "<button " +
-          (currentPage === totalPages ? "disabled" : "") +
-          ' onclick="goToPage(' +
-          (currentPage + 1) +
-          ')">→</button>';
+
+        // Build visible page set with ellipsis
+        const pages = [];
+        const around = 1;
+        for (let i = 1; i <= totalPages; i++) {
+          if (
+            i === 1 ||
+            i === totalPages ||
+            (i >= currentPage - around && i <= currentPage + around)
+          )
+            pages.push(i);
+        }
+
+        let html = `<button class="pg-btn" ${currentPage === 1 ? "disabled" : ""} onclick="goToPage(${currentPage - 1})" aria-label="Previous page">←</button>`;
+
+        let prev = 0;
+        pages.forEach((p) => {
+          if (p - prev > 1) html += `<span class="pg-ellipsis">…</span>`;
+          html += `<button class="pg-btn ${p === currentPage ? "active" : ""}" onclick="goToPage(${p})">${p}</button>`;
+          prev = p;
+        });
+
+        html += `<button class="pg-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="goToPage(${currentPage + 1})" aria-label="Next page">→</button>`;
+
         el.innerHTML = html;
       }
 
@@ -341,12 +696,13 @@
         renderTable();
       };
 
+      // Category chips
       document
-        .querySelectorAll("#categoryChips .admin-chip")
+        .querySelectorAll("#categoryChips .filter-chip")
         .forEach((chip) => {
           chip.addEventListener("click", () => {
             document
-              .querySelectorAll("#categoryChips .admin-chip")
+              .querySelectorAll("#categoryChips .filter-chip")
               .forEach((c) => c.classList.remove("active"));
             chip.classList.add("active");
             activeCategory = chip.dataset.cat;
@@ -355,6 +711,7 @@
           });
         });
 
+      // Search
       document
         .getElementById("searchInput")
         .addEventListener("input", function () {
@@ -363,6 +720,7 @@
           renderTable();
         });
 
+      // Add / Edit modal
       const productModal = document.getElementById("productModal");
       const productForm = document.getElementById("productForm");
 
@@ -391,7 +749,9 @@
 
       document
         .getElementById("productModalCancel")
-        .addEventListener("click", () => productModal.classList.remove("open"));
+        .addEventListener("click", () => {
+          productModal.classList.remove("open");
+        });
 
       productForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -426,6 +786,7 @@
         renderTable();
       });
 
+      // Delete modal
       const deleteModal = document.getElementById("deleteModal");
 
       window.openDeleteModal = function (id) {
@@ -438,7 +799,9 @@
 
       document
         .getElementById("deleteModalCancel")
-        .addEventListener("click", () => deleteModal.classList.remove("open"));
+        .addEventListener("click", () => {
+          deleteModal.classList.remove("open");
+        });
 
       document
         .getElementById("deleteModalConfirm")
