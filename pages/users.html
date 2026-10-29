@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="../css/admin-dark.css" />
 
   <!-- EMBEDDED CSS PARA GUMANA AGAD -->
   <style>
@@ -94,7 +95,7 @@
     .pro-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--line); color: var(--ink-900); vertical-align: middle; }
     .pro-table tbody tr:last-child td { border-bottom: 0; }
     .pro-table tbody tr { transition: background 0.15s; }
-    .pro-table tbody tr:hover { background: #fbf6f1; }
+    .pro-table tbody tr:hover { background: var(--ink-50); }
 
     .cust-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .cust-cell .avatar-sm { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-100); color: var(--accent-600); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
@@ -167,6 +168,18 @@
 <!-- ===== SVG Icon Sprite ===== -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
   <defs>
+    <!-- THEME ICONS ADDED HERE -->
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </symbol>
+
     <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
       <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>

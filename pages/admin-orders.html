@@ -1,502 +1,1493 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manage Orders · AuringPh Admin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/admin.css" />
-  
-  <!-- EMBEDDED CSS PARA GUMANA AGAD -->
-  <style>
-    body.admin-body.admin-orders-page {
-      --ink-900: #1c1815; --ink-700: #3d3530; --ink-500: #6b615c;
-      --ink-400: #8a7f79; --ink-300: #b5a9a2; --ink-200: #e5dcd5;
-      --ink-100: #f2ebe6; --ink-50:  #faf6f3;
-      --surface: #ffffff; --canvas:  #f7f3ef;
-      --accent: #8b4a24; --accent-600: #6b3618; --accent-100: #f5e3d5; --accent-50: #fbf1e8;
-      --ok: #15803d; --ok-bg: #dcfce7; --warn: #b45309; --warn-bg: #fef3c7;
-      --bad: #b91c1c; --bad-bg: #fee2e2; --info: #1e40af; --info-bg: #dbeafe;
-      --line: #ece3db; --line-strong: #e0d5cc;
-      --r-lg: 16px; --r-md: 12px; --r-sm: 8px;
-      --shadow-xs: 0 1px 2px rgba(60, 40, 20, 0.04);
-      --shadow-sm: 0 1px 3px rgba(60, 40, 20, 0.06), 0 1px 2px rgba(60, 40, 20, 0.04);
-      --shadow-md: 0 4px 14px rgba(60, 40, 20, 0.08);
-      background: var(--canvas);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Orders · AuringPh Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="stylesheet" href="../css/admin-dark.css" />
 
-    .admin-orders-page .icon { width: 18px; height: 18px; flex-shrink: 0; display: inline-block; vertical-align: middle; }
-    .admin-orders-page .icon-sm { width: 15px; height: 15px; }
+    <!-- EMBEDDED CSS PARA GUMANA AGAD -->
+    <style>
+      body.admin-body.admin-orders-page {
+        --ink-900: #1c1815;
+        --ink-700: #3d3530;
+        --ink-500: #6b615c;
+        --ink-400: #8a7f79;
+        --ink-300: #b5a9a2;
+        --ink-200: #e5dcd5;
+        --ink-100: #f2ebe6;
+        --ink-50: #faf6f3;
+        --surface: #ffffff;
+        --canvas: #f7f3ef;
+        --accent: #8b4a24;
+        --accent-600: #6b3618;
+        --accent-100: #f5e3d5;
+        --accent-50: #fbf1e8;
+        --ok: #15803d;
+        --ok-bg: #dcfce7;
+        --warn: #b45309;
+        --warn-bg: #fef3c7;
+        --bad: #b91c1c;
+        --bad-bg: #fee2e2;
+        --info: #1e40af;
+        --info-bg: #dbeafe;
+        --line: #ece3db;
+        --line-strong: #e0d5cc;
+        --r-lg: 16px;
+        --r-md: 12px;
+        --r-sm: 8px;
+        --shadow-xs: 0 1px 2px rgba(60, 40, 20, 0.04);
+        --shadow-sm:
+          0 1px 3px rgba(60, 40, 20, 0.06), 0 1px 2px rgba(60, 40, 20, 0.04);
+        --shadow-md: 0 4px 14px rgba(60, 40, 20, 0.08);
+        background: var(--canvas);
+      }
 
-    /* ---------- Sidebar ---------- */
-    .admin-orders-page .admin-sidebar {
-      background: linear-gradient(180deg, #4a2514 0%, #3a1d10 100%);
-      border-right: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .admin-orders-page .admin-sidebar-brand { padding: 22px 20px 20px; }
-    .admin-orders-page .admin-nav { padding: 16px 12px; }
-    .admin-orders-page .admin-nav-link { font-size: 14px; color: rgba(255, 255, 255, 0.72); }
-    .admin-orders-page .admin-nav-link .nav-ico {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; color: rgba(255, 255, 255, 0.72); transition: color 0.15s ease;
-    }
-    .admin-orders-page .admin-nav-link:hover .nav-ico { color: #fff; }
-    .admin-orders-page .admin-nav-link.active { background: rgba(255, 224, 197, 0.95); color: #4a2514; }
-    .admin-orders-page .admin-nav-link.active .nav-ico { color: #4a2514; }
+      .admin-orders-page .icon {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .admin-orders-page .icon-sm {
+        width: 15px;
+        height: 15px;
+      }
 
-    .admin-orders-page .admin-main { padding: 32px 40px 64px; max-width: none; }
+      /* ---------- Sidebar ---------- */
+      .admin-orders-page .admin-sidebar {
+        background: linear-gradient(180deg, #4a2514 0%, #3a1d10 100%);
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .admin-orders-page .admin-sidebar-brand {
+        padding: 22px 20px 20px;
+      }
+      .admin-orders-page .admin-nav {
+        padding: 16px 12px;
+      }
+      .admin-orders-page .admin-nav-link {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      .admin-orders-page .admin-nav-link .nav-ico {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        color: rgba(255, 255, 255, 0.72);
+        transition: color 0.15s ease;
+      }
+      .admin-orders-page .admin-nav-link:hover .nav-ico {
+        color: #fff;
+      }
+      .admin-orders-page .admin-nav-link.active {
+        background: rgba(255, 224, 197, 0.95);
+        color: #4a2514;
+      }
+      .admin-orders-page .admin-nav-link.active .nav-ico {
+        color: #4a2514;
+      }
 
-    /* ---------- Topbar ---------- */
-    .page-topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
-    .page-topbar-left { display: flex; align-items: center; gap: 14px; }
-    .page-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-400); margin-bottom: 4px; }
-    .page-title { font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 30px); line-height: 1.1; letter-spacing: -0.01em; color: var(--ink-900); margin: 0; }
-    .page-sub { font-size: 13.5px; color: var(--ink-500); margin-top: 4px; }
-    .page-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .admin-orders-page .admin-main {
+        padding: 32px 40px 64px;
+        max-width: none;
+      }
 
-    .page-search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; padding: 8px 14px; min-width: 300px; color: var(--ink-400); transition: border-color 0.15s, box-shadow 0.15s; }
-    .page-search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139, 74, 36, 0.1); }
-    .page-search input { border: 0; outline: 0; background: transparent; font-family: var(--font-body); font-size: 13.5px; color: var(--ink-900); width: 100%; }
-    .page-search input::placeholder { color: var(--ink-300); }
+      /* ---------- Topbar ---------- */
+      .page-topbar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .page-topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .page-eyebrow {
+        font-size: 11.5px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-400);
+        margin-bottom: 4px;
+      }
+      .page-title {
+        font-family: var(--font-display);
+        font-size: clamp(24px, 2.6vw, 30px);
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        color: var(--ink-900);
+        margin: 0;
+      }
+      .page-sub {
+        font-size: 13.5px;
+        color: var(--ink-500);
+        margin-top: 4px;
+      }
+      .page-topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
 
-    .page-icon-btn { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink-500); cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s; position: relative; }
-    .page-icon-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-50); }
-    .page-badge-dot { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; background: #dc2626; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
+      .page-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--surface);
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        padding: 8px 14px;
+        min-width: 300px;
+        color: var(--ink-400);
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .page-search:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(139, 74, 36, 0.1);
+      }
+      .page-search input {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font-family: var(--font-body);
+        font-size: 13.5px;
+        color: var(--ink-900);
+        width: 100%;
+      }
+      .page-search input::placeholder {
+        color: var(--ink-300);
+      }
 
-    /* ---------- Summary strip ---------- */
-    .summary-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
-    .summary-tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-xs); transition: box-shadow 0.15s, transform 0.15s; }
-    .summary-tile:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .summary-tile .tile-icon { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .summary-tile .tile-icon.brand { background: var(--accent-100); color: var(--accent-600); }
-    .summary-tile .tile-icon.warn  { background: var(--warn-bg); color: var(--warn); }
-    .summary-tile .tile-icon.ok    { background: var(--ok-bg);  color: var(--ok); }
-    .summary-tile .tile-icon.info  { background: var(--info-bg); color: var(--info); }
-    .summary-tile .tile-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-400); }
-    .summary-tile .tile-value { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink-900); line-height: 1.1; margin-top: 1px; }
+      .page-icon-btn {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        color: var(--ink-500);
+        cursor: pointer;
+        transition:
+          color 0.15s,
+          border-color 0.15s,
+          background 0.15s;
+        position: relative;
+      }
+      .page-icon-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-50);
+      }
+      .page-badge-dot {
+        position: absolute;
+        top: 8px;
+        right: 9px;
+        width: 7px;
+        height: 7px;
+        background: #dc2626;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px #fff;
+      }
 
-    /* ---------- Toolbar ---------- */
-    .page-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
-    .toolbar-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-    .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-strong); font-size: 13px; font-weight: 500; font-family: var(--font-body); color: var(--ink-500); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-    .filter-chip:hover:not(.active) { background: var(--accent-50); border-color: var(--accent); color: var(--accent); }
-    .filter-chip.active { background: var(--ink-900); border-color: var(--ink-900); color: #fff; font-weight: 600; }
-    .filter-chip .chip-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; padding: 0 6px; border-radius: 999px; background: var(--ink-100); color: var(--ink-500); font-size: 10.5px; font-weight: 700; }
-    .filter-chip.active .chip-count { background: rgba(255, 255, 255, 0.2); color: #fff; }
+      /* ---------- Summary strip ---------- */
+      .summary-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .summary-tile {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: var(--shadow-xs);
+        transition:
+          box-shadow 0.15s,
+          transform 0.15s;
+      }
+      .summary-tile:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+      .summary-tile .tile-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .summary-tile .tile-icon.brand {
+        background: var(--accent-100);
+        color: var(--accent-600);
+      }
+      .summary-tile .tile-icon.warn {
+        background: var(--warn-bg);
+        color: var(--warn);
+      }
+      .summary-tile .tile-icon.ok {
+        background: var(--ok-bg);
+        color: var(--ok);
+      }
+      .summary-tile .tile-icon.info {
+        background: var(--info-bg);
+        color: var(--info);
+      }
+      .summary-tile .tile-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--ink-400);
+      }
+      .summary-tile .tile-value {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--ink-900);
+        line-height: 1.1;
+        margin-top: 1px;
+      }
 
-    .btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; min-height: 40px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-500); font-size: 13px; font-weight: 600; font-family: var(--font-body); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-50); }
+      /* ---------- Toolbar ---------- */
+      .page-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .toolbar-chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--line-strong);
+        font-size: 13px;
+        font-weight: 500;
+        font-family: var(--font-body);
+        color: var(--ink-500);
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s;
+      }
+      .filter-chip:hover:not(.active) {
+        background: var(--accent-50);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .filter-chip.active {
+        background: var(--ink-900);
+        border-color: var(--ink-900);
+        color: #fff;
+        font-weight: 600;
+      }
+      .filter-chip .chip-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 18px;
+        padding: 0 6px;
+        border-radius: 999px;
+        background: var(--ink-100);
+        color: var(--ink-500);
+        font-size: 10.5px;
+        font-weight: 700;
+      }
+      .filter-chip.active .chip-count {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
 
-    /* ---------- Table card ---------- */
-    .data-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-xs); overflow: hidden; }
-    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .pro-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 960px; }
-    .pro-table thead th { text-align: left; padding: 14px 18px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-400); background: var(--ink-50); border-bottom: 1px solid var(--line); white-space: nowrap; }
-    .pro-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--line); color: var(--ink-900); vertical-align: middle; }
-    .pro-table tbody tr:last-child td { border-bottom: 0; }
-    .pro-table tbody tr { transition: background 0.15s; }
-    .pro-table tbody tr:hover { background: #fbf6f1; }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        min-height: 40px;
+        border-radius: 999px;
+        border: 1px solid var(--line-strong);
+        background: var(--surface);
+        color: var(--ink-500);
+        font-size: 13px;
+        font-weight: 600;
+        font-family: var(--font-body);
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s;
+      }
+      .btn-ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-50);
+      }
 
-    .order-id { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; letter-spacing: 0.01em; color: var(--ink-900); }
-    .cust-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .cust-cell .avatar-sm { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-100); color: var(--accent-600); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
-    .cust-cell .cust-info { min-width: 0; }
-    .cust-cell .cust-name { font-weight: 600; color: var(--ink-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-    .cust-cell .cust-email { font-size: 11.5px; color: var(--ink-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+      /* ---------- Table card ---------- */
+      .data-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        box-shadow: var(--shadow-xs);
+        overflow: hidden;
+      }
+      .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .pro-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+        min-width: 960px;
+      }
+      .pro-table thead th {
+        text-align: left;
+        padding: 14px 18px;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ink-400);
+        background: var(--ink-50);
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .pro-table tbody td {
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-900);
+        vertical-align: middle;
+      }
+      .pro-table tbody tr:last-child td {
+        border-bottom: 0;
+      }
+      .pro-table tbody tr {
+        transition: background 0.15s;
+      }
+      .pro-table tbody tr:hover {
+        background: var(--ink-50);
+      }
 
-    .items-cell { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink-700); }
-    .items-cell .muted { color: var(--ink-400); font-size: 12px; }
-    .price-cell { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .date-cell { color: var(--ink-500); white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .order-id {
+        font-weight: 600;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.01em;
+        color: var(--ink-900);
+      }
+      .cust-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+      .cust-cell .avatar-sm {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--accent-100);
+        color: var(--accent-600);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+        flex-shrink: 0;
+      }
+      .cust-cell .cust-info {
+        min-width: 0;
+      }
+      .cust-cell .cust-name {
+        font-weight: 600;
+        color: var(--ink-900);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+      }
+      .cust-cell .cust-email {
+        font-size: 11.5px;
+        color: var(--ink-400);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+      }
 
-    /* ---------- Status select ---------- */
-    .status-select { appearance: none; -webkit-appearance: none; padding: 6px 26px 6px 12px; border-radius: 999px; border: 1px solid; font-size: 11.5px; font-weight: 600; font-family: var(--font-body); cursor: pointer; white-space: nowrap; background-repeat: no-repeat; background-position: right 9px center; background-size: 9px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3e%3cpath d='M2 4l3 3 3-3' fill='none' stroke='%236b615c' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e"); transition: filter 0.15s; }
-    .status-select:hover { filter: brightness(0.97); }
-    .status-select:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .status-select[data-status="pending"]    { background-color: #fef3c7; color: #92400e; border-color: #fde68a; }
-    .status-select[data-status="processing"] { background-color: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
-    .status-select[data-status="completed"]  { background-color: #dcfce7; color: #166534; border-color: #bbf7d0; }
-    .status-select[data-status="cancelled"]  { background-color: #fee2e2; color: #991b1b; border-color: #fecaca; }
+      .items-cell {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--ink-700);
+      }
+      .items-cell .muted {
+        color: var(--ink-400);
+        font-size: 12px;
+      }
+      .price-cell {
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .date-cell {
+        color: var(--ink-500);
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
 
-    .status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; text-transform: capitalize; letter-spacing: 0.02em; }
-    .status-pill.pending    { background: #fef3c7; color: #92400e; }
-    .status-pill.processing { background: #dbeafe; color: #1e40af; }
-    .status-pill.completed  { background: #dcfce7; color: #166534; }
-    .status-pill.cancelled  { background: #fee2e2; color: #991b1b; }
+      /* ---------- Status select ---------- */
+      .status-select {
+        appearance: none;
+        -webkit-appearance: none;
+        padding: 6px 26px 6px 12px;
+        border-radius: 999px;
+        border: 1px solid;
+        font-size: 11.5px;
+        font-weight: 600;
+        font-family: var(--font-body);
+        cursor: pointer;
+        white-space: nowrap;
+        background-repeat: no-repeat;
+        background-position: right 9px center;
+        background-size: 9px;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3e%3cpath d='M2 4l3 3 3-3' fill='none' stroke='%236b615c' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+        transition: filter 0.15s;
+      }
+      .status-select:hover {
+        filter: brightness(0.97);
+      }
+      .status-select:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .status-select[data-status="pending"] {
+        background-color: #fef3c7;
+        color: #92400e;
+        border-color: #fde68a;
+      }
+      .status-select[data-status="processing"] {
+        background-color: #dbeafe;
+        color: #1e40af;
+        border-color: #bfdbfe;
+      }
+      .status-select[data-status="completed"] {
+        background-color: #dcfce7;
+        color: #166534;
+        border-color: #bbf7d0;
+      }
+      .status-select[data-status="cancelled"] {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border-color: #fecaca;
+      }
 
-    .action-group { display: flex; gap: 6px; flex-wrap: nowrap; }
-    .btn-icon-action { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; min-height: 32px; border-radius: 999px; font-size: 12px; font-weight: 600; font-family: var(--font-body); cursor: pointer; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-500); white-space: nowrap; transition: all 0.15s; }
-    .btn-icon-action:hover { transform: translateY(-1px); }
-    .btn-icon-action.view:hover { border-color: var(--info); color: var(--info); background: var(--info-bg); }
-    .btn-icon-action.delete:hover { border-color: var(--bad); color: var(--bad); background: var(--bad-bg); }
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 11.5px;
+        font-weight: 600;
+        text-transform: capitalize;
+        letter-spacing: 0.02em;
+      }
+      .status-pill.pending {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .status-pill.processing {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .status-pill.completed {
+        background: #dcfce7;
+        color: #166534;
+      }
+      .status-pill.cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+      }
 
-    .empty-row { text-align: center; padding: 60px 24px; color: var(--ink-400); font-size: 13.5px; }
-    .empty-row .icon { width: 36px; height: 36px; opacity: 0.5; margin-bottom: 10px; }
+      .action-group {
+        display: flex;
+        gap: 6px;
+        flex-wrap: nowrap;
+      }
+      .btn-icon-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 12px;
+        min-height: 32px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        font-family: var(--font-body);
+        cursor: pointer;
+        border: 1px solid var(--line-strong);
+        background: var(--surface);
+        color: var(--ink-500);
+        white-space: nowrap;
+        transition: all 0.15s;
+      }
+      .btn-icon-action:hover {
+        transform: translateY(-1px);
+      }
+      .btn-icon-action.view:hover {
+        border-color: var(--info);
+        color: var(--info);
+        background: var(--info-bg);
+      }
+      .btn-icon-action.delete:hover {
+        border-color: var(--bad);
+        color: var(--bad);
+        background: var(--bad-bg);
+      }
 
-    /* ---------- Pagination ---------- */
-    .page-pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
-    .pg-btn { min-width: 36px; height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-500); font-weight: 600; font-size: 13px; font-family: var(--font-body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s; }
-    .pg-btn:not(.active):not(:disabled):hover { background: var(--accent-50); border-color: var(--accent); color: var(--accent); }
-    .pg-btn.active { background: var(--ink-900); border-color: var(--ink-900); color: #fff; }
-    .pg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .pg-ellipsis { min-width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-300); font-size: 13px; }
+      .empty-row {
+        text-align: center;
+        padding: 60px 24px;
+        color: var(--ink-400);
+        font-size: 13.5px;
+      }
+      .empty-row .icon {
+        width: 36px;
+        height: 36px;
+        opacity: 0.5;
+        margin-bottom: 10px;
+      }
 
-    /* ---------- Modals ---------- */
-    .admin-orders-page .admin-modal-box { border-radius: var(--r-lg); border: 1px solid var(--line); padding: 26px 26px 24px; }
-    .admin-orders-page .admin-modal-box h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 18px; color: var(--ink-900); letter-spacing: -0.005em; }
-    .od-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-    .od-modal-head h3 { margin-bottom: 0 !important; }
-    .od-close { width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: var(--ink-50); border: 1px solid var(--line); color: var(--ink-500); cursor: pointer; flex-shrink: 0; transition: all 0.15s; }
-    .od-close:hover { background: var(--bad-bg); color: var(--bad); border-color: var(--bad); }
-    .od-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: var(--ink-50); border-radius: var(--r-md); margin-bottom: 18px; }
-    .od-id { font-family: var(--font-body); font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--ink-900); letter-spacing: 0.01em; }
-    .od-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    .od-section { margin-bottom: 14px; }
-    .od-grid .od-section { margin-bottom: 0; }
-    .od-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-400); margin-bottom: 4px; }
-    .od-name { font-weight: 600; color: var(--ink-900); font-size: 13.5px; }
-    .od-muted { font-size: 12.5px; color: var(--ink-400); overflow-wrap: anywhere; }
-    .od-item { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
-    .od-item:last-of-type { border-bottom: 0; }
-    .od-item .od-qty { font-size: 11.5px; color: var(--ink-400); margin-top: 2px; }
-    .od-item strong { white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .od-total { display: flex; justify-content: space-between; padding: 12px 0 0; margin-top: 6px; border-top: 2px solid var(--line); font-size: 15px; font-weight: 700; }
-    .od-total span:last-child { color: var(--accent); font-variant-numeric: tabular-nums; }
-    .od-actions { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .od-actions .od-label { margin-bottom: 0; }
-    .confirm-icon-wrap { width: 52px; height: 52px; border-radius: 50%; background: var(--bad-bg); color: var(--bad); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
-    .admin-orders-page .modal-text { font-size: 13.5px; color: var(--ink-500); text-align: center; line-height: 1.6; margin-bottom: 20px; }
-    .admin-orders-page .admin-modal-actions { display: flex; gap: 10px; margin-top: 0; }
-    .admin-orders-page .admin-modal-actions button { flex: 1; min-height: 44px; padding: 10px 0; border-radius: 999px; font-size: 13.5px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s; }
-    .admin-orders-page .modal-btn-cancel { background: var(--surface); color: var(--ink-500); border: 1px solid var(--line-strong) !important; }
-    .admin-orders-page .modal-btn-cancel:hover { background: var(--ink-50); }
-    .admin-orders-page .modal-btn-danger { background: var(--bad); color: #fff; }
-    .admin-orders-page .modal-btn-danger:hover { background: #991b1b; }
+      /* ---------- Pagination ---------- */
+      .page-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .pg-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        border-radius: 8px;
+        border: 1px solid var(--line-strong);
+        background: var(--surface);
+        color: var(--ink-500);
+        font-weight: 600;
+        font-size: 13px;
+        font-family: var(--font-body);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+      }
+      .pg-btn:not(.active):not(:disabled):hover {
+        background: var(--accent-50);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .pg-btn.active {
+        background: var(--ink-900);
+        border-color: var(--ink-900);
+        color: #fff;
+      }
+      .pg-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .pg-ellipsis {
+        min-width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink-300);
+        font-size: 13px;
+      }
 
-    /* ---------- Responsive ---------- */
-    @media (max-width: 1200px) {
-      .summary-strip { grid-template-columns: repeat(2, 1fr); }
-      .admin-orders-page .admin-main { padding: 28px 24px 56px; }
-    }
-    @media (max-width: 900px) {
-      .page-search { display: none; }
-      .admin-orders-page .admin-main { padding: 22px 16px 48px; }
-    }
-    @media (max-width: 600px) {
-      .summary-strip { gap: 10px; }
-      .summary-tile { padding: 12px 14px; }
-      .summary-tile .tile-value { font-size: 18px; }
-      .page-topbar-right { width: 100%; justify-content: flex-end; }
-      .od-grid { grid-template-columns: 1fr; gap: 10px; }
-    }
-  </style>
-</head>
-<body class="admin-body admin-orders-page">
+      /* ---------- Modals ---------- */
+      .admin-orders-page .admin-modal-box {
+        border-radius: var(--r-lg);
+        border: 1px solid var(--line);
+        padding: 26px 26px 24px;
+      }
+      .admin-orders-page .admin-modal-box h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        margin-bottom: 18px;
+        color: var(--ink-900);
+        letter-spacing: -0.005em;
+      }
+      .od-modal-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .od-modal-head h3 {
+        margin-bottom: 0 !important;
+      }
+      .od-close {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink-50);
+        border: 1px solid var(--line);
+        color: var(--ink-500);
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.15s;
+      }
+      .od-close:hover {
+        background: var(--bad-bg);
+        color: var(--bad);
+        border-color: var(--bad);
+      }
+      .od-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        background: var(--ink-50);
+        border-radius: var(--r-md);
+        margin-bottom: 18px;
+      }
+      .od-id {
+        font-family: var(--font-body);
+        font-weight: 700;
+        font-size: 15px;
+        font-variant-numeric: tabular-nums;
+        color: var(--ink-900);
+        letter-spacing: 0.01em;
+      }
+      .od-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .od-section {
+        margin-bottom: 14px;
+      }
+      .od-grid .od-section {
+        margin-bottom: 0;
+      }
+      .od-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-400);
+        margin-bottom: 4px;
+      }
+      .od-name {
+        font-weight: 600;
+        color: var(--ink-900);
+        font-size: 13.5px;
+      }
+      .od-muted {
+        font-size: 12.5px;
+        color: var(--ink-400);
+        overflow-wrap: anywhere;
+      }
+      .od-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+      }
+      .od-item:last-of-type {
+        border-bottom: 0;
+      }
+      .od-item .od-qty {
+        font-size: 11.5px;
+        color: var(--ink-400);
+        margin-top: 2px;
+      }
+      .od-item strong {
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+      .od-total {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0 0;
+        margin-top: 6px;
+        border-top: 2px solid var(--line);
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .od-total span:last-child {
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+      .od-actions {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .od-actions .od-label {
+        margin-bottom: 0;
+      }
+      .confirm-icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--bad-bg);
+        color: var(--bad);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+      }
+      .admin-orders-page .modal-text {
+        font-size: 13.5px;
+        color: var(--ink-500);
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+      .admin-orders-page .admin-modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 0;
+      }
+      .admin-orders-page .admin-modal-actions button {
+        flex: 1;
+        min-height: 44px;
+        padding: 10px 0;
+        border-radius: 999px;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: background 0.15s;
+      }
+      .admin-orders-page .modal-btn-cancel {
+        background: var(--surface);
+        color: var(--ink-500);
+        border: 1px solid var(--line-strong) !important;
+      }
+      .admin-orders-page .modal-btn-cancel:hover {
+        background: var(--ink-50);
+      }
+      .admin-orders-page .modal-btn-danger {
+        background: var(--bad);
+        color: #fff;
+      }
+      .admin-orders-page .modal-btn-danger:hover {
+        background: #991b1b;
+      }
 
-<!-- ===== SVG Icon Sprite ===== -->
-<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
-  <defs>
-    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
-      <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
-    </symbol>
-    <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
-    </symbol>
-    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-    </symbol>
-    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </symbol>
-    <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-    </symbol>
-    <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-    </symbol>
-    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-    </symbol>
-    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-    </symbol>
-    <symbol id="i-x-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
-    </symbol>
-    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-    </symbol>
-    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-    </symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-      <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-    </symbol>
-    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
-    </symbol>
-    <symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
-      <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
-    </symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-    </symbol>
-  </defs>
-</svg>
+      /* ---------- Responsive ---------- */
+      @media (max-width: 1200px) {
+        .summary-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .admin-orders-page .admin-main {
+          padding: 28px 24px 56px;
+        }
+      }
+      @media (max-width: 900px) {
+        .page-search {
+          display: none;
+        }
+        .admin-orders-page .admin-main {
+          padding: 22px 16px 48px;
+        }
+      }
+      @media (max-width: 600px) {
+        .summary-strip {
+          gap: 10px;
+        }
+        .summary-tile {
+          padding: 12px 14px;
+        }
+        .summary-tile .tile-value {
+          font-size: 18px;
+        }
+        .page-topbar-right {
+          width: 100%;
+          justify-content: flex-end;
+        }
+        .od-grid {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body class="admin-body admin-orders-page">
+    <!-- ===== SVG Icon Sprite ===== -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style="position: absolute; width: 0; height: 0; overflow: hidden"
+      aria-hidden="true"
+    >
+      <defs>
+        <!-- THEME ICONS ADDED HERE -->
+        <symbol
+          id="i-moon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </symbol>
+        <symbol
+          id="i-sun"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </symbol>
 
-<div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+        <symbol
+          id="i-grid"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </symbol>
+        <symbol
+          id="i-package"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+          />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </symbol>
+        <symbol
+          id="i-bag"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </symbol>
+        <symbol
+          id="i-users"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </symbol>
+        <symbol
+          id="i-msg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+          />
+        </symbol>
+        <symbol
+          id="i-logout"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </symbol>
+        <symbol
+          id="i-search"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </symbol>
+        <symbol
+          id="i-bell"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </symbol>
+        <symbol
+          id="i-eye"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </symbol>
+        <symbol
+          id="i-x-circle"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="15" y1="9" x2="9" y2="15" />
+          <line x1="9" y1="9" x2="15" y2="15" />
+        </symbol>
+        <symbol
+          id="i-x"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </symbol>
+        <symbol
+          id="i-download"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </symbol>
+        <symbol
+          id="i-alert"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+          />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </symbol>
+        <symbol
+          id="i-check"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </symbol>
+        <symbol
+          id="i-wallet"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+          <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+          <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
+        </symbol>
+        <symbol
+          id="i-trash"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+        </symbol>
+      </defs>
+    </svg>
 
-<div class="admin-layout">
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
 
-  <!-- ============ SIDEBAR ============ -->
-  <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
-    <div class="admin-sidebar-brand">
-      <img src="../images/logo.png" alt="AuringPh Logo" onerror="this.style.display='none'" />
-      <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+    <div class="admin-layout">
+      <!-- ============ SIDEBAR ============ -->
+      <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+        aria-label="Admin navigation"
+      >
+        <div class="admin-sidebar-brand">
+          <img
+            src="../images/logo.png"
+            alt="AuringPh Logo"
+            onerror="this.style.display = 'none'"
+          />
+          <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+        </div>
+        <nav class="admin-nav">
+          <a href="dashboard.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon" width="18" height="18">
+                <use href="#i-grid" /></svg
+            ></span>
+            Dashboard
+          </a>
+          <a href="products.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon" width="18" height="18">
+                <use href="#i-package" /></svg
+            ></span>
+            Products
+          </a>
+          <a
+            href="admin-orders.html"
+            class="admin-nav-link active"
+            aria-current="page"
+          >
+            <span class="nav-ico"
+              ><svg class="icon" width="18" height="18">
+                <use href="#i-bag" /></svg
+            ></span>
+            Orders
+          </a>
+          <a href="users.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon" width="18" height="18">
+                <use href="#i-users" /></svg
+            ></span>
+            Customers
+          </a>
+          <a href="admin-messages.html" class="admin-nav-link">
+            <span class="nav-ico"
+              ><svg class="icon" width="18" height="18">
+                <use href="#i-msg" /></svg
+            ></span>
+            Messages
+          </a>
+        </nav>
+        <div class="admin-sidebar-footer">
+          <button class="admin-logout-btn" data-admin-logout>
+            <svg class="icon icon-sm" width="15" height="15">
+              <use href="#i-logout" />
+            </svg>
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN ============ -->
+      <main class="admin-main">
+        <header class="page-topbar">
+          <div class="page-topbar-left">
+            <button
+              class="admin-mobile-toggle"
+              id="sidebarToggle"
+              aria-label="Open menu"
+              aria-controls="adminSidebar"
+              aria-expanded="false"
+            >
+              ☰
+            </button>
+            <div>
+              <div class="page-eyebrow">Sales</div>
+              <h1 class="page-title">Manage Orders</h1>
+              <div class="page-sub">
+                <span id="orderCountLabel">0 orders</span> ·
+                <span id="orderFilterLabel">All statuses</span>
+              </div>
+            </div>
+          </div>
+          <div class="page-topbar-right">
+            <label class="page-search">
+              <svg class="icon" width="18" height="18">
+                <use href="#i-search" />
+              </svg>
+              <input
+                type="search"
+                id="searchInput"
+                placeholder="Search order ID, customer, email…"
+                aria-label="Search orders"
+              />
+            </label>
+            <button class="page-icon-btn" aria-label="Notifications">
+              <svg class="icon" width="18" height="18">
+                <use href="#i-bell" />
+              </svg>
+              <span class="page-badge-dot" aria-hidden="true"></span>
+            </button>
+            <div class="admin-whoami">
+              <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+              <span id="adminWhoamiName">Admin</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- ============ SUMMARY STRIP ============ -->
+        <section class="summary-strip" aria-label="Order summary">
+          <div class="summary-tile">
+            <div class="tile-icon brand">
+              <svg class="icon" width="18" height="18">
+                <use href="#i-bag" />
+              </svg>
+            </div>
+            <div>
+              <div class="tile-label">Total Orders</div>
+              <div class="tile-value" id="tileTotal">0</div>
+            </div>
+          </div>
+          <div class="summary-tile">
+            <div class="tile-icon warn">
+              <svg class="icon" width="18" height="18">
+                <use href="#i-alert" />
+              </svg>
+            </div>
+            <div>
+              <div class="tile-label">Pending</div>
+              <div class="tile-value" id="tilePending">0</div>
+            </div>
+          </div>
+          <div class="summary-tile">
+            <div class="tile-icon ok">
+              <svg class="icon" width="18" height="18">
+                <use href="#i-check" />
+              </svg>
+            </div>
+            <div>
+              <div class="tile-label">Completed</div>
+              <div class="tile-value" id="tileCompleted">0</div>
+            </div>
+          </div>
+          <div class="summary-tile">
+            <div class="tile-icon info">
+              <svg class="icon" width="18" height="18">
+                <use href="#i-wallet" />
+              </svg>
+            </div>
+            <div>
+              <div class="tile-label">Revenue</div>
+              <div class="tile-value" id="tileRevenue">₱0</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ TOOLBAR ============ -->
+        <div class="page-toolbar">
+          <div class="toolbar-chips" id="statusChips">
+            <button class="filter-chip active" data-status="All">
+              All <span class="chip-count" data-count-for="All">0</span>
+            </button>
+            <button class="filter-chip" data-status="pending">
+              Pending <span class="chip-count" data-count-for="pending">0</span>
+            </button>
+            <button class="filter-chip" data-status="processing">
+              Processing
+              <span class="chip-count" data-count-for="processing">0</span>
+            </button>
+            <button class="filter-chip" data-status="completed">
+              Completed
+              <span class="chip-count" data-count-for="completed">0</span>
+            </button>
+            <button class="filter-chip" data-status="cancelled">
+              Cancelled
+              <span class="chip-count" data-count-for="cancelled">0</span>
+            </button>
+          </div>
+          <button class="btn-ghost" id="exportBtn">
+            <svg class="icon icon-sm" width="15" height="15">
+              <use href="#i-download" />
+            </svg>
+            Export CSV
+          </button>
+        </div>
+
+        <!-- ============ TABLE ============ -->
+        <div class="data-card">
+          <div class="table-scroll">
+            <table class="pro-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="page-pagination" id="ordersPagination"></div>
+      </main>
     </div>
-    <nav class="admin-nav">
-      <a href="dashboard.html" class="admin-nav-link">
-        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-grid"/></svg></span> Dashboard
-      </a>
-      <a href="products.html" class="admin-nav-link">
-        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-package"/></svg></span> Products
-      </a>
-      <a href="admin-orders.html" class="admin-nav-link active" aria-current="page">
-        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-bag"/></svg></span> Orders
-      </a>
-      <a href="users.html" class="admin-nav-link">
-        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-users"/></svg></span> Customers
-      </a>
-      <a href="admin-messages.html" class="admin-nav-link">
-        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-msg"/></svg></span> Messages
-      </a>
-    </nav>
-    <div class="admin-sidebar-footer">
-      <button class="admin-logout-btn" data-admin-logout>
-        <svg class="icon icon-sm" width="15" height="15"><use href="#i-logout"/></svg> Logout
-      </button>
-    </div>
-  </aside>
 
-  <!-- ============ MAIN ============ -->
-  <main class="admin-main">
-
-    <header class="page-topbar">
-      <div class="page-topbar-left">
-        <button class="admin-mobile-toggle" id="sidebarToggle" aria-label="Open menu" aria-controls="adminSidebar" aria-expanded="false">☰</button>
-        <div>
-          <div class="page-eyebrow">Sales</div>
-          <h1 class="page-title">Manage Orders</h1>
-          <div class="page-sub"><span id="orderCountLabel">0 orders</span> · <span id="orderFilterLabel">All statuses</span></div>
+    <!-- ============ ORDER DETAIL MODAL ============ -->
+    <div class="admin-modal-overlay" id="orderDetailModal">
+      <div class="admin-modal-box modal-md">
+        <div class="od-modal-head">
+          <h3>Order details</h3>
+          <button class="od-close" id="orderDetailClose" aria-label="Close">
+            <svg class="icon icon-sm" width="15" height="15">
+              <use href="#i-x" />
+            </svg>
+          </button>
+        </div>
+        <div id="orderDetailBody"></div>
+        <div class="admin-modal-actions" style="margin-top: 20px">
+          <button type="button" class="modal-btn-cancel" id="orderDetailDone">
+            Done
+          </button>
         </div>
       </div>
-      <div class="page-topbar-right">
-        <label class="page-search">
-          <svg class="icon" width="18" height="18"><use href="#i-search"/></svg>
-          <input type="search" id="searchInput" placeholder="Search order ID, customer, email…" aria-label="Search orders" />
-        </label>
-        <button class="page-icon-btn" aria-label="Notifications">
-          <svg class="icon" width="18" height="18"><use href="#i-bell"/></svg>
-          <span class="page-badge-dot" aria-hidden="true"></span>
-        </button>
-        <div class="admin-whoami">
-          <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
-          <span id="adminWhoamiName">Admin</span>
+    </div>
+
+    <!-- ============ CANCEL ORDER MODAL ============ -->
+    <div class="admin-modal-overlay" id="cancelModal">
+      <div class="admin-modal-box modal-sm">
+        <div class="confirm-icon-wrap">
+          <svg class="icon" width="24" height="24"><use href="#i-trash" /></svg>
+        </div>
+        <h3 style="text-align: center; margin-bottom: 8px">
+          Cancel this order?
+        </h3>
+        <p class="modal-text">
+          Order <strong id="cancelOrderId"></strong> will be marked as
+          <strong>cancelled</strong>. You can still view it later, but it will
+          be excluded from revenue.
+        </p>
+        <div class="admin-modal-actions">
+          <button type="button" class="modal-btn-cancel" id="cancelModalCancel">
+            Keep order
+          </button>
+          <button
+            type="button"
+            class="modal-btn-danger"
+            id="cancelModalConfirm"
+          >
+            Cancel order
+          </button>
         </div>
       </div>
-    </header>
-
-    <!-- ============ SUMMARY STRIP ============ -->
-    <section class="summary-strip" aria-label="Order summary">
-      <div class="summary-tile">
-        <div class="tile-icon brand"><svg class="icon" width="18" height="18"><use href="#i-bag"/></svg></div>
-        <div>
-          <div class="tile-label">Total Orders</div>
-          <div class="tile-value" id="tileTotal">0</div>
-        </div>
-      </div>
-      <div class="summary-tile">
-        <div class="tile-icon warn"><svg class="icon" width="18" height="18"><use href="#i-alert"/></svg></div>
-        <div>
-          <div class="tile-label">Pending</div>
-          <div class="tile-value" id="tilePending">0</div>
-        </div>
-      </div>
-      <div class="summary-tile">
-        <div class="tile-icon ok"><svg class="icon" width="18" height="18"><use href="#i-check"/></svg></div>
-        <div>
-          <div class="tile-label">Completed</div>
-          <div class="tile-value" id="tileCompleted">0</div>
-        </div>
-      </div>
-      <div class="summary-tile">
-        <div class="tile-icon info"><svg class="icon" width="18" height="18"><use href="#i-wallet"/></svg></div>
-        <div>
-          <div class="tile-label">Revenue</div>
-          <div class="tile-value" id="tileRevenue">₱0</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ TOOLBAR ============ -->
-    <div class="page-toolbar">
-      <div class="toolbar-chips" id="statusChips">
-        <button class="filter-chip active" data-status="All">All <span class="chip-count" data-count-for="All">0</span></button>
-        <button class="filter-chip" data-status="pending">Pending <span class="chip-count" data-count-for="pending">0</span></button>
-        <button class="filter-chip" data-status="processing">Processing <span class="chip-count" data-count-for="processing">0</span></button>
-        <button class="filter-chip" data-status="completed">Completed <span class="chip-count" data-count-for="completed">0</span></button>
-        <button class="filter-chip" data-status="cancelled">Cancelled <span class="chip-count" data-count-for="cancelled">0</span></button>
-      </div>
-      <button class="btn-ghost" id="exportBtn">
-        <svg class="icon icon-sm" width="15" height="15"><use href="#i-download"/></svg> Export CSV
-      </button>
     </div>
 
-    <!-- ============ TABLE ============ -->
-    <div class="data-card">
-      <div class="table-scroll">
-        <table class="pro-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Items</th>
-              <th>Total</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="ordersTableBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div
+      class="admin-toast"
+      id="adminToast"
+      role="status"
+      aria-live="polite"
+    ></div>
 
-    <div class="page-pagination" id="ordersPagination"></div>
-  </main>
-</div>
+    <script src="../js/admin.js"></script>
+    <script>
+      requireAdminAuth();
+      seedAdminData();
 
-<!-- ============ ORDER DETAIL MODAL ============ -->
-<div class="admin-modal-overlay" id="orderDetailModal">
-  <div class="admin-modal-box modal-md">
-    <div class="od-modal-head">
-      <h3>Order details</h3>
-      <button class="od-close" id="orderDetailClose" aria-label="Close">
-        <svg class="icon icon-sm" width="15" height="15"><use href="#i-x"/></svg>
-      </button>
-    </div>
-    <div id="orderDetailBody"></div>
-    <div class="admin-modal-actions" style="margin-top:20px;">
-      <button type="button" class="modal-btn-cancel" id="orderDetailDone">Done</button>
-    </div>
-  </div>
-</div>
+      let orders = JSON.parse(localStorage.getItem(ADMIN_ORDERS_KEY)) || [];
+      let activeStatus = "All";
+      let searchQuery = "";
+      let currentPage = 1;
+      const ITEMS_PER_PAGE = 8;
+      let pendingCancelId = null;
 
-<!-- ============ CANCEL ORDER MODAL ============ -->
-<div class="admin-modal-overlay" id="cancelModal">
-  <div class="admin-modal-box modal-sm">
-    <div class="confirm-icon-wrap">
-      <svg class="icon" width="24" height="24"><use href="#i-trash"/></svg>
-    </div>
-    <h3 style="text-align:center;margin-bottom:8px;">Cancel this order?</h3>
-    <p class="modal-text">
-      Order <strong id="cancelOrderId"></strong> will be marked as <strong>cancelled</strong>. You can still view it later, but it will be excluded from revenue.
-    </p>
-    <div class="admin-modal-actions">
-      <button type="button" class="modal-btn-cancel" id="cancelModalCancel">Keep order</button>
-      <button type="button" class="modal-btn-danger" id="cancelModalConfirm">Cancel order</button>
-    </div>
-  </div>
-</div>
+      function saveOrders() {
+        localStorage.setItem(ADMIN_ORDERS_KEY, JSON.stringify(orders));
+      }
 
-<div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
+      function getFiltered() {
+        let list = [...orders];
+        if (activeStatus !== "All")
+          list = list.filter((o) => o.status === activeStatus);
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          list = list.filter(
+            (o) =>
+              (o.id || "").toLowerCase().includes(q) ||
+              (o.customer?.name || "").toLowerCase().includes(q) ||
+              (o.customer?.email || "").toLowerCase().includes(q),
+          );
+        }
+        return list.sort(
+          (a, b) =>
+            (b.date || "").localeCompare(a.date || "") ||
+            (b.id || "").localeCompare(a.id || ""),
+        );
+      }
 
-<script src="../js/admin.js"></script>
-<script>
-  requireAdminAuth();
-  seedAdminData();
+      function renderSummary() {
+        document.getElementById("tileTotal").textContent = orders.length;
+        document.getElementById("tilePending").textContent = orders.filter(
+          (o) => o.status === "pending",
+        ).length;
+        document.getElementById("tileCompleted").textContent = orders.filter(
+          (o) => o.status === "completed",
+        ).length;
+        const revenue = orders
+          .filter((o) => o.status !== "cancelled")
+          .reduce((s, o) => s + Number(o.total || 0), 0);
+        document.getElementById("tileRevenue").textContent = pesos(revenue);
 
-  let orders = JSON.parse(localStorage.getItem(ADMIN_ORDERS_KEY)) || [];
-  let activeStatus = "All";
-  let searchQuery = "";
-  let currentPage = 1;
-  const ITEMS_PER_PAGE = 8;
-  let pendingCancelId = null;
+        document.querySelectorAll("[data-count-for]").forEach((el) => {
+          const s = el.dataset.countFor;
+          const n =
+            s === "All"
+              ? orders.length
+              : orders.filter((o) => o.status === s).length;
+          el.textContent = n;
+        });
+      }
 
-  function saveOrders() {
-    localStorage.setItem(ADMIN_ORDERS_KEY, JSON.stringify(orders));
-  }
+      function renderTable() {
+        const filtered = getFiltered();
+        const totalPages = Math.max(
+          1,
+          Math.ceil(filtered.length / ITEMS_PER_PAGE),
+        );
+        if (currentPage > totalPages) currentPage = totalPages;
+        const pageItems = filtered.slice(
+          (currentPage - 1) * ITEMS_PER_PAGE,
+          currentPage * ITEMS_PER_PAGE,
+        );
 
-  function getFiltered() {
-    let list = [...orders];
-    if (activeStatus !== "All") list = list.filter(o => o.status === activeStatus);
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter(o =>
-        (o.id || "").toLowerCase().includes(q) ||
-        (o.customer?.name || "").toLowerCase().includes(q) ||
-        (o.customer?.email || "").toLowerCase().includes(q)
-      );
-    }
-    return list.sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.id || "").localeCompare(a.id || ""));
-  }
+        document.getElementById("orderCountLabel").textContent =
+          filtered.length + " order" + (filtered.length !== 1 ? "s" : "");
+        document.getElementById("orderFilterLabel").textContent =
+          activeStatus === "All" ? "All statuses" : activeStatus;
 
-  function renderSummary() {
-    document.getElementById("tileTotal").textContent = orders.length;
-    document.getElementById("tilePending").textContent = orders.filter(o => o.status === "pending").length;
-    document.getElementById("tileCompleted").textContent = orders.filter(o => o.status === "completed").length;
-    const revenue = orders.filter(o => o.status !== "cancelled")
-      .reduce((s, o) => s + Number(o.total || 0), 0);
-    document.getElementById("tileRevenue").textContent = pesos(revenue);
+        renderSummary();
 
-    document.querySelectorAll("[data-count-for]").forEach(el => {
-      const s = el.dataset.countFor;
-      const n = s === "All" ? orders.length : orders.filter(o => o.status === s).length;
-      el.textContent = n;
-    });
-  }
+        const tbody = document.getElementById("ordersTableBody");
+        if (pageItems.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7"><div class="empty-row"><svg class="icon" width="36" height="36"><use href="#i-search"/></svg><div>No orders match your filters.</div></div></td></tr>`;
+          renderPagination(0);
+          return;
+        }
 
-  function renderTable() {
-    const filtered = getFiltered();
-    const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-    if (currentPage > totalPages) currentPage = totalPages;
-    const pageItems = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+        tbody.innerHTML = pageItems
+          .map((o) => {
+            const cust = o.customer || {};
+            const init = getInitialsFromName(cust.name || "?");
+            const items = o.items || [];
+            const first = items[0] || { name: "—", qty: 0 };
+            const extra = items.length - 1;
+            const summary =
+              `${escapeHtml(first.name)} × ${first.qty}` +
+              (extra > 0 ? ` <span class="muted">+${extra} more</span>` : "");
+            const titleAttr = items
+              .map((i) => `${i.name} × ${i.qty}`)
+              .join(", ");
 
-    document.getElementById("orderCountLabel").textContent =
-      filtered.length + " order" + (filtered.length !== 1 ? "s" : "");
-    document.getElementById("orderFilterLabel").textContent =
-      activeStatus === "All" ? "All statuses" : activeStatus;
-
-    renderSummary();
-
-    const tbody = document.getElementById("ordersTableBody");
-    if (pageItems.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7"><div class="empty-row"><svg class="icon" width="36" height="36"><use href="#i-search"/></svg><div>No orders match your filters.</div></div></td></tr>`;
-      renderPagination(0);
-      return;
-    }
-
-    tbody.innerHTML = pageItems.map(o => {
-      const cust = o.customer || {};
-      const init = getInitialsFromName(cust.name || "?");
-      const items = o.items || [];
-      const first = items[0] || { name: "—", qty: 0 };
-      const extra = items.length - 1;
-      const summary = `${escapeHtml(first.name)} × ${first.qty}` +
-        (extra > 0 ? ` <span class="muted">+${extra} more</span>` : "");
-      const titleAttr = items.map(i => `${i.name} × ${i.qty}`).join(", ");
-
-      return `<tr>
+            return `<tr>
         <td><div class="order-id">${escapeHtml(o.id)}</div></td>
         <td>
           <div class="cust-cell">
@@ -512,10 +1503,10 @@
         <td class="date-cell">${escapeHtml(o.date)}</td>
         <td>
           <select class="status-select" data-status="${escapeHtml(o.status)}" onchange="changeStatus('${o.id}', this.value)" aria-label="Change status">
-            <option value="pending"    ${o.status === "pending"    ? "selected" : ""}>Pending</option>
+            <option value="pending"    ${o.status === "pending" ? "selected" : ""}>Pending</option>
             <option value="processing" ${o.status === "processing" ? "selected" : ""}>Processing</option>
-            <option value="completed"  ${o.status === "completed"  ? "selected" : ""}>Completed</option>
-            <option value="cancelled"  ${o.status === "cancelled"  ? "selected" : ""}>Cancelled</option>
+            <option value="completed"  ${o.status === "completed" ? "selected" : ""}>Completed</option>
+            <option value="cancelled"  ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
           </select>
         </td>
         <td>
@@ -523,87 +1514,109 @@
             <button class="btn-icon-action view" onclick="openDetailModal('${o.id}')">
               <svg class="icon icon-sm" width="15" height="15"><use href="#i-eye"/></svg> View
             </button>
-            ${o.status !== "cancelled" && o.status !== "completed" ? `
+            ${
+              o.status !== "cancelled" && o.status !== "completed"
+                ? `
               <button class="btn-icon-action delete" onclick="openCancelModal('${o.id}')">
                 <svg class="icon icon-sm" width="15" height="15"><use href="#i-x-circle"/></svg> Cancel
-              </button>` : ""}
+              </button>`
+                : ""
+            }
           </div>
         </td>
       </tr>`;
-    }).join("");
+          })
+          .join("");
 
-    renderPagination(totalPages);
-  }
+        renderPagination(totalPages);
+      }
 
-  function renderPagination(totalPages) {
-    const el = document.getElementById("ordersPagination");
-    if (totalPages <= 1) { el.innerHTML = ""; return; }
+      function renderPagination(totalPages) {
+        const el = document.getElementById("ordersPagination");
+        if (totalPages <= 1) {
+          el.innerHTML = "";
+          return;
+        }
 
-    const pages = [];
-    const around = 1;
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === 1 || i === totalPages || (i >= currentPage - around && i <= currentPage + around))
-        pages.push(i);
-    }
+        const pages = [];
+        const around = 1;
+        for (let i = 1; i <= totalPages; i++) {
+          if (
+            i === 1 ||
+            i === totalPages ||
+            (i >= currentPage - around && i <= currentPage + around)
+          )
+            pages.push(i);
+        }
 
-    let html = `<button class="pg-btn" ${currentPage === 1 ? "disabled" : ""} onclick="goToPage(${currentPage - 1})" aria-label="Previous">←</button>`;
-    let prev = 0;
-    pages.forEach(p => {
-      if (p - prev > 1) html += `<span class="pg-ellipsis">…</span>`;
-      html += `<button class="pg-btn ${p === currentPage ? "active" : ""}" onclick="goToPage(${p})">${p}</button>`;
-      prev = p;
-    });
-    html += `<button class="pg-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="goToPage(${currentPage + 1})" aria-label="Next">→</button>`;
-    el.innerHTML = html;
-  }
+        let html = `<button class="pg-btn" ${currentPage === 1 ? "disabled" : ""} onclick="goToPage(${currentPage - 1})" aria-label="Previous">←</button>`;
+        let prev = 0;
+        pages.forEach((p) => {
+          if (p - prev > 1) html += `<span class="pg-ellipsis">…</span>`;
+          html += `<button class="pg-btn ${p === currentPage ? "active" : ""}" onclick="goToPage(${p})">${p}</button>`;
+          prev = p;
+        });
+        html += `<button class="pg-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="goToPage(${currentPage + 1})" aria-label="Next">→</button>`;
+        el.innerHTML = html;
+      }
 
-  window.goToPage = function (p) { currentPage = p; renderTable(); };
+      window.goToPage = function (p) {
+        currentPage = p;
+        renderTable();
+      };
 
-  document.querySelectorAll("#statusChips .filter-chip").forEach(chip => {
-    chip.addEventListener("click", () => {
-      document.querySelectorAll("#statusChips .filter-chip").forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
-      activeStatus = chip.dataset.status;
-      currentPage = 1;
-      renderTable();
-    });
-  });
+      document.querySelectorAll("#statusChips .filter-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document
+            .querySelectorAll("#statusChips .filter-chip")
+            .forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          activeStatus = chip.dataset.status;
+          currentPage = 1;
+          renderTable();
+        });
+      });
 
-  document.getElementById("searchInput").addEventListener("input", function () {
-    searchQuery = this.value.trim();
-    currentPage = 1;
-    renderTable();
-  });
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          searchQuery = this.value.trim();
+          currentPage = 1;
+          renderTable();
+        });
 
-  window.changeStatus = function (id, newStatus) {
-    const o = orders.find(x => x.id === id);
-    if (!o || o.status === newStatus) return;
-    o.status = newStatus;
-    saveOrders();
-    renderSummary();
-    renderTable();
-    showAdminToast(`Order ${id} → ${newStatus}`);
+      window.changeStatus = function (id, newStatus) {
+        const o = orders.find((x) => x.id === id);
+        if (!o || o.status === newStatus) return;
+        o.status = newStatus;
+        saveOrders();
+        renderSummary();
+        renderTable();
+        showAdminToast(`Order ${id} → ${newStatus}`);
 
-    const body = document.getElementById("orderDetailBody");
-    if (body && body.dataset.orderId === id) {
-      const pill = body.querySelector(".status-pill");
-      if (pill) { pill.className = "status-pill " + newStatus; pill.textContent = newStatus; }
-      const sel = body.querySelector("#detailStatusSelect");
-      if (sel) sel.dataset.status = newStatus;
-    }
-  };
+        const body = document.getElementById("orderDetailBody");
+        if (body && body.dataset.orderId === id) {
+          const pill = body.querySelector(".status-pill");
+          if (pill) {
+            pill.className = "status-pill " + newStatus;
+            pill.textContent = newStatus;
+          }
+          const sel = body.querySelector("#detailStatusSelect");
+          if (sel) sel.dataset.status = newStatus;
+        }
+      };
 
-  const detailModal = document.getElementById("orderDetailModal");
-  const detailBody = document.getElementById("orderDetailBody");
+      const detailModal = document.getElementById("orderDetailModal");
+      const detailBody = document.getElementById("orderDetailBody");
 
-  window.openDetailModal = function (id) {
-    const o = orders.find(x => x.id === id);
-    if (!o) return;
-    const cust = o.customer || {};
-    const items = o.items || [];
+      window.openDetailModal = function (id) {
+        const o = orders.find((x) => x.id === id);
+        if (!o) return;
+        const cust = o.customer || {};
+        const items = o.items || [];
 
-    detailBody.dataset.orderId = id;
-    detailBody.innerHTML = `
+        detailBody.dataset.orderId = id;
+        detailBody.innerHTML = `
       <div class="od-top">
         <div>
           <div class="od-label">Order</div>
@@ -624,7 +1637,9 @@
       </div>
       <div class="od-section">
         <div class="od-label">Items</div>
-        ${items.map(i => `
+        ${items
+          .map(
+            (i) => `
           <div class="od-item">
             <div>
               <div class="od-name">${escapeHtml(i.name)}</div>
@@ -632,7 +1647,9 @@
             </div>
             <strong>${pesos(i.price * i.qty)}</strong>
           </div>
-        `).join("")}
+        `,
+          )
+          .join("")}
       </div>
       <div class="od-total">
         <span>Total</span>
@@ -641,67 +1658,81 @@
       <div class="od-actions">
         <span class="od-label">Change status</span>
         <select id="detailStatusSelect" class="status-select" data-status="${escapeHtml(o.status)}" onchange="changeStatus('${o.id}', this.value)">
-          <option value="pending"    ${o.status === "pending"    ? "selected" : ""}>Pending</option>
+          <option value="pending"    ${o.status === "pending" ? "selected" : ""}>Pending</option>
           <option value="processing" ${o.status === "processing" ? "selected" : ""}>Processing</option>
-          <option value="completed"  ${o.status === "completed"  ? "selected" : ""}>Completed</option>
-          <option value="cancelled"  ${o.status === "cancelled"  ? "selected" : ""}>Cancelled</option>
+          <option value="completed"  ${o.status === "completed" ? "selected" : ""}>Completed</option>
+          <option value="cancelled"  ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
         </select>
       </div>
     `;
-    detailModal.classList.add("open");
-  };
+        detailModal.classList.add("open");
+      };
 
-  const closeDetail = () => detailModal.classList.remove("open");
-  document.getElementById("orderDetailClose").addEventListener("click", closeDetail);
-  document.getElementById("orderDetailDone").addEventListener("click", closeDetail);
+      const closeDetail = () => detailModal.classList.remove("open");
+      document
+        .getElementById("orderDetailClose")
+        .addEventListener("click", closeDetail);
+      document
+        .getElementById("orderDetailDone")
+        .addEventListener("click", closeDetail);
 
-  const cancelModal = document.getElementById("cancelModal");
+      const cancelModal = document.getElementById("cancelModal");
 
-  window.openCancelModal = function (id) {
-    const o = orders.find(x => x.id === id);
-    if (!o) return;
-    pendingCancelId = id;
-    document.getElementById("cancelOrderId").textContent = id;
-    cancelModal.classList.add("open");
-  };
+      window.openCancelModal = function (id) {
+        const o = orders.find((x) => x.id === id);
+        if (!o) return;
+        pendingCancelId = id;
+        document.getElementById("cancelOrderId").textContent = id;
+        cancelModal.classList.add("open");
+      };
 
-  document.getElementById("cancelModalCancel").addEventListener("click", () => cancelModal.classList.remove("open"));
-  document.getElementById("cancelModalConfirm").addEventListener("click", () => {
-    const o = orders.find(x => x.id === pendingCancelId);
-    if (o) {
-      o.status = "cancelled";
-      saveOrders();
-      showAdminToast(`Order ${pendingCancelId} cancelled.`);
-    }
-    cancelModal.classList.remove("open");
-    renderTable();
-  });
+      document
+        .getElementById("cancelModalCancel")
+        .addEventListener("click", () => cancelModal.classList.remove("open"));
+      document
+        .getElementById("cancelModalConfirm")
+        .addEventListener("click", () => {
+          const o = orders.find((x) => x.id === pendingCancelId);
+          if (o) {
+            o.status = "cancelled";
+            saveOrders();
+            showAdminToast(`Order ${pendingCancelId} cancelled.`);
+          }
+          cancelModal.classList.remove("open");
+          renderTable();
+        });
 
-  document.getElementById("exportBtn").addEventListener("click", () => {
-    const rows = [["Order ID", "Customer", "Email", "Items", "Total", "Date", "Status"]];
-    getFiltered().forEach(o => {
-      rows.push([
-        o.id,
-        o.customer?.name || "",
-        o.customer?.email || "",
-        (o.items || []).map(i => `${i.name} × ${i.qty}`).join("; "),
-        o.total,
-        o.date,
-        o.status,
-      ]);
-    });
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `auringph-orders-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showAdminToast("Orders exported to CSV.");
-  });
+      document.getElementById("exportBtn").addEventListener("click", () => {
+        const rows = [
+          ["Order ID", "Customer", "Email", "Items", "Total", "Date", "Status"],
+        ];
+        getFiltered().forEach((o) => {
+          rows.push([
+            o.id,
+            o.customer?.name || "",
+            o.customer?.email || "",
+            (o.items || []).map((i) => `${i.name} × ${i.qty}`).join("; "),
+            o.total,
+            o.date,
+            o.status,
+          ]);
+        });
+        const csv = rows
+          .map((r) =>
+            r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","),
+          )
+          .join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `auringph-orders-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showAdminToast("Orders exported to CSV.");
+      });
 
-  renderTable();
-</script>
-</body>
+      renderTable();
+    </script>
+  </body>
 </html>

@@ -1,7 +1,5 @@
 /* ============================================
    admin.js — Shared Admin Panel Logic
-   Frontend Only (LocalStorage) — same approach
-   as the rest of the AuringPh prototype.
    ============================================ */
 
 // ── Storage Keys ──
@@ -10,8 +8,9 @@ const ADMIN_INFO_KEY = "auringph_admin_info";
 const ADMIN_PRODUCTS_KEY = "auringph_admin_products";
 const ADMIN_ORDERS_KEY = "auringph_admin_orders";
 const ADMIN_USERS_KEY = "auringph_admin_users";
+const ADMIN_THEME_KEY = "auringph_admin_theme"; // New
 
-// ── Hardcoded admin credentials (student project / prototype) ──
+// ── Hardcoded admin credentials ──
 const ADMIN_CREDENTIALS = {
   username: "admin",
   password: "admin123",
@@ -20,9 +19,7 @@ const ADMIN_CREDENTIALS = {
 /* ============================================
    SAMPLE / SEED DATA
 ============================================ */
-
 const SEED_PRODUCTS = [
-  // Merged from Shirts, Shoes, Pants, and Others category pages — 90 total
   {
     id: "p1",
     name: "Classic White Tee",
@@ -1008,17 +1005,11 @@ function seedAdminData() {
   const existingProducts = JSON.parse(
     localStorage.getItem(ADMIN_PRODUCTS_KEY) || "null",
   );
-
   if (!existingProducts) {
-    // First time ever — seed fresh.
     localStorage.setItem(ADMIN_PRODUCTS_KEY, JSON.stringify(SEED_PRODUCTS));
   } else if (existingProducts.length < SEED_PRODUCTS.length) {
-    // Browser has an older/smaller cached catalog (e.g. the original
-    // 10-item demo list) — auto-upgrade to the full merged catalog
-    // so admins don't need to manually clear localStorage.
     localStorage.setItem(ADMIN_PRODUCTS_KEY, JSON.stringify(SEED_PRODUCTS));
   }
-
   if (!localStorage.getItem(ADMIN_USERS_KEY)) {
     localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(SEED_USERS));
   }
@@ -1034,8 +1025,6 @@ function seedAdminData() {
 
 /* ============================================
    AUTH GUARD
-   ✅ FIX: Redirects to "../login.html" because
-   all admin pages are inside /pages/ folder.
 ============================================ */
 function requireAdminAuth() {
   if (localStorage.getItem(ADMIN_AUTH_KEY) !== "true") {
@@ -1055,7 +1044,6 @@ function getAdminInfo() {
 function adminLogout() {
   localStorage.removeItem(ADMIN_AUTH_KEY);
   localStorage.removeItem(ADMIN_INFO_KEY);
-  // ✅ FIX: Same here — go back to root login.html
   window.location.href = "../login.html";
 }
 
@@ -1081,23 +1069,84 @@ function getInitialsFromName(name) {
   return name[0].toUpperCase();
 }
 
-/* ============================================
-   SHARED: safe HTML escaping
-============================================ */
 function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  }[c]));
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    (c) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[c],
+  );
 }
 
 /* ============================================
-   SIDEBAR — mobile toggle, active link, modal dismiss
+   DARK MODE LOGIC
+============================================ */
+function initTheme() {
+  const savedTheme = localStorage.getItem(ADMIN_THEME_KEY);
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+    document.body.classList.add("dark-mode");
+  }
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle("dark-mode");
+  localStorage.setItem(ADMIN_THEME_KEY, isDark ? "dark" : "light");
+  updateThemeIcon(isDark);
+}
+
+function updateThemeIcon(isDark) {
+  const iconUse = document.querySelector("#themeToggleSvg use");
+  if (iconUse) {
+    iconUse.setAttribute("href", isDark ? "#i-sun" : "#i-moon");
+  }
+}
+
+function injectThemeToggle() {
+  // Catch all possible topbar containers across the different pages
+  const topbarRight =
+    document.querySelector(".page-topbar-right") ||
+    document.querySelector(".dash-topbar-right") ||
+    document.querySelector(".admin-topbar > div:last-child");
+
+  if (!topbarRight || document.getElementById("themeToggleBtn")) return;
+
+  const btn = document.createElement("button");
+  btn.id = "themeToggleBtn";
+  btn.className = "theme-toggle-btn";
+  btn.setAttribute("aria-label", "Toggle Dark Mode");
+  btn.innerHTML = `
+    <svg id="themeToggleSvg" class="icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:block;">
+      <use href="#i-moon"></use>
+    </svg>
+  `;
+
+  // Insert before the notification bell
+  const bell =
+    topbarRight.querySelector(".page-icon-btn") ||
+    topbarRight.querySelector(".nav-icon-btn");
+  if (bell) {
+    topbarRight.insertBefore(btn, bell);
+  } else {
+    topbarRight.prepend(btn);
+  }
+
+  btn.addEventListener("click", toggleTheme);
+  updateThemeIcon(document.body.classList.contains("dark-mode"));
+}
+
+/* ============================================
+   SIDEBAR
 ============================================ */
 function initAdminSidebar() {
+  initTheme();
+  injectThemeToggle();
+
   const sidebar = document.getElementById("adminSidebar");
   const backdrop = document.getElementById("sidebarBackdrop");
   const toggle = document.getElementById("sidebarToggle");
@@ -1116,20 +1165,22 @@ function initAdminSidebar() {
       setSidebar(!sidebar.classList.contains("open")),
     );
     backdrop.addEventListener("click", () => setSidebar(false));
-    sidebar.querySelectorAll(".admin-nav-link").forEach((link) =>
-      link.addEventListener("click", () => setSidebar(false)),
-    );
+    sidebar
+      .querySelectorAll(".admin-nav-link")
+      .forEach((link) =>
+        link.addEventListener("click", () => setSidebar(false)),
+      );
     window.addEventListener("resize", () => {
       if (window.innerWidth > MOBILE_MAX) setSidebar(false);
     });
   }
 
-  // Close modals: click on dark overlay or press Esc
   document.querySelectorAll(".admin-modal-overlay").forEach((overlay) => {
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) overlay.classList.remove("open");
     });
   });
+
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     document
@@ -1138,7 +1189,6 @@ function initAdminSidebar() {
     setSidebar(false);
   });
 
-  // Highlight current page in nav
   const current = window.location.pathname.split("/").pop();
   document.querySelectorAll(".admin-nav-link").forEach((link) => {
     if (link.getAttribute("href") === current) {
@@ -1147,7 +1197,6 @@ function initAdminSidebar() {
     }
   });
 
-  // Fill in admin "who am I" badge if present
   const info = getAdminInfo();
   const displayName = info.name || info.username || "Admin";
   const nameEl = document.getElementById("adminWhoamiName");
@@ -1155,7 +1204,6 @@ function initAdminSidebar() {
   if (nameEl) nameEl.textContent = displayName;
   if (avatarEl) avatarEl.textContent = getInitialsFromName(displayName);
 
-  // Logout button(s)
   document.querySelectorAll("[data-admin-logout]").forEach((btn) => {
     btn.addEventListener("click", adminLogout);
   });

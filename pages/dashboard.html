@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/admin.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/admin-dark.css" />
   </head>
   <body class="admin-body dash-page">
     <!-- ===== SVG ICON SPRITE ===== -->
@@ -21,6 +22,39 @@
       aria-hidden="true"
     >
       <defs>
+        <!-- THEME ICONS ADDED HERE -->
+        <symbol
+          id="i-moon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </symbol>
+        <symbol
+          id="i-sun"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </symbol>
+
+        <!-- EXISTING ICONS -->
         <symbol
           id="i-grid"
           viewBox="0 0 24 24"
@@ -425,8 +459,8 @@
     <script src="../js/admin.js"></script>
     <script>
       /* ============================================
-   Dashboard render logic
-   ============================================ */
+         Dashboard render logic
+         ============================================ */
       requireAdminAuth();
       seedAdminData();
 
@@ -510,8 +544,8 @@
         for (let i = 0; i <= ticks; i++) {
           const y = pad.t + (iH / ticks) * i;
           const v = niceMax - (niceMax / ticks) * i;
-          grid += `<line x1="${pad.l}" y1="${y}" x2="${pad.l + iW}" y2="${y}" stroke="#ece3db" stroke-dasharray="2 4"/>`;
-          yLab += `<text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="11" fill="#8a7f79">₱${(v / 1000).toFixed(0)}k</text>`;
+          grid += `<line x1="${pad.l}" y1="${y}" x2="${pad.l + iW}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/>`;
+          yLab += `<text x="${pad.l - 10}" y="${y + 4}" text-anchor="end" font-size="11" fill="var(--ink-400)">₱${(v / 1000).toFixed(0)}k</text>`;
         }
 
         // X labels
@@ -522,7 +556,7 @@
               month: "short",
               day: "numeric",
             });
-            return `<text x="${p.x}" y="${H - 14}" text-anchor="middle" font-size="11" fill="#8a7f79">${t}</text>`;
+            return `<text x="${p.x}" y="${H - 14}" text-anchor="middle" font-size="11" fill="var(--ink-400)">${t}</text>`;
           })
           .join("");
 
@@ -530,7 +564,7 @@
         const dots = pts
           .map(
             (p) =>
-              `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#fff" stroke="#8b4a24" stroke-width="2"/>`,
+              `<circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>`,
           )
           .join("");
 
@@ -538,13 +572,13 @@
     <svg viewBox="0 0 ${W} ${H}" class="chart-svg" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"  stop-color="#8b4a24" stop-opacity="0.20"/>
-          <stop offset="100%" stop-color="#8b4a24" stop-opacity="0"/>
+          <stop offset="0%"  stop-color="var(--accent)" stop-opacity="0.20"/>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
         </linearGradient>
       </defs>
       ${grid}${yLab}
       <path d="${area}" fill="url(#revGrad)"/>
-      <path d="${line}" fill="none" stroke="#8b4a24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       ${dots}
       ${xLab}
     </svg>`;
@@ -590,10 +624,10 @@
 
         host.innerHTML = `
     <svg viewBox="0 0 200 200" class="donut-svg">
-      <circle cx="100" cy="100" r="${R}" fill="none" stroke="#f2ebe6" stroke-width="20"/>
+      <circle cx="100" cy="100" r="${R}" fill="none" stroke="var(--ink-100)" stroke-width="20"/>
       ${segs}
-      <text x="100" y="98" text-anchor="middle" font-size="30" font-weight="700" fill="#1c1815">${total}</text>
-      <text x="100" y="122" text-anchor="middle" font-size="12" fill="#8a7f79">orders</text>
+      <text x="100" y="98" text-anchor="middle" font-size="30" font-weight="700" fill="var(--ink-900)">${total}</text>
+      <text x="100" y="122" text-anchor="middle" font-size="12" fill="var(--ink-400)">orders</text>
     </svg>`;
 
         legend.innerHTML = statuses

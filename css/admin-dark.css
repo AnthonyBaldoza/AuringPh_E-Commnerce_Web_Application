@@ -1,0 +1,98 @@
+/* ============================================
+   ADMIN DARK MODE
+   Apply to body.dark-mode
+   ============================================ */
+
+.admin-body.dark-mode {
+  /* Core Neutrals */
+  --ink-900: #f5f2f0; /* Text light */
+  --ink-700: #d6cec8;
+  --ink-500: #a39b95;
+  --ink-400: #857a74;
+  --ink-300: #5e5550;
+  --ink-200: #3a322d;
+  --ink-100: #2a2421;
+  --ink-50:  #1f1b18;
+
+  /* Surfaces */
+  --surface: #24201d;
+  --canvas:  #14110e;
+
+  /* Accent (Brighter brown/orange for contrast) */
+  --accent:     #c46a3b;
+  --accent-600: #a3542a;
+  --accent-100: #3d2315;
+  --accent-50:  #26170e;
+
+  /* Semantic Colors (Dark Mode variants) */
+  --ok: #4ade80;   --ok-bg: rgba(74, 222, 128, 0.15);
+  --warn: #fbbf24; --warn-bg: rgba(251, 191, 36, 0.15);
+  --bad: #f87171;  --bad-bg: rgba(248, 113, 113, 0.15);
+  --info: #60a5fa; --info-bg: rgba(96, 165, 250, 0.15);
+
+  /* Borders */
+  --line: #3a322d;
+  --line-strong: #4a403b;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.7);
+}
+
+/* Force background overrides for elements using hardcoded hex values */
+.admin-body.dark-mode .admin-sidebar {
+  background: linear-gradient(180deg, #1f1b18 0%, #14110e 100%);
+}
+.admin-body.dark-mode .admin-sidebar-brand img {
+  background: #ffffff;
+  padding: 2px;
+}
+.admin-body.dark-mode .admin-nav-link.active {
+  background: var(--accent-100);
+  color: var(--accent);
+}
+.admin-body.dark-mode .admin-nav-link.active .nav-ico {
+  color: var(--accent);
+}
+.admin-body.dark-mode .admin-nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Chat / Message bubble overrides for dark mode */
+.admin-body.dark-mode .msg-row.from-me .msg-bubble {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent-600);
+}
+.admin-body.dark-mode .msg-row:not(.from-me) .msg-bubble {
+  background: var(--surface);
+  color: var(--ink-900);
+  border-color: var(--line-strong);
+}
+.admin-body.dark-mode .inbox-main {
+  background: #181513;
+}
+
+/* Table Hover */
+.admin-body.dark-mode .pro-table tbody tr:hover {
+  background: var(--ink-100);
+}
+
+/* Modals */
+.admin-body.dark-mode .admin-modal-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Topbar Toggle Button Style */
+.theme-toggle-btn {
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface); border: 1px solid var(--line-strong);
+  border-radius: 999px; color: var(--ink-500);
+  cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.theme-toggle-btn:hover {
+  color: var(--accent); border-color: var(--accent); background: var(--accent-50);
+}
