@@ -1,364 +1,591 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Users - AuringPh Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/admin.css" />
-  </head>
-  <body class="admin-body">
-    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Users · AuringPh Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
 
-    <div class="admin-layout">
-      <!-- ============ SIDEBAR ============ -->
-      <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
-        <div class="admin-sidebar-brand">
-          <img
-            src="../images/logo.png"
-            alt="AuringPh Logo"
-            onerror="this.style.display = 'none'"
-          />
-          <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+  <!-- EMBEDDED CSS PARA GUMANA AGAD -->
+  <style>
+    body.admin-body.admin-users-page {
+      --ink-900: #1c1815; --ink-700: #3d3530; --ink-500: #6b615c;
+      --ink-400: #8a7f79; --ink-300: #b5a9a2; --ink-200: #e5dcd5;
+      --ink-100: #f2ebe6; --ink-50:  #faf6f3;
+      --surface: #ffffff; --canvas:  #f7f3ef;
+      --accent: #8b4a24; --accent-600: #6b3618; --accent-100: #f5e3d5; --accent-50: #fbf1e8;
+      --ok: #15803d; --ok-bg: #dcfce7; --warn: #b45309; --warn-bg: #fef3c7;
+      --bad: #b91c1c; --bad-bg: #fee2e2; --info: #1e40af; --info-bg: #dbeafe;
+      --line: #ece3db; --line-strong: #e0d5cc;
+      --r-lg: 16px; --r-md: 12px; --r-sm: 8px;
+      --shadow-xs: 0 1px 2px rgba(60, 40, 20, 0.04);
+      --shadow-sm: 0 1px 3px rgba(60, 40, 20, 0.06), 0 1px 2px rgba(60, 40, 20, 0.04);
+      --shadow-md: 0 4px 14px rgba(60, 40, 20, 0.08);
+      background: var(--canvas);
+    }
+
+    .admin-users-page .icon { width: 18px; height: 18px; flex-shrink: 0; display: inline-block; vertical-align: middle; }
+    .admin-users-page .icon-sm { width: 15px; height: 15px; }
+
+    /* ---------- Sidebar ---------- */
+    .admin-users-page .admin-sidebar {
+      background: linear-gradient(180deg, #4a2514 0%, #3a1d10 100%);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .admin-users-page .admin-sidebar-brand { padding: 22px 20px 20px; }
+    .admin-users-page .admin-nav { padding: 16px 12px; }
+    .admin-users-page .admin-nav-link { font-size: 14px; color: rgba(255, 255, 255, 0.72); }
+    .admin-users-page .admin-nav-link .nav-ico {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; color: rgba(255, 255, 255, 0.72); transition: color 0.15s ease;
+    }
+    .admin-users-page .admin-nav-link:hover .nav-ico { color: #fff; }
+    .admin-users-page .admin-nav-link.active { background: rgba(255, 224, 197, 0.95); color: #4a2514; }
+    .admin-users-page .admin-nav-link.active .nav-ico { color: #4a2514; }
+
+    .admin-users-page .admin-main { padding: 32px 40px 64px; max-width: none; }
+
+    /* ---------- Topbar ---------- */
+    .page-topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+    .page-topbar-left { display: flex; align-items: center; gap: 14px; }
+    .page-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-400); margin-bottom: 4px; }
+    .page-title { font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 30px); line-height: 1.1; letter-spacing: -0.01em; color: var(--ink-900); margin: 0; }
+    .page-sub { font-size: 13.5px; color: var(--ink-500); margin-top: 4px; }
+    .page-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .page-search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; padding: 8px 14px; min-width: 280px; color: var(--ink-400); transition: border-color 0.15s, box-shadow 0.15s; }
+    .page-search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139, 74, 36, 0.1); }
+    .page-search input { border: 0; outline: 0; background: transparent; font-family: var(--font-body); font-size: 13.5px; color: var(--ink-900); width: 100%; }
+    .page-search input::placeholder { color: var(--ink-300); }
+
+    .page-icon-btn { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink-500); cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s; position: relative; }
+    .page-icon-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-50); }
+    .page-badge-dot { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; background: #dc2626; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
+
+    /* ---------- Summary strip ---------- */
+    .summary-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .summary-tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-xs); transition: box-shadow 0.15s, transform 0.15s; }
+    .summary-tile:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .summary-tile .tile-icon { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .summary-tile .tile-icon.brand { background: var(--accent-100); color: var(--accent-600); }
+    .summary-tile .tile-icon.warn  { background: var(--warn-bg); color: var(--warn); }
+    .summary-tile .tile-icon.ok    { background: var(--ok-bg);  color: var(--ok); }
+    .summary-tile .tile-icon.info  { background: var(--info-bg); color: var(--info); }
+    .summary-tile .tile-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-400); }
+    .summary-tile .tile-value { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink-900); line-height: 1.1; margin-top: 1px; }
+
+    /* ---------- Toolbar ---------- */
+    .page-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+    .toolbar-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-strong); font-size: 13px; font-weight: 500; font-family: var(--font-body); color: var(--ink-500); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+    .filter-chip:hover:not(.active) { background: var(--accent-50); border-color: var(--accent); color: var(--accent); }
+    .filter-chip.active { background: var(--ink-900); border-color: var(--ink-900); color: #fff; font-weight: 600; }
+    .filter-chip .chip-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; padding: 0 6px; border-radius: 999px; background: var(--ink-100); color: var(--ink-500); font-size: 10.5px; font-weight: 700; }
+    .filter-chip.active .chip-count { background: rgba(255, 255, 255, 0.2); color: #fff; }
+
+    /* ---------- Table card ---------- */
+    .data-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-xs); overflow: hidden; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .pro-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 860px; }
+    .pro-table thead th { text-align: left; padding: 14px 18px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-400); background: var(--ink-50); border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .pro-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--line); color: var(--ink-900); vertical-align: middle; }
+    .pro-table tbody tr:last-child td { border-bottom: 0; }
+    .pro-table tbody tr { transition: background 0.15s; }
+    .pro-table tbody tr:hover { background: #fbf6f1; }
+
+    .cust-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .cust-cell .avatar-sm { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-100); color: var(--accent-600); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+    .cust-cell .cust-info { min-width: 0; }
+    .cust-cell .cust-name { font-weight: 600; color: var(--ink-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+    .cust-cell .cust-email { font-size: 11.5px; color: var(--ink-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+
+    .date-cell { color: var(--ink-500); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .orders-cell { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    /* Status Pills */
+    .status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; text-transform: capitalize; letter-spacing: 0.02em; }
+    .status-pill.active-pill  { background: var(--ok-bg); color: var(--ok); }
+    .status-pill.blocked-pill { background: var(--bad-bg); color: var(--bad); }
+
+    /* Actions */
+    .action-group { display: flex; gap: 6px; flex-wrap: nowrap; }
+    .btn-icon-action { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; min-height: 32px; border-radius: 999px; font-size: 12px; font-weight: 600; font-family: var(--font-body); cursor: pointer; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-500); white-space: nowrap; transition: all 0.15s; }
+    .btn-icon-action:hover { transform: translateY(-1px); }
+    .btn-icon-action.block:hover { border-color: var(--warn); color: var(--warn); background: var(--warn-bg); }
+    .btn-icon-action.unblock:hover { border-color: var(--ok); color: var(--ok); background: var(--ok-bg); }
+    .btn-icon-action.delete:hover { border-color: var(--bad); color: var(--bad); background: var(--bad-bg); }
+
+    .empty-row { text-align: center; padding: 60px 24px; color: var(--ink-400); font-size: 13.5px; }
+    .empty-row .icon { width: 36px; height: 36px; opacity: 0.5; margin-bottom: 10px; }
+
+    /* ---------- Pagination ---------- */
+    .page-pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
+    .pg-btn { min-width: 36px; height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-500); font-weight: 600; font-size: 13px; font-family: var(--font-body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .pg-btn:not(.active):not(:disabled):hover { background: var(--accent-50); border-color: var(--accent); color: var(--accent); }
+    .pg-btn.active { background: var(--ink-900); border-color: var(--ink-900); color: #fff; }
+    .pg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .pg-ellipsis { min-width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-300); font-size: 13px; }
+
+    /* ---------- Modals ---------- */
+    .admin-users-page .admin-modal-box { border-radius: var(--r-lg); border: 1px solid var(--line); padding: 26px 26px 24px; }
+    .admin-users-page .admin-modal-box h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 18px; color: var(--ink-900); letter-spacing: -0.005em; }
+    .confirm-icon-wrap { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .confirm-icon-wrap.warn { background: var(--warn-bg); color: var(--warn); }
+    .confirm-icon-wrap.danger { background: var(--bad-bg); color: var(--bad); }
+    .admin-users-page .modal-text { font-size: 13.5px; color: var(--ink-500); text-align: center; line-height: 1.6; margin-bottom: 20px; }
+    .admin-users-page .admin-modal-actions { display: flex; gap: 10px; margin-top: 0; }
+    .admin-users-page .admin-modal-actions button { flex: 1; min-height: 44px; padding: 10px 0; border-radius: 999px; font-size: 13.5px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s; }
+    .admin-users-page .modal-btn-cancel { background: var(--surface); color: var(--ink-500); border: 1px solid var(--line-strong) !important; }
+    .admin-users-page .modal-btn-cancel:hover { background: var(--ink-50); }
+    .admin-users-page .modal-btn-danger { background: var(--bad); color: #fff; }
+    .admin-users-page .modal-btn-danger:hover { background: #991b1b; }
+    .admin-users-page .modal-btn-warn { background: var(--warn); color: #fff; }
+    .admin-users-page .modal-btn-warn:hover { background: #92400e; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1200px) {
+      .summary-strip { grid-template-columns: repeat(2, 1fr); }
+      .admin-users-page .admin-main { padding: 28px 24px 56px; }
+    }
+    @media (max-width: 900px) {
+      .page-search { display: none; }
+      .admin-users-page .admin-main { padding: 22px 16px 48px; }
+    }
+    @media (max-width: 600px) {
+      .summary-strip { gap: 10px; }
+      .summary-tile { padding: 12px 14px; }
+      .summary-tile .tile-value { font-size: 18px; }
+      .page-topbar-right { width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body class="admin-body admin-users-page">
+
+<!-- ===== SVG Icon Sprite ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+      <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+    </symbol>
+    <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+    </symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    </symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="admin-layout">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
+    <div class="admin-sidebar-brand">
+      <img src="../images/logo.png" alt="AuringPh Logo" onerror="this.style.display='none'" />
+      <div class="brand-text">AuringPh<small>Admin Panel</small></div>
+    </div>
+    <nav class="admin-nav">
+      <a href="dashboard.html" class="admin-nav-link">
+        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-grid"/></svg></span> Dashboard
+      </a>
+      <a href="products.html" class="admin-nav-link">
+        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-package"/></svg></span> Products
+      </a>
+      <a href="admin-orders.html" class="admin-nav-link">
+        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-bag"/></svg></span> Orders
+      </a>
+      <a href="users.html" class="admin-nav-link active" aria-current="page">
+        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-users"/></svg></span> Customers
+      </a>
+      <a href="admin-messages.html" class="admin-nav-link">
+        <span class="nav-ico"><svg class="icon" width="18" height="18"><use href="#i-msg"/></svg></span> Messages
+      </a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <button class="admin-logout-btn" data-admin-logout>
+        <svg class="icon icon-sm" width="15" height="15"><use href="#i-logout"/></svg> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="admin-main">
+
+    <header class="page-topbar">
+      <div class="page-topbar-left">
+        <button class="admin-mobile-toggle" id="sidebarToggle" aria-label="Open menu" aria-controls="adminSidebar" aria-expanded="false">☰</button>
+        <div>
+          <div class="page-eyebrow">Directory</div>
+          <h1 class="page-title">Manage Users</h1>
+          <div class="page-sub"><span id="userCountLabel">0 users</span> · <span id="userFilterLabel">All statuses</span></div>
         </div>
-
-        <nav class="admin-nav">
-          <a href="dashboard.html" class="admin-nav-link"
-            ><span class="nav-ico">📊</span> Dashboard</a
-          >
-          <a href="products.html" class="admin-nav-link"
-            ><span class="nav-ico">👕</span> Manage Products</a
-          >
-          <a href="admin-orders.html" class="admin-nav-link"
-            ><span class="nav-ico">📦</span> Manage Orders</a
-          >
-          <a href="users.html" class="admin-nav-link"
-            ><span class="nav-ico">👥</span> Manage Users</a
-          >
-          <a href="admin-messages.html" class="admin-nav-link"
-            ><span class="nav-ico">💬</span> Messages</a
-          >
-        </nav>
-
-        <div class="admin-sidebar-footer">
-          <button class="admin-logout-btn" data-admin-logout>🚪 Logout</button>
+      </div>
+      <div class="page-topbar-right">
+        <label class="page-search">
+          <svg class="icon" width="18" height="18"><use href="#i-search"/></svg>
+          <input type="search" id="searchInput" placeholder="Search by name or email…" aria-label="Search users" />
+        </label>
+        <button class="page-icon-btn" aria-label="Notifications">
+          <svg class="icon" width="18" height="18"><use href="#i-bell"/></svg>
+          <span class="page-badge-dot" aria-hidden="true"></span>
+        </button>
+        <div class="admin-whoami">
+          <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
+          <span id="adminWhoamiName">Admin</span>
         </div>
-      </aside>
+      </div>
+    </header>
 
-      <!-- ============ MAIN CONTENT ============ -->
-      <main class="admin-main">
-        <div class="admin-topbar">
-          <div style="display: flex; align-items: center; gap: 14px">
-            <button
-              class="admin-mobile-toggle"
-              id="sidebarToggle"
-              aria-label="Open menu"
-              aria-controls="adminSidebar"
-              aria-expanded="false"
-            >
-              ☰
-            </button>
-            <div>
-              <h1>Manage Users</h1>
-              <div class="admin-sub">
-                <span id="userCountLabel">0 users</span>
-              </div>
+    <!-- ============ SUMMARY STRIP ============ -->
+    <section class="summary-strip" aria-label="User summary">
+      <div class="summary-tile">
+        <div class="tile-icon brand"><svg class="icon" width="18" height="18"><use href="#i-users"/></svg></div>
+        <div>
+          <div class="tile-label">Total Users</div>
+          <div class="tile-value" id="tileTotal">0</div>
+        </div>
+      </div>
+      <div class="summary-tile">
+        <div class="tile-icon ok"><svg class="icon" width="18" height="18"><use href="#i-check"/></svg></div>
+        <div>
+          <div class="tile-label">Active</div>
+          <div class="tile-value" id="tileActive">0</div>
+        </div>
+      </div>
+      <div class="summary-tile">
+        <div class="tile-icon warn"><svg class="icon" width="18" height="18"><use href="#i-alert"/></svg></div>
+        <div>
+          <div class="tile-label">Blocked</div>
+          <div class="tile-value" id="tileBlocked">0</div>
+        </div>
+      </div>
+      <div class="summary-tile">
+        <div class="tile-icon info"><svg class="icon" width="18" height="18"><use href="#i-bag"/></svg></div>
+        <div>
+          <div class="tile-label">Total Orders Placed</div>
+          <div class="tile-value" id="tileOrders">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLBAR ============ -->
+    <div class="page-toolbar">
+      <div class="toolbar-chips" id="statusChips">
+        <button class="filter-chip active" data-status="all">All <span class="chip-count" data-count-for="all">0</span></button>
+        <button class="filter-chip" data-status="active">Active <span class="chip-count" data-count-for="active">0</span></button>
+        <button class="filter-chip" data-status="blocked">Blocked <span class="chip-count" data-count-for="blocked">0</span></button>
+      </div>
+    </div>
+
+    <!-- ============ TABLE ============ -->
+    <div class="data-card">
+      <div class="table-scroll">
+        <table class="pro-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Joined</th>
+              <th>Orders</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page-pagination" id="usersPagination"></div>
+  </main>
+</div>
+
+<!-- ============ BLOCK/UNBLOCK CONFIRM MODAL ============ -->
+<div class="admin-modal-overlay" id="blockModal">
+  <div class="admin-modal-box modal-sm">
+    <div class="confirm-icon-wrap warn" id="blockModalIconWrap">
+      <svg class="icon" width="24" height="24" id="blockModalIconSvg"><use href="#i-lock"/></svg>
+    </div>
+    <h3 style="text-align:center;margin-bottom:8px;" id="blockModalTitle">Block this user?</h3>
+    <p class="modal-text" id="blockModalText"></p>
+    <div class="admin-modal-actions">
+      <button type="button" class="modal-btn-cancel" id="blockModalCancel">Cancel</button>
+      <button type="button" class="modal-btn-warn" id="blockModalConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DELETE CONFIRM MODAL ============ -->
+<div class="admin-modal-overlay" id="deleteUserModal">
+  <div class="admin-modal-box modal-sm">
+    <div class="confirm-icon-wrap danger">
+      <svg class="icon" width="24" height="24"><use href="#i-trash"/></svg>
+    </div>
+    <h3 style="text-align:center;margin-bottom:8px;">Delete this account?</h3>
+    <p class="modal-text">
+      This will permanently delete <strong id="deleteUserName"></strong>'s account. This action cannot be undone.
+    </p>
+    <div class="admin-modal-actions">
+      <button type="button" class="modal-btn-cancel" id="deleteUserCancel">Cancel</button>
+      <button type="button" class="modal-btn-danger" id="deleteUserConfirm">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
+
+<script src="../js/admin.js"></script>
+<script>
+  requireAdminAuth();
+  seedAdminData();
+
+  let users = JSON.parse(localStorage.getItem(ADMIN_USERS_KEY)) || [];
+  let activeStatus = "all";
+  let searchQuery = "";
+  let currentPage = 1;
+  const ITEMS_PER_PAGE = 7;
+  let blockTargetId = null;
+  let deleteTargetId = null;
+
+  function saveUsers() {
+    localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(users));
+  }
+
+  function getFiltered() {
+    let list = [...users];
+    if (activeStatus !== "all") list = list.filter((u) => u.status === activeStatus);
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(
+        (u) =>
+          String(u.name || "").toLowerCase().includes(q) ||
+          String(u.email || "").toLowerCase().includes(q) ||
+          String(u.phone || "").toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }
+
+  function renderSummary() {
+    document.getElementById("tileTotal").textContent = users.length;
+    document.getElementById("tileActive").textContent = users.filter(u => u.status === "active").length;
+    document.getElementById("tileBlocked").textContent = users.filter(u => u.status === "blocked").length;
+    const totalOrders = users.reduce((sum, u) => sum + (Number(u.orders) || 0), 0);
+    document.getElementById("tileOrders").textContent = totalOrders;
+
+    document.querySelectorAll("[data-count-for]").forEach(el => {
+      const s = el.dataset.countFor;
+      const n = s === "all" ? users.length : users.filter(u => u.status === s).length;
+      el.textContent = n;
+    });
+  }
+
+  function renderTable() {
+    const filtered = getFiltered();
+    const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
+
+    document.getElementById("userCountLabel").textContent =
+      filtered.length + " user" + (filtered.length !== 1 ? "s" : "");
+    document.getElementById("userFilterLabel").textContent =
+      activeStatus === "all" ? "All statuses" : activeStatus;
+
+    renderSummary();
+
+    const tbody = document.getElementById("usersTableBody");
+    if (pageItems.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty-row"><svg class="icon" width="36" height="36"><use href="#i-search"/></svg><div>No users match your filters.</div></div></td></tr>`;
+      renderPagination(0);
+      return;
+    }
+
+    tbody.innerHTML = pageItems.map((u) => {
+      const id = escapeHtml(u.id);
+      const isActive = u.status === "active";
+      return `<tr>
+        <td>
+          <div class="cust-cell">
+            <div class="avatar-sm">${escapeHtml(getInitialsFromName(u.name))}</div>
+            <div class="cust-info">
+              <div class="cust-name">${escapeHtml(u.name)}</div>
+              <div class="cust-email" title="${escapeHtml(u.email)}">${escapeHtml(u.email)}</div>
             </div>
           </div>
-          <div class="admin-whoami">
-            <div class="avatar-circle" id="adminWhoamiAvatar">A</div>
-            <span id="adminWhoamiName">Admin</span>
+        </td>
+        <td>${escapeHtml(u.phone || "—")}</td>
+        <td class="date-cell">${escapeHtml(u.joined)}</td>
+        <td class="orders-cell">${Number(u.orders) || 0}</td>
+        <td>
+          <span class="status-pill ${isActive ? "active-pill" : "blocked-pill"}">${escapeHtml(u.status)}</span>
+        </td>
+        <td>
+          <div class="action-group">
+            <button class="btn-icon-action ${isActive ? 'block' : 'unblock'}" onclick="openBlockModal('${id}')">
+              <svg class="icon icon-sm" width="15" height="15"><use href="#${isActive ? 'i-lock' : 'i-unlock'}"/></svg>
+              ${isActive ? 'Block' : 'Unblock'}
+            </button>
+            <button class="btn-icon-action delete" onclick="openDeleteModal('${id}')">
+              <svg class="icon icon-sm" width="15" height="15"><use href="#i-trash"/></svg> Delete
+            </button>
           </div>
-        </div>
+        </td>
+      </tr>`;
+    }).join("");
 
-        <!-- ============ TOOLBAR ============ -->
-        <div class="admin-toolbar">
-          <div class="admin-search-box">
-            <span aria-hidden="true">🔍</span>
-            <input
-              type="search"
-              id="searchInput"
-              placeholder="Search by name or email..."
-              aria-label="Search users"
-            />
-          </div>
-          <div class="admin-filter-chips" id="statusChips">
-            <div class="admin-chip active" data-status="all" tabindex="0" role="button">All</div>
-            <div class="admin-chip" data-status="active" tabindex="0" role="button">Active</div>
-            <div class="admin-chip" data-status="blocked" tabindex="0" role="button">Blocked</div>
-          </div>
-        </div>
+    renderPagination(totalPages);
+  }
 
-        <!-- ============ TABLE ============ -->
-        <div class="admin-table-wrap">
-          <table class="admin-table is-stacked">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Phone</th>
-                <th>Joined</th>
-                <th>Orders</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="usersTableBody"></tbody>
-          </table>
-        </div>
+  function renderPagination(totalPages) {
+    const el = document.getElementById("usersPagination");
+    if (totalPages <= 1) { el.innerHTML = ""; return; }
 
-        <div class="admin-pagination" id="usersPagination"></div>
-      </main>
-    </div>
+    const pages = [];
+    const around = 1;
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= currentPage - around && i <= currentPage + around))
+        pages.push(i);
+    }
 
-    <!-- ============ BLOCK/UNBLOCK CONFIRM MODAL ============ -->
-    <div class="admin-modal-overlay" id="blockModal">
-      <div class="admin-modal-box modal-sm" role="dialog" aria-modal="true" aria-labelledby="blockModalTitle">
-        <div class="modal-warning-icon" id="blockModalIcon">🚫</div>
-        <h3 class="modal-center" id="blockModalTitle">Block this user?</h3>
-        <p class="modal-text" id="blockModalText"></p>
-        <div class="admin-modal-actions">
-          <button type="button" class="modal-btn-cancel" id="blockModalCancel">
-            Cancel
-          </button>
-          <button type="button" class="modal-btn-danger" id="blockModalConfirm">
-            Confirm
-          </button>
-        </div>
-      </div>
-    </div>
+    let html = `<button class="pg-btn" ${currentPage === 1 ? "disabled" : ""} onclick="goToPage(${currentPage - 1})" aria-label="Previous">←</button>`;
+    let prev = 0;
+    pages.forEach(p => {
+      if (p - prev > 1) html += `<span class="pg-ellipsis">…</span>`;
+      html += `<button class="pg-btn ${p === currentPage ? "active" : ""}" onclick="goToPage(${p})">${p}</button>`;
+      prev = p;
+    });
+    html += `<button class="pg-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="goToPage(${currentPage + 1})" aria-label="Next">→</button>`;
+    el.innerHTML = html;
+  }
 
-    <!-- ============ DELETE CONFIRM MODAL ============ -->
-    <div class="admin-modal-overlay" id="deleteUserModal">
-      <div class="admin-modal-box modal-sm" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
-        <div class="modal-warning-icon">🗑️</div>
-        <h3 class="modal-center" id="deleteModalTitle">Delete this account?</h3>
-        <p class="modal-text">
-          This will permanently delete <strong id="deleteUserName"></strong>'s
-          account. This action cannot be undone.
-        </p>
-        <div class="admin-modal-actions">
-          <button type="button" class="modal-btn-cancel" id="deleteUserCancel">
-            Cancel
-          </button>
-          <button type="button" class="modal-btn-danger" id="deleteUserConfirm">
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
+  window.goToPage = function (p) { currentPage = p; renderTable(); };
 
-    <div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
-
-    <script src="../js/admin.js"></script>
-    <script>
-      requireAdminAuth();
-      seedAdminData();
-
-      let users = JSON.parse(localStorage.getItem(ADMIN_USERS_KEY)) || [];
-      let activeStatus = "all";
-      let searchQuery = "";
-      let currentPage = 1;
-      const ITEMS_PER_PAGE = 7;
-      let blockTargetId = null;
-      let deleteTargetId = null;
-
-      const tbody = document.getElementById("usersTableBody");
-
-      function saveUsers() {
-        localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(users));
-      }
-
-      function getFiltered() {
-        let list = [...users];
-        if (activeStatus !== "all") {
-          list = list.filter((u) => u.status === activeStatus);
-        }
-        if (searchQuery) {
-          const q = searchQuery.toLowerCase();
-          list = list.filter(
-            (u) =>
-              String(u.name || "").toLowerCase().includes(q) ||
-              String(u.email || "").toLowerCase().includes(q),
-          );
-        }
-        return list;
-      }
-
-      function renderTable() {
-        const filtered = getFiltered();
-        const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-        if (currentPage > totalPages) currentPage = totalPages;
-
-        const start = (currentPage - 1) * ITEMS_PER_PAGE;
-        const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
-
-        document.getElementById("userCountLabel").textContent =
-          filtered.length + " user" + (filtered.length !== 1 ? "s" : "");
-
-        if (pageItems.length === 0) {
-          tbody.innerHTML =
-            '<tr><td colspan="6"><div class="empty-row-msg"><div class="empty-icon">👥</div>No users found.</div></td></tr>';
-        } else {
-          tbody.innerHTML = pageItems
-            .map((u) => {
-              const id = escapeHtml(u.id);
-              const isActive = u.status === "active";
-              return `
-                <tr>
-                  <td data-label="Customer">
-                    <div class="cell-product">
-                      <div class="avatar-sm">${escapeHtml(getInitialsFromName(u.name))}</div>
-                      <div>
-                        <div class="p-name">${escapeHtml(u.name)}</div>
-                        <div class="p-sub">${escapeHtml(u.email)}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td data-label="Phone">${escapeHtml(u.phone)}</td>
-                  <td data-label="Joined">${escapeHtml(u.joined)}</td>
-                  <td data-label="Orders">${Number(u.orders) || 0}</td>
-                  <td data-label="Status">
-                    <span class="status-pill ${isActive ? "active-pill" : "blocked-pill"}">${escapeHtml(u.status)}</span>
-                  </td>
-                  <td data-label="Actions">
-                    <div class="row-actions">
-                      ${
-                        isActive
-                          ? `<button class="btn-admin-sm danger" data-action="block" data-id="${id}">Block</button>`
-                          : `<button class="btn-admin-sm edit" data-action="block" data-id="${id}">Unblock</button>`
-                      }
-                      <button class="btn-admin-sm danger" data-action="delete" data-id="${id}">Delete</button>
-                    </div>
-                  </td>
-                </tr>`;
-            })
-            .join("");
-        }
-
-        renderPagination(totalPages);
-      }
-
-      function renderPagination(totalPages) {
-        const el = document.getElementById("usersPagination");
-        if (totalPages <= 1) {
-          el.innerHTML = "";
-          return;
-        }
-        let html = `<button ${currentPage === 1 ? "disabled" : ""} data-page="${currentPage - 1}" aria-label="Previous page">←</button>`;
-        for (let i = 1; i <= totalPages; i++) {
-          html += `<button class="${i === currentPage ? "active" : ""}" data-page="${i}">${i}</button>`;
-        }
-        html += `<button ${currentPage === totalPages ? "disabled" : ""} data-page="${currentPage + 1}" aria-label="Next page">→</button>`;
-        el.innerHTML = html;
-      }
-
-      document.getElementById("usersPagination").addEventListener("click", (e) => {
-        const btn = e.target.closest("button[data-page]");
-        if (!btn || btn.disabled) return;
-        currentPage = Number(btn.dataset.page);
-        renderTable();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-
-      // ---- CHIPS ----
-      function selectChip(chip) {
-        document
-          .querySelectorAll("#statusChips .admin-chip")
-          .forEach((c) => c.classList.remove("active"));
-        chip.classList.add("active");
-        activeStatus = chip.dataset.status;
-        currentPage = 1;
-        renderTable();
-      }
-
-      document.querySelectorAll("#statusChips .admin-chip").forEach((chip) => {
-        chip.addEventListener("click", () => selectChip(chip));
-        chip.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            selectChip(chip);
-          }
-        });
-      });
-
-      // ---- SEARCH ----
-      document.getElementById("searchInput").addEventListener("input", function () {
-        searchQuery = this.value.trim();
-        currentPage = 1;
-        renderTable();
-      });
-
-      // ---- TABLE ACTIONS (event delegation) ----
-      tbody.addEventListener("click", (e) => {
-        const btn = e.target.closest("button[data-action]");
-        if (!btn) return;
-        if (btn.dataset.action === "block") openBlockModal(btn.dataset.id);
-        if (btn.dataset.action === "delete") openDeleteModal(btn.dataset.id);
-      });
-
-      // ---- BLOCK / UNBLOCK ----
-      const blockModal = document.getElementById("blockModal");
-
-      function openBlockModal(id) {
-        const u = users.find((x) => x.id === id);
-        if (!u) return;
-        blockTargetId = id;
-        const willBlock = u.status === "active";
-        document.getElementById("blockModalIcon").textContent = willBlock ? "🚫" : "✅";
-        document.getElementById("blockModalTitle").textContent = willBlock
-          ? "Block this user?"
-          : "Unblock this user?";
-        document.getElementById("blockModalText").innerHTML = willBlock
-          ? `<strong>${escapeHtml(u.name)}</strong> will no longer be able to log in or place orders.`
-          : `<strong>${escapeHtml(u.name)}</strong> will regain access to their account.`;
-        blockModal.classList.add("open");
-      }
-
-      document
-        .getElementById("blockModalCancel")
-        .addEventListener("click", () => blockModal.classList.remove("open"));
-
-      document.getElementById("blockModalConfirm").addEventListener("click", () => {
-        const u = users.find((x) => x.id === blockTargetId);
-        if (!u) return;
-        u.status = u.status === "active" ? "blocked" : "active";
-        saveUsers();
-        blockModal.classList.remove("open");
-        showAdminToast(
-          u.name + " has been " + (u.status === "blocked" ? "blocked" : "unblocked") + ".",
-        );
-        renderTable();
-      });
-
-      // ---- DELETE ----
-      const deleteUserModal = document.getElementById("deleteUserModal");
-
-      function openDeleteModal(id) {
-        const u = users.find((x) => x.id === id);
-        if (!u) return;
-        deleteTargetId = id;
-        document.getElementById("deleteUserName").textContent = u.name;
-        deleteUserModal.classList.add("open");
-      }
-
-      document
-        .getElementById("deleteUserCancel")
-        .addEventListener("click", () => deleteUserModal.classList.remove("open"));
-
-      document.getElementById("deleteUserConfirm").addEventListener("click", () => {
-        users = users.filter((x) => x.id !== deleteTargetId);
-        saveUsers();
-        deleteUserModal.classList.remove("open");
-        showAdminToast("Account deleted.");
-        renderTable();
-      });
-
+  // Status chips
+  document.querySelectorAll("#statusChips .filter-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll("#statusChips .filter-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeStatus = chip.dataset.status;
+      currentPage = 1;
       renderTable();
-    </script>
-  </body>
+    });
+  });
+
+  // Search
+  document.getElementById("searchInput").addEventListener("input", function () {
+    searchQuery = this.value.trim();
+    currentPage = 1;
+    renderTable();
+  });
+
+  // Block / Unblock modal
+  const blockModal = document.getElementById("blockModal");
+
+  window.openBlockModal = function (id) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    blockTargetId = id;
+    const willBlock = u.status === "active";
+    
+    document.getElementById("blockModalTitle").textContent = willBlock ? "Block this user?" : "Unblock this user?";
+    document.getElementById("blockModalText").innerHTML = willBlock
+      ? `<strong>${escapeHtml(u.name)}</strong> will no longer be able to log in or place orders.`
+      : `<strong>${escapeHtml(u.name)}</strong> will regain access to their account.`;
+      
+    // Update icon and button color based on action
+    const iconWrap = document.getElementById("blockModalIconWrap");
+    const iconSvg = document.getElementById("blockModalIconSvg");
+    const confirmBtn = document.getElementById("blockModalConfirm");
+    
+    if (willBlock) {
+      iconWrap.className = "confirm-icon-wrap danger";
+      iconSvg.innerHTML = '<use href="#i-lock"/>';
+      confirmBtn.className = "modal-btn-danger";
+      confirmBtn.textContent = "Block User";
+    } else {
+      iconWrap.className = "confirm-icon-wrap warn";
+      iconSvg.innerHTML = '<use href="#i-unlock"/>';
+      confirmBtn.className = "modal-btn-warn";
+      confirmBtn.textContent = "Unblock User";
+    }
+
+    blockModal.classList.add("open");
+  };
+
+  document.getElementById("blockModalCancel").addEventListener("click", () => blockModal.classList.remove("open"));
+
+  document.getElementById("blockModalConfirm").addEventListener("click", () => {
+    const u = users.find(x => x.id === blockTargetId);
+    if (!u) return;
+    u.status = u.status === "active" ? "blocked" : "active";
+    saveUsers();
+    blockModal.classList.remove("open");
+    showAdminToast(u.name + " has been " + (u.status === "blocked" ? "blocked" : "unblocked") + ".");
+    renderTable();
+  });
+
+  // Delete modal
+  const deleteUserModal = document.getElementById("deleteUserModal");
+
+  window.openDeleteModal = function (id) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    deleteTargetId = id;
+    document.getElementById("deleteUserName").textContent = u.name;
+    deleteUserModal.classList.add("open");
+  };
+
+  document.getElementById("deleteUserCancel").addEventListener("click", () => deleteUserModal.classList.remove("open"));
+
+  document.getElementById("deleteUserConfirm").addEventListener("click", () => {
+    users = users.filter(x => x.id !== deleteTargetId);
+    saveUsers();
+    deleteUserModal.classList.remove("open");
+    showAdminToast("Account deleted.");
+    renderTable();
+  });
+
+  renderTable();
+</script>
+</body>
 </html>
